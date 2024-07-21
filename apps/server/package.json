@@ -1,0 +1,14 @@
+{
+  "name": "scrumlens-server",
+  "version": "0.0.0",
+  "module": "src/index.js",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  }
+}

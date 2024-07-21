@@ -1,0 +1,41 @@
+{
+  "name": "scrumlens",
+  "type": "module",
+  "private": true,
+  "description": "Agile Retrospective Tool",
+  "author": {
+    "name": "Anton Reshetov",
+    "email": "reshetov.art@gmail.com"
+  },
+  "license": "AGPL-3.0",
+  "repository": "https://github.com/scrumlens/scrumlens",
+  "scripts": {
+    "dev": "bun main.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.19.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "concurrently": "^8.2.2",
+    "eslint": "^9.3.0",
+    "eslint-plugin-format": "^0.1.2",
+    "lint-staged": "^15.2.5",
+    "prettier": "^3.2.5",
+    "simple-git-hooks": "^2.11.1"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "npx commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
