@@ -25,10 +25,17 @@ const retro = ref({
     },
   ],
   items: [
-    { id: '1', title: 'Item 1' },
-    { id: '2', title: 'Item 2' },
-    { id: '3', title: 'Item 3' },
-    { id: '4', title: 'Item 4' },
+    // vote это массив userId
+    { id: '1', content: 'Content 1', userId: '1', vote: [1] },
+    { id: '2', content: 'Content 2', userId: '2', vote: [] },
+    { id: '3', content: 'Content 3', userId: '1', vote: [] },
+    { id: '4', content: 'Content 4', userId: '1', vote: [1] },
+  ],
+  comments: [
+    { id: '1', text: 'Comment 1', userId: '1', itemId: '1' },
+    { id: '2', text: 'Comment 2', userId: '2', itemId: '2' },
+    { id: '3', text: 'Comment 3', userId: '1', itemId: '3' },
+    { id: '4', text: 'Comment 4', userId: '1', itemId: '4' },
   ],
 })
 

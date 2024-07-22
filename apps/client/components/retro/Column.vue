@@ -14,6 +14,8 @@ const column = computed(() => retro.value.columns.find(i => i.id === props.id))
 
 const columnItems = computed(() => column.value?.itemIds?.map(i => retro.value.items.find(item => item.id === i)))
 
+const voteTotal = computed(() => columnItems.value?.reduce((acc, item) => acc + (item?.vote.length || 0), 0))
+
 // TODO добавить типы для event
 function onChange(event: any) {
   if (event.added) {
@@ -33,7 +35,7 @@ function onChange(event: any) {
 <template>
   <div
     data-column
-    class="min-w-96 my-3  flex flex-col gap-2"
+    class="min-w-96 max-w-96 my-3 flex flex-col gap-2"
   >
     <div class="bg-primary-foreground rounded-md p-2">
       <div class="mb-2 space-y-2 text-sm">
@@ -44,8 +46,14 @@ function onChange(event: any) {
           >
             {{ column?.title }}
           </div>
-          <div class="text-xs tabular-nums">
-            Items: {{ columnItems?.length || 0 }}
+          <div class="text-xs tabular-nums text-muted-foreground">
+            <span>
+              Items: {{ columnItems?.length || 0 }}
+            </span>
+            •
+            <span>
+              Votes: {{ voteTotal }}
+            </span>
           </div>
         </div>
         <div>
@@ -63,9 +71,9 @@ function onChange(event: any) {
           <RetroItem :id="element.id" />
         </template>
       </Draggable>
-
-      <div class="p-2">
-        + New
+      <div class="flex items-center p-2 text-sm text-muted-foreground">
+        <Icon name="lucide:plus" />
+        New
       </div>
     </div>
   </div>
