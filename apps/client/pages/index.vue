@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  retro
+  <Retro />
 </template>
