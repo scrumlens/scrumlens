@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
-import { useRetro } from './composables'
+import { useBoard } from './composables'
 
 interface Props {
   id: string
@@ -8,13 +8,11 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { retro, addColumnItem, moveColumnItem, removeColumnItem } = useRetro()
+const { board, addColumnItem, moveColumnItem, removeColumnItem } = useBoard()
 
-const column = computed(() => retro.value.columns.find(i => i.id === props.id))
+const column = computed(() => board.value.columns.find(i => i.id === props.id))
 
-const columnItems = computed(() => column.value?.itemIds?.map(i => retro.value.items.find(item => item.id === i)))
-
-const voteTotal = computed(() => columnItems.value?.reduce((acc, item) => acc + (item?.vote.length || 0), 0))
+const columnItems = computed(() => column.value?.itemIds?.map(i => board.value.items.find(item => item.id === i)))
 
 // TODO добавить типы для event
 function onChange(event: any) {
@@ -34,7 +32,7 @@ function onChange(event: any) {
 
 <template>
   <div
-    data-column
+    data-board-column
     class="min-w-96 max-w-96 my-3 flex flex-col gap-2"
   >
     <div class="bg-primary-foreground rounded-md p-2">
@@ -50,10 +48,6 @@ function onChange(event: any) {
             <span>
               Items: {{ columnItems?.length || 0 }}
             </span>
-            •
-            <span>
-              Votes: {{ voteTotal }}
-            </span>
           </div>
         </div>
         <div>
@@ -68,7 +62,7 @@ function onChange(event: any) {
         @change="onChange"
       >
         <template #item="{ element }">
-          <RetroItem :id="element.id" />
+          <BoardItem :id="element.id" />
         </template>
       </Draggable>
       <div class="flex items-center p-2 text-sm text-muted-foreground">

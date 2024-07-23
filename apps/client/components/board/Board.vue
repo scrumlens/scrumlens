@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useRetro } from './composables'
+import { useBoard } from './composables'
 
-const { retro } = useRetro()
+const { board } = useBoard()
 </script>
 
 <template>
   <div
-    data-retro
+    data-board
     class="h-full overflow-x-auto"
   >
     <div class="flex gap-3 px-3">
-      <RetroColumn
-        v-for="i in retro.columns"
+      <BoardColumn
+        v-for="i in board.columns"
         :id="i.id"
         :key="i.id"
       />

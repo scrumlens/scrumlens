@@ -1,4 +1,4 @@
-const retro = ref({
+const board = ref({
   id: '1',
   title: 'Retro 1',
   columns: [
@@ -40,7 +40,7 @@ const retro = ref({
 })
 
 function addColumnItem(columnId: string, itemId: string, newIndex: number) {
-  const column = retro.value.columns.find(c => c.id === columnId)
+  const column = board.value.columns.find(c => c.id === columnId)
   if (!column)
     return
 
@@ -56,7 +56,7 @@ function moveColumnItem(
   newIndex: number,
   oldIndex: number,
 ) {
-  const column = retro.value.columns.find(c => c.id === columnId)
+  const column = board.value.columns.find(c => c.id === columnId)
   if (!column)
     return
 
@@ -68,7 +68,7 @@ function moveColumnItem(
 }
 
 function removeColumnItem(columnId: string, itemId: string) {
-  const column = retro.value.columns.find(c => c.id === columnId)
+  const column = board.value.columns.find(c => c.id === columnId)
   if (!column)
     return
 
@@ -77,11 +77,11 @@ function removeColumnItem(columnId: string, itemId: string) {
   column.itemIds = itemIds
 }
 
-export function useRetro() {
+export function useBoard() {
   return {
     addColumnItem,
     moveColumnItem,
     removeColumnItem,
-    retro,
+    board,
   }
 }
