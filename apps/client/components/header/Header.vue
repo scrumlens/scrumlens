@@ -15,7 +15,7 @@ const { board } = useBoard()
         class="h-7"
         :font-controlled="false"
       />
-      <div class="flex items-center gap-2 text-sm">
+      <div class="flex items-center gap-3 text-sm">
         <span class="relative -top-[1px]">/</span>
         <span>
           {{ board.title }}
