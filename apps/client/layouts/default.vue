@@ -3,11 +3,14 @@
 </script>
 
 <template>
-  <div data-layout-default>
+  <div
+    data-layout-default
+    class="flex flex-col h-screen"
+  >
     <Header />
     <div
       data-main
-      class="px-4 py-2"
+      class="grow"
     >
       <slot />
     </div>

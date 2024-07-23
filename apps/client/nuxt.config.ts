@@ -5,8 +5,9 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
-    'shadcn-nuxt',
+    '@nuxt/icon',
     'nuxt-svgo',
+    'shadcn-nuxt',
   ],
   tailwindcss: {
     config: {
