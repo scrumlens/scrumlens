@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
+
+const { board } = useBoard()
 </script>
 
 <template>
@@ -12,6 +15,12 @@ import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
         class="h-7"
         :font-controlled="false"
       />
+      <div class="flex items-center gap-2 text-sm">
+        <span class="relative -top-[1px]">/</span>
+        <span>
+          {{ board.title }}
+        </span>
+      </div>
     </div>
     <div>
       <HeaderUser />
