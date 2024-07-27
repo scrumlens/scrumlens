@@ -23,6 +23,10 @@ export const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isGuest: {
+      type: Boolean,
+      default: false,
+    },
     boards: [
       {
         type: Schema.Types.ObjectId,
