@@ -1,8 +1,13 @@
-import { Elysia } from 'elysia'
+import { styleText } from 'node:util'
+import { Elysia, t } from 'elysia'
+import ws from './routes/ws'
 
 const app = new Elysia()
 
-app.listen(Bun.env.API_PORT, () => {
+app.use(ws).listen(Bun.env.API_PORT, () => {
   // eslint-disable-next-line no-console
-  console.log(`\nServer start on port ${Bun.env.API_PORT}\n`)
+  console.log(
+    styleText('green', `\nServer is running on`),
+    styleText('cyan', `http://localhost:${Bun.env.API_PORT}\n`),
+  )
 })
