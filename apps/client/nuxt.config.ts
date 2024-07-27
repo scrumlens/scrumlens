@@ -20,5 +20,11 @@ export default defineNuxtConfig({
   shadcn: {
     componentDir: './components/ui/shadcn',
   },
+  runtimeConfig: {
+    proxyUrl: 'http://localhost:3030',
+    public: {
+      websocketUrl: 'http://localhost:3030',
+    },
+  },
   ssr: false,
 })
