@@ -7,10 +7,14 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/swagger": "^1.1.0",
     "elysia": "^1.1.4",
-    "mongoose": "^8.5.1"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.1",
+    "nanoid": "^5.0.7"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
     "bun-types": "latest"
   }
 }
