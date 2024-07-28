@@ -6,6 +6,13 @@ definePageMeta({
 })
 
 const year = new Date().getFullYear()
+
+const { isAuth } = useAuth()
+const router = useRouter()
+
+if (isAuth.value) {
+  router.push('/')
+}
 </script>
 
 <template>
