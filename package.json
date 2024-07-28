@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "bun main.ts",
     "seed:db": "bun apps/server/src/fixtures/seed.ts",
+    "generate:api": "bun apps/client/scripts/api-generate.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
