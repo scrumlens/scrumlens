@@ -60,7 +60,7 @@ export function verifyToken(token: string) {
   return jwt.verify(token, Bun.env.SECRET_KEY) as JwtPayload
 }
 
-export function formatWebsocketMessage(
+export function formatWebSocketMessage(
   type: string,
   data: Record<string, any>,
 ) {

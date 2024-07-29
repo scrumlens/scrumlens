@@ -3,11 +3,11 @@ export const COOKIE = {
   refreshToken: 'scrumlens_refresh_token',
 } as const
 
-export const WebsocketChannel = {
+export const WebSocketChannel = {
   Board: 'board',
 } as const
 
-export const WebsocketEvent = {
+export const WebSocketEvent = {
   BoardUpdate: 'board:update',
   BoardSync: 'board:sync',
 } as const

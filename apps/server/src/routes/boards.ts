@@ -3,8 +3,8 @@ import mongoose from 'mongoose'
 import { boardsDTO } from '@/dto/boards'
 import { Board } from '@/models/board'
 import middleware from '@/middleware'
-import { WebsocketChannel, WebsocketEvent } from '@/types'
-import { formatWebsocketMessage } from '@/utils'
+import { WebSocketChannel, WebSocketEvent } from '@/types'
+import { formatWebSocketMessage } from '@/utils'
 import { getExtendedBoardData } from '@/helpers/boards'
 
 const app = new Elysia({ prefix: '/boards' })
@@ -14,7 +14,7 @@ app
   .use(boardsDTO)
   .ws('/:id', {
     open(ws) {
-      ws.subscribe(WebsocketChannel.Board)
+      ws.subscribe(WebSocketChannel.Board)
     },
     message(ws, message) {
       ws.send(message)
@@ -92,8 +92,8 @@ app
         board.save()
 
         server?.publish(
-          WebsocketChannel.Board,
-          formatWebsocketMessage(WebsocketEvent.BoardUpdate, data),
+          WebSocketChannel.Board,
+          formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
         )
       }
 
@@ -125,8 +125,8 @@ app
         const data = await getExtendedBoardData(updatedBoard!)
 
         server?.publish(
-          WebsocketChannel.Board,
-          formatWebsocketMessage(WebsocketEvent.BoardUpdate, data),
+          WebSocketChannel.Board,
+          formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
         )
       }
       catch (err) {
