@@ -17,6 +17,23 @@ const columnSchema = new Schema({
   ],
 })
 
+const participantSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'member'],
+      default: 'member',
+    },
+  },
+  {
+    _id: false,
+  },
+)
+
 export const boardSchema = new Schema(
   {
     title: {
@@ -34,6 +51,7 @@ export const boardSchema = new Schema(
         ref: 'Note',
       },
     ],
+    participants: [participantSchema],
     columns: [columnSchema],
     accessPolicy: {
       type: String,

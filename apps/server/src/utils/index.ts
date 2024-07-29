@@ -59,3 +59,13 @@ export function generateVerifyToken(userId: string) {
 export function verifyToken(token: string) {
   return jwt.verify(token, Bun.env.SECRET_KEY) as JwtPayload
 }
+
+export function formatWebsocketMessage(
+  type: string,
+  data: Record<string, any>,
+) {
+  return JSON.stringify({
+    type,
+    data,
+  })
+}

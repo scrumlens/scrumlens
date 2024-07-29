@@ -50,6 +50,12 @@ async function seed() {
         noteIds: [],
       },
     ],
+    participants: [
+      {
+        role: 'admin',
+        userId: user1._id,
+      },
+    ],
   })
 
   user1.boards.push(board._id)
@@ -67,6 +73,11 @@ async function seed() {
     title: 'Column 3',
     color: '#f0abfc',
     noteIds: [],
+  })
+
+  board.participants.push({
+    role: 'member',
+    userId: user2._id,
   })
 
   await board.save()
