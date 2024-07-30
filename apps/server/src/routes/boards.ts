@@ -82,20 +82,32 @@ app
         }
       }
 
-      const data = await getExtendedBoardData(board)
-
       if (board.accessPolicy === 'public' && !isUserParticipant) {
+        const user = await User.findById(store.userId)
+
+        if (!user) {
+          set.status = 400
+          return { message: 'User not found' }
+        }
+
+        user.boards.push(board._id)
+        user.save()
+
         board.participants.push({
-          userId: store.userId,
+          userId: user._id,
           role: 'member',
         })
-        board.save()
+        await board.save()
+
+        const data = await getExtendedBoardData(board)
 
         server?.publish(
           WebSocketChannel.Board,
           formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
         )
       }
+
+      const data = await getExtendedBoardData(board)
 
       return JSON.parse(JSON.stringify(data))
     },
