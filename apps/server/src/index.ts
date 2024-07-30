@@ -3,8 +3,8 @@ import { Elysia, t } from 'elysia'
 import { swagger } from '@elysiajs/swagger'
 import mongoose from 'mongoose'
 import { version } from '../package.json'
-import ws from './routes/ws'
 import auth from './routes/auth'
+import boards from './routes/boards'
 
 mongoose.connect(Bun.env.MONGO_URL)
 
@@ -23,7 +23,7 @@ app
     }),
   )
   .use(auth)
-  .use(ws)
+  .use(boards)
   .listen(Bun.env.API_PORT, () => {
     // eslint-disable-next-line no-console
     console.log(

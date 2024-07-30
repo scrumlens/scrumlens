@@ -8,7 +8,7 @@ import {
   generateGuestEmail,
   verifyToken,
 } from '@/utils'
-import { COOKIE } from '@/constants'
+import { COOKIE } from '@/types'
 
 const app = new Elysia({ prefix: '/auth' })
 
