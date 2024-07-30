@@ -2,6 +2,7 @@ import { styleText } from 'node:util'
 import { Elysia, t } from 'elysia'
 import { swagger } from '@elysiajs/swagger'
 import mongoose from 'mongoose'
+import { logger } from '@bogeychan/elysia-logger'
 import { version } from '../package.json'
 import auth from './routes/auth'
 import boards from './routes/boards'
@@ -20,6 +21,11 @@ app
         },
         tags: [{ name: 'Auth', description: 'Authentication' }],
       },
+    }),
+  )
+  .use(
+    logger({
+      level: 'error',
     }),
   )
   .use(auth)

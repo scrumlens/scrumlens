@@ -12,10 +12,10 @@ const app = new Elysia().state('userId', '').macro(({ onBeforeHandle }) => ({
         const decoded = verifyToken(cookie[Cookie.AccessToken]?.value || '')
         store.userId = decoded.userId
       }
-      catch (err) {
-        console.error(err)
+      catch {
         store.userId = ''
-        return (set.status = 401)
+        set.status = 401
+        return { message: 'Unauthorized' }
       }
     })
   },

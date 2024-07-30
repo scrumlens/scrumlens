@@ -45,33 +45,27 @@ app
    */
   .post(
     '/signup-guest',
-    async ({ body, set, cookie }) => {
-      try {
-        const user = new User(body)
+    async ({ body, cookie }) => {
+      const user = new User(body)
 
-        user.password = nanoid(12)
-        user.email = generateGuestEmail()
-        user.isActive = true
-        user.isGuest = true
+      user.password = nanoid(12)
+      user.email = generateGuestEmail()
+      user.isActive = true
+      user.isGuest = true
 
-        await user.save()
+      await user.save()
 
-        const { accessToken, refreshToken } = generateAccessTokens(user.id)
+      const { accessToken, refreshToken } = generateAccessTokens(user.id)
 
-        cookie[Cookie.AccessToken].set({
-          value: accessToken,
-          httpOnly: true,
-        })
+      cookie[Cookie.AccessToken].set({
+        value: accessToken,
+        httpOnly: true,
+      })
 
-        cookie[Cookie.RefreshToken].set({
-          value: refreshToken,
-          httpOnly: true,
-        })
-      }
-      catch (err) {
-        console.error(err)
-        set.status = 400
-      }
+      cookie[Cookie.RefreshToken].set({
+        value: refreshToken,
+        httpOnly: true,
+      })
     },
     {
       body: 'signupGuest',
@@ -94,7 +88,7 @@ app
 
       if (!user) {
         set.status = 400
-        return { message: 'Invalid login or password' }
+        throw new Error('Invalid login or password')
       }
 
       const isValidPassword = checkPassword(
@@ -105,12 +99,12 @@ app
 
       if (!isValidPassword) {
         set.status = 400
-        return { message: 'Invalid login or password' }
+        throw new Error('Invalid login or password')
       }
 
       if (!user.isActive) {
         set.status = 400
-        return { message: 'Account is not active' }
+        throw new Error('Account is not active')
       }
 
       const { accessToken, refreshToken } = generateAccessTokens(user.id)
@@ -175,7 +169,7 @@ app
           httpOnly: true,
         })
       }
-      catch (err) {
+      catch {
         cookie[Cookie.AccessToken].set({
           value: '',
           httpOnly: true,
@@ -185,7 +179,6 @@ app
           httpOnly: true,
         })
 
-        console.error(err)
         set.status = 400
         return { message: 'Invalid token' }
       }
@@ -208,7 +201,7 @@ app
 
         if (!user) {
           set.status = 400
-          return { message: 'User not found' }
+          throw new Error('User not found')
         }
 
         user.isActive = true
@@ -216,8 +209,7 @@ app
 
         return { message: 'Account verified' }
       }
-      catch (err) {
-        console.error(err)
+      catch {
         set.status = 400
         return { message: 'Invalid token' }
       }

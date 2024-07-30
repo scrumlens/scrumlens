@@ -1,5 +1,4 @@
-import Elysia from 'elysia'
-import mongoose from 'mongoose'
+import Elysia, { t } from 'elysia'
 import { boardsDTO } from '@/dto/boards'
 import { Board } from '@/models/board'
 import { Note } from '@/models/note'
@@ -33,28 +32,22 @@ app
 
       if (!user) {
         set.status = 400
-        return { message: 'User not found' }
+        throw new Error('User not found')
       }
+      const board = await Board.create({
+        ...body,
+        userId: user._id,
+        participants: [
+          {
+            userId: user._id,
+            role: 'admin',
+          },
+        ],
+      })
 
-      try {
-        const board = await Board.create({
-          ...body,
-          userId: user._id,
-          participants: [
-            {
-              userId: user._id,
-              role: 'admin',
-            },
-          ],
-        })
-
-        return {
-          message: 'Board created',
-          data: board._id,
-        }
-      }
-      catch (err) {
-        console.error(err)
+      return {
+        message: 'Board created',
+        data: board._id,
       }
     },
     {
@@ -113,7 +106,7 @@ app
 
       if (!board) {
         set.status = 404
-        return { message: 'Board not found' }
+        throw new Error('Board not found')
       }
 
       const isUserParticipant = board.participants.some(i =>
@@ -121,10 +114,8 @@ app
       )
 
       if (board.accessPolicy === 'private' && !isUserParticipant) {
-        return {
-          statusCode: 403,
-          error: 'You are not a participant of this board',
-        }
+        set.status = 403
+        throw new Error('You are not a allowed to access this board')
       }
 
       if (board.accessPolicy === 'public' && !isUserParticipant) {
@@ -132,7 +123,7 @@ app
 
         if (!user) {
           set.status = 400
-          return { message: 'User not found' }
+          throw new Error('User not found')
         }
 
         board.participants.push({
@@ -167,33 +158,20 @@ app
   .patch(
     '/:id',
     async ({ params, body, set, server }) => {
-      try {
-        const board = await Board.findByIdAndUpdate(params.id, body)
+      const board = await Board.findByIdAndUpdate(params.id, body)
 
-        if (!board) {
-          set.status = 404
-          return { message: 'Board not found' }
-        }
-
-        const updatedBoard = await Board.findById(params.id)
-        const data = await getExtendedBoardData(updatedBoard!)
-
-        server?.publish(
-          WebSocketChannel.Board,
-          formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-        )
-      }
-      catch (err) {
-        console.error(err)
-
-        if (err instanceof mongoose.Error.CastError) {
-          set.status = 400
-          return { message: 'Invalid ID' }
-        }
-
+      if (!board) {
         set.status = 400
-        return { message: 'Something wrong, try later' }
+        throw new Error('Board not found')
       }
+
+      const updatedBoard = await Board.findById(params.id)
+      const data = await getExtendedBoardData(updatedBoard!)
+
+      server?.publish(
+        WebSocketChannel.Board,
+        formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
+      )
     },
     {
       body: 'boardUpdate',
@@ -209,41 +187,28 @@ app
   .delete(
     '/:id',
     async ({ params, store, set }) => {
-      try {
-        const user = await User.findById(store.userId)
+      const user = await User.findById(store.userId)
 
-        if (!user) {
-          set.status = 400
-          return { message: 'User not found' }
-        }
-
-        const board = await Board.findById(params.id)
-
-        if (!board) {
-          set.status = 400
-          return { message: 'Board not found' }
-        }
-
-        if (!board.userId.equals(user._id)) {
-          set.status = 403
-          return { message: 'You are not allowed to delete this board' }
-        }
-
-        await board.deleteOne()
-        await Note.deleteMany({ boardId: params.id })
-        await Comment.deleteMany({ boardId: params.id })
-      }
-      catch (err) {
-        console.error(err)
-
-        if (err instanceof mongoose.Error.CastError) {
-          set.status = 400
-          return { message: 'Invalid ID' }
-        }
-
+      if (!user) {
         set.status = 400
-        return { message: 'Something wrong, try later' }
+        throw new Error('User not found')
       }
+
+      const board = await Board.findById(params.id)
+
+      if (!board) {
+        set.status = 400
+        throw new Error('Board not found')
+      }
+
+      if (!board.userId.equals(user._id)) {
+        set.status = 403
+        throw new Error('You are not allowed to delete this board')
+      }
+
+      await board.deleteOne()
+      await Note.deleteMany({ boardId: params.id })
+      await Comment.deleteMany({ boardId: params.id })
     },
     {
       requiredAuth: true,
