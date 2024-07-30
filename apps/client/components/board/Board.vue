@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useBoard } from './composables'
 
-const { board } = useBoard()
+const { boardRaw } = useBoard()
 </script>
 
 <template>
@@ -11,9 +11,9 @@ const { board } = useBoard()
   >
     <div class="flex gap-3 px-3">
       <BoardColumn
-        v-for="i in board.columns"
-        :id="i.id"
-        :key="i.id"
+        v-for="i in boardRaw?.columns"
+        :id="i._id"
+        :key="i._id"
       />
     </div>
   </div>

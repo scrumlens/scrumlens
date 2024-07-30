@@ -1,53 +1,39 @@
-const board = ref({
-  id: '1',
-  title: 'Retro 1',
-  columns: [
-    {
-      id: '1',
-      title: 'Column 1',
-      description: 'Description 1',
-      color: '#60a5fa',
-      itemIds: ['1', '2'],
-    },
-    {
-      id: '2',
-      title: 'Column 2',
-      description: 'Description 2',
-      color: '#fef08a',
-      itemIds: ['3'],
-    },
-    {
-      id: '3',
-      title: 'Column 3',
-      description: 'Description 3',
-      color: '#f0abfc',
-      itemIds: ['4'],
-    },
-  ],
-  items: [
-    // vote это массив userId
-    { id: '1', content: 'Content 1', userId: '1', vote: [1] },
-    { id: '2', content: 'Content 2', userId: '2', vote: [] },
-    { id: '3', content: 'Content 3', userId: '1', vote: [] },
-    { id: '4', content: 'Content 4', userId: '1', vote: [1] },
-  ],
-  comments: [
-    { id: '1', text: 'Comment 1', userId: '1', itemId: '1' },
-    { id: '2', text: 'Comment 2', userId: '2', itemId: '2' },
-    { id: '3', text: 'Comment 3', userId: '1', itemId: '3' },
-    { id: '4', text: 'Comment 4', userId: '1', itemId: '4' },
-  ],
-})
+import { useDebounceFn } from '@vueuse/core'
+import { api } from '~/services/api'
+import type { BoardResponse, BoardUpdate } from '~/services/api/generated'
+
+const boardRaw = ref<BoardResponse>()
+
+async function getBoardById(id: string) {
+  try {
+    const { data } = await api.boards.getBoardsById(id)
+    boardRaw.value = data
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+async function updateBoard(id: string, update: BoardUpdate) {
+  try {
+    await api.boards.patchBoardsById(id, update)
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+const updateBoardDebounced = useDebounceFn(updateBoard, 500)
 
 function addColumnItem(columnId: string, itemId: string, newIndex: number) {
-  const column = board.value.columns.find(c => c.id === columnId)
+  const column = boardRaw.value?.columns.find(c => c._id === columnId)
   if (!column)
     return
 
-  const itemIds = column.itemIds.slice()
+  const noteIds = column.noteIds.slice()
 
-  itemIds.splice(newIndex, 0, itemId)
-  column.itemIds = itemIds
+  noteIds.splice(newIndex, 0, itemId)
+  column.noteIds = noteIds
 }
 
 function moveColumnItem(
@@ -56,32 +42,36 @@ function moveColumnItem(
   newIndex: number,
   oldIndex: number,
 ) {
-  const column = board.value.columns.find(c => c.id === columnId)
+  const column = boardRaw.value?.columns.find(c => c._id === columnId)
+
   if (!column)
     return
 
-  const itemIds = column.itemIds.slice()
+  const noteIds = column.noteIds.slice()
 
-  itemIds.splice(oldIndex, 1)
-  itemIds.splice(newIndex, 0, itemId)
-  column.itemIds = itemIds
+  noteIds.splice(oldIndex, 1)
+  noteIds.splice(newIndex, 0, itemId)
+  column.noteIds = noteIds
 }
 
 function removeColumnItem(columnId: string, itemId: string) {
-  const column = board.value.columns.find(c => c.id === columnId)
+  const column = boardRaw.value?.columns.find(c => c._id === columnId)
   if (!column)
     return
 
-  const itemIds = column.itemIds.filter(i => i !== itemId)
+  const noteIds = column.noteIds.filter(i => i !== itemId)
 
-  column.itemIds = itemIds
+  column.noteIds = noteIds
 }
 
 export function useBoard() {
   return {
     addColumnItem,
+    boardRaw,
+    getBoardById,
     moveColumnItem,
     removeColumnItem,
-    board,
+    updateBoard,
+    updateBoardDebounced,
   }
 }

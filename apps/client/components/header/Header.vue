@@ -2,7 +2,7 @@
 import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
-const { board } = useBoard()
+const { boardRaw } = useBoard()
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { board } = useBoard()
       <div class="flex items-center gap-3 text-sm">
         <span class="relative -top-[1px]">/</span>
         <span>
-          {{ board.title }}
+          {{ boardRaw?.title }}
         </span>
       </div>
     </div>
