@@ -27,24 +27,6 @@ export const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    boards: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Board',
-      },
-    ],
-    notes: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Note',
-      },
-    ],
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-      },
-    ],
   },
   {
     timestamps: true,

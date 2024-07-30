@@ -8,7 +8,6 @@ import { Note } from '@/models/note'
 import { Comment } from '@/models/comment'
 
 mongoose.connect(Bun.env.MONGO_URL)
-// mongoose.set('debug', true)
 
 const users = [
   {
@@ -57,9 +56,6 @@ async function seed() {
       },
     ],
   })
-
-  user1.boards.push(board._id)
-  await user1.save()
 
   await board.save()
 
@@ -137,12 +133,6 @@ async function seed() {
   board.columns = columns
   await board.save()
 
-  user2.notes.push(note2._id)
-  await user2.save()
-
-  user1.notes.push(note1._id)
-  await user1.save()
-
   console.log(styleText('blue', 'Notes created...'))
 
   // Создаем комментарии
@@ -150,10 +140,8 @@ async function seed() {
     content: 'Comment 1',
     userId: user1._id,
     noteId: note1._id,
+    boardId: board._id,
   })
-
-  user1.comments.push(comment1._id)
-  await user1.save()
 
   note1.comments.push(comment1._id)
   await note1.save()
@@ -164,10 +152,8 @@ async function seed() {
     content: 'Comment 2',
     userId: user2._id,
     noteId: note2._id,
+    boardId: board._id,
   })
-
-  user2.comments.push(comment2._id)
-  await user2.save()
 
   note2.comments.push(comment2._id)
   await note2.save()
