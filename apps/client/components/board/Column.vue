@@ -49,7 +49,7 @@ function onChange(event: any) {
       <div class="mb-2 space-y-2 text-sm">
         <div class="flex items-center justify-between">
           <div
-            class="inline-flex px-2 rounded-full bg-neutral-300"
+            class="inline-flex px-2 rounded-full bg-neutral-300 dark:text-background"
             :style="{ backgroundColor: column?.color }"
           >
             {{ column?.title }}

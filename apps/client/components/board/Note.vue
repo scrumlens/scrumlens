@@ -15,7 +15,7 @@ const note = computed(() => boardRaw.value?.notes.find(i => i._id === props.id))
 <template>
   <div
     data-board-note
-    class="p-2 bg-white rounded-md border"
+    class="p-2 bg-white dark:bg-slate-800 rounded-md border dark:border-slate-700"
   >
     <div class="text-sm">
       <div class="font-bold">
