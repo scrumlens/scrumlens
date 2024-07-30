@@ -31,6 +31,115 @@ export interface VerifyToken {
   token: string;
 }
 
+export interface BoardAdd {
+  title: string;
+  columns?: {
+    title: string;
+    description?: string;
+    color?: string;
+    noteIds?: string[];
+  }[];
+  accessPolicy: "public" | "private";
+}
+
+export interface BoardUpdate {
+  title?: string;
+  notes?: string[];
+  columns?: {
+    title: string;
+    description?: string;
+    color?: string;
+    noteIds?: string[];
+  }[];
+  participants?: {
+    userId: string;
+    role: "admin" | "member";
+  }[];
+  accessPolicy?: "public" | "private";
+  isLocked?: boolean;
+}
+
+export interface BoardResponse {
+  _id: string;
+  title: string;
+  userId: string;
+  participants: {
+    role: "admin" | "member";
+    userId: string;
+    name: string;
+  }[];
+  notes: {
+    _id: string;
+    content: string;
+    userId: string;
+    voteUp: string[];
+    voteDown: string[];
+    reactions: {
+      userId: string;
+      emoji:
+        | "thinking-face"
+        | "loudly-crying-face"
+        | "face-with-tears-of-joy"
+        | "fire"
+        | "party-popper"
+        | "pile-of-poo";
+    }[];
+    comments: string[];
+  }[];
+  columns: {
+    _id: string;
+    title: string;
+    description: string;
+    color: string;
+    noteIds: string[];
+  }[];
+  accessPolicy: "public" | "private";
+  isLocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+  comments: {
+    _id: string;
+    content: string;
+    noteId: string;
+    userId: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
+export interface BoardsResponse {
+  count: number;
+  items: {
+    _id: string;
+    title: string;
+    userId: string;
+    participants: {
+      role: "admin" | "member";
+      userId: string;
+    }[];
+    notes: string[];
+    columns: {
+      _id: string;
+      title: string;
+      description: string;
+      color: string;
+      noteIds: string[];
+    }[];
+    accessPolicy: "public" | "private";
+    isLocked: boolean;
+    createdAt: string;
+    updatedAt: string;
+  }[];
+}
+
+export interface BoardsQuery {
+  limit?: string | number;
+  page?: string | number;
+  search?: string;
+  sort?: string;
+  order?: "ASC" | "DESC";
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -377,17 +486,107 @@ export class Api<
         ...params,
       }),
   };
-  id = {
+  boards = {
     /**
      * No description
      *
-     * @name InternalwsById
-     * @request INTERNALWS:/{id}
+     * @name InternalwsBoardsById
+     * @request INTERNALWS:/boards/{id}
      */
-    internalwsById: (id: string, params: RequestParams = {}) =>
+    internalwsBoardsById: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
-        path: `/${id}`,
+        path: `/boards/${id}`,
         method: "INTERNALWS",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name GetBoardsById
+     * @request GET:/boards/{id}
+     */
+    getBoardsById: (id: string, params: RequestParams = {}) =>
+      this.request<BoardResponse, any>({
+        path: `/boards/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name PatchBoardsById
+     * @request PATCH:/boards/{id}
+     */
+    patchBoardsById: (
+      id: string,
+      data: BoardUpdate,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/boards/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name DeleteBoardsById
+     * @request DELETE:/boards/{id}
+     */
+    deleteBoardsById: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/boards/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name PostBoards
+     * @request POST:/boards/
+     */
+    postBoards: (data: BoardAdd, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/boards/`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name GetBoards
+     * @request GET:/boards/
+     */
+    getBoards: (
+      query?: {
+        limit?: string | number;
+        page?: string | number;
+        search?: string;
+        sort?: string;
+        order?: "ASC" | "DESC";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<BoardsResponse, any>({
+        path: `/boards/`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };

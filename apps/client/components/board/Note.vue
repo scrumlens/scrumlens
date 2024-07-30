@@ -7,22 +7,22 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { board } = useBoard()
+const { boardRaw } = useBoard()
 
-const item = computed(() => board.value.items.find(i => i.id === props.id))
+const note = computed(() => boardRaw.value?.notes.find(i => i._id === props.id))
 </script>
 
 <template>
   <div
-    data-board-item
+    data-board-note
     class="p-2 bg-white rounded-md border"
   >
     <div class="text-sm">
       <div class="font-bold">
-        User {{ item?.userId }}
+        {{ boardRaw?.participants.find(i => i.userId === note?.userId)?.name }}
       </div>
       <div>
-        {{ item?.content }}
+        {{ note?.content }}
       </div>
     </div>
     <div class="flex items-center gap-2 text-sm justify-between text-muted-foreground mt-3">
@@ -32,15 +32,15 @@ const item = computed(() => board.value.items.find(i => i.id === props.id))
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-1 tabular-nums">
           <Icon name="lucide:message-square" />
-          {{ item?.vote.length || 0 }}
+          {{ note?.comments.length || 0 }}
         </div>
         <div class="flex items-center gap-1 tabular-nums">
           <Icon name="lucide:thumbs-up" />
-          {{ item?.vote.length || 0 }}
+          {{ note?.voteUp.length || 0 }}
         </div>
         <div class="flex items-center gap-1 tabular-nums">
           <Icon name="lucide:thumbs-down" />
-          {{ item?.vote.length || 0 }}
+          {{ note?.voteDown.length || 0 }}
         </div>
       </div>
     </div>

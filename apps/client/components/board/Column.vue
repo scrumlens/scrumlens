@@ -8,25 +8,35 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { board, addColumnItem, moveColumnItem, removeColumnItem } = useBoard()
+const {
+  addColumnItem,
+  moveColumnItem,
+  removeColumnItem,
+  boardRaw,
+  updateBoardDebounced,
+} = useBoard()
 
-const column = computed(() => board.value.columns.find(i => i.id === props.id))
+const column = computed(() => boardRaw.value?.columns.find(i => i._id === props.id))
 
-const columnItems = computed(() => column.value?.itemIds?.map(i => board.value.items.find(item => item.id === i)))
+const notes = computed(() => column.value?.noteIds?.map(i => boardRaw.value?.notes.find(item => item._id === i)))
 
 // TODO добавить типы для event
 function onChange(event: any) {
   if (event.added) {
-    addColumnItem(props.id, event.added.element.id, event.added.newIndex)
+    addColumnItem(props.id, event.added.element._id, event.added.newIndex)
   }
 
   if (event.moved) {
-    moveColumnItem(props.id, event.moved.element.id, event.moved.newIndex, event.moved.oldIndex)
+    moveColumnItem(props.id, event.moved.element._id, event.moved.newIndex, event.moved.oldIndex)
   }
 
   if (event.removed) {
-    removeColumnItem(props.id, event.removed.element.id)
+    removeColumnItem(props.id, event.removed.element._id)
   }
+
+  updateBoardDebounced(boardRaw.value!._id, {
+    columns: boardRaw.value?.columns,
+  })
 }
 </script>
 
@@ -46,7 +56,7 @@ function onChange(event: any) {
           </div>
           <div class="text-xs tabular-nums text-muted-foreground">
             <span>
-              Items: {{ columnItems?.length || 0 }}
+              Items: {{ notes?.length || 0 }}
             </span>
           </div>
         </div>
@@ -55,14 +65,14 @@ function onChange(event: any) {
         </div>
       </div>
       <Draggable
-        :list="columnItems"
+        :list="notes"
         group="common"
         class="flex flex-col gap-2 min-h-10"
-        item-key="id"
+        item-key="_id"
         @change="onChange"
       >
         <template #item="{ element }">
-          <BoardItem :id="element.id" />
+          <BoardNote :id="element._id" />
         </template>
       </Draggable>
       <div class="flex items-center p-2 text-sm text-muted-foreground">
