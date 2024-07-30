@@ -51,18 +51,29 @@ export const boardItemExtended = t.Object({
 })
 
 export const boardsDTO = new Elysia().model({
-  boardsResponse: t.Object({
-    count: t.Number(),
-    items: t.Array(boardItem),
+  boardAdd: t.Object({
+    title: t.String(),
+    columns: t.Optional(
+      t.Array(
+        t.Object({
+          title: t.String(),
+          description: t.Optional(t.String()),
+          color: t.Optional(t.String()),
+          noteIds: t.Optional(t.Array(t.String())),
+        }),
+      ),
+    ),
+    accessPolicy: t.Enum({
+      public: 'public',
+      private: 'private',
+    }),
   }),
-  boardResponse: boardItemExtended,
   boardUpdate: t.Object({
     title: t.Optional(t.String()),
     notes: t.Optional(t.Array(t.String())),
     columns: t.Optional(
       t.Array(
         t.Object({
-          _id: t.String(),
           title: t.String(),
           description: t.Optional(t.String()),
           color: t.Optional(t.String()),
@@ -88,6 +99,11 @@ export const boardsDTO = new Elysia().model({
       }),
     ),
     isLocked: t.Optional(t.Boolean()),
+  }),
+  boardResponse: boardItemExtended,
+  boardsResponse: t.Object({
+    count: t.Number(),
+    items: t.Array(boardItem),
   }),
   boardsQuery: commonQuery,
 })

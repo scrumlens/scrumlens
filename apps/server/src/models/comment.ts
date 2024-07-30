@@ -18,6 +18,11 @@ const commentSchema = new Schema(
       ref: 'Note',
       required: true,
     },
+    boardId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Board',
+      required: true,
+    },
   },
   {
     timestamps: true,
