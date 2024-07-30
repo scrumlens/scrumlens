@@ -1,9 +1,34 @@
 <script setup lang="ts">
-
+const { userAcronym } = useUser()
+const { logout } = useAuth()
 </script>
 
 <template>
   <div data-user>
-    <div>user</div>
+    <DropdownMenu>
+      <DropdownMenuTrigger as-child>
+        <Avatar class="cursor-pointer">
+          <AvatarFallback>
+            {{ userAcronym }}
+          </AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent class="w-32">
+        <DropdownMenuItem as-child>
+          <NuxtLink to="/user/dashboard">
+            Dashboard
+          </NuxtLink>
+        </DropdownMenuItem>
+        <DropdownMenuItem as-child>
+          <NuxtLink to="/user/profile">
+            Profile
+          </NuxtLink>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem @click="logout">
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   </div>
 </template>

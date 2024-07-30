@@ -9,7 +9,7 @@ const { boardRaw } = useBoard()
     data-board
     class="h-full overflow-x-auto"
   >
-    <div class="flex gap-3 px-3">
+    <div class="flex gap-3">
       <BoardColumn
         v-for="i in boardRaw?.columns"
         :id="i._id"
