@@ -6,7 +6,7 @@ import { useToast } from '@/components/ui/shadcn/toast/use-toast'
 export const authStore = useStorage('isAuth', false)
 
 const { toast } = useToast()
-const { user } = useUser()
+const { userRaw } = useUser()
 
 const isAuth = computed(() => authStore.value === true)
 
@@ -41,7 +41,7 @@ async function logout() {
     start()
     await api.auth.postAuthLogout()
     authStore.value = false
-    user.value = undefined
+    userRaw.value = undefined
     router.push('/login')
   }
   catch (err) {

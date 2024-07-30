@@ -31,6 +31,18 @@ export interface VerifyToken {
   token: string;
 }
 
+export interface UserUpdate {
+  name: string;
+}
+
+export interface UsersMeResponse {
+  _id: string;
+  name: string;
+  email: string;
+  isActive: boolean;
+  isGuest: boolean;
+}
+
 export interface BoardAdd {
   title: string;
   columns?: {
@@ -481,6 +493,38 @@ export class Api<
       this.request<void, any>({
         path: `/auth/verify`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
+  users = {
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name GetUsersMe
+     * @request GET:/users/me
+     */
+    getUsersMe: (params: RequestParams = {}) =>
+      this.request<UsersMeResponse, any>({
+        path: `/users/me`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name PatchUsersMe
+     * @request PATCH:/users/me
+     */
+    patchUsersMe: (data: UserUpdate, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/users/me`,
+        method: "PATCH",
         body: data,
         type: ContentType.Json,
         ...params,
