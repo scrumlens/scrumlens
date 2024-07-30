@@ -46,6 +46,7 @@ async function seed() {
       {
         title: 'Column 1',
         color: '#60a5fa',
+        description: 'Description 1',
         noteIds: [],
       },
     ],
@@ -62,12 +63,14 @@ async function seed() {
   board.columns.push({
     title: 'Column 2',
     color: '#fef08a',
+    description: 'Description 2',
     noteIds: [],
   })
 
   board.columns.push({
     title: 'Column 3',
     color: '#f0abfc',
+    description: 'Description 3',
     noteIds: [],
   })
 

@@ -21,6 +21,7 @@ export const boardItem = t.Object({
     t.Object({
       _id: t.String(),
       title: t.String(),
+      description: t.String(),
       color: t.String(),
       noteIds: t.Array(t.String()),
     }),
