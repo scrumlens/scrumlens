@@ -45,7 +45,7 @@ app
    */
   .post(
     '/signup-guest',
-    async ({ body, set }) => {
+    async ({ body, set, cookie }) => {
       try {
         const user = new User(body)
 
@@ -55,6 +55,18 @@ app
         user.isGuest = true
 
         await user.save()
+
+        const { accessToken, refreshToken } = generateAccessTokens(user.id)
+
+        cookie[COOKIE.accessToken].set({
+          value: accessToken,
+          httpOnly: true,
+        })
+
+        cookie[COOKIE.refreshToken].set({
+          value: refreshToken,
+          httpOnly: true,
+        })
       }
       catch (err) {
         console.error(err)
