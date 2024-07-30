@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import { logger } from '@bogeychan/elysia-logger'
 import { version } from '../package.json'
 import auth from './routes/auth'
+import users from './routes/users'
 import boards from './routes/boards'
 
 mongoose.connect(Bun.env.MONGO_URL)
@@ -29,6 +30,7 @@ app
     }),
   )
   .use(auth)
+  .use(users)
   .use(boards)
   .listen(Bun.env.API_PORT, () => {
     // eslint-disable-next-line no-console
