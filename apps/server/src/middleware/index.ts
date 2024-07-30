@@ -1,6 +1,6 @@
 import Elysia from 'elysia'
 import { verifyToken } from '@/utils'
-import { COOKIE } from '@/types'
+import { Cookie } from '@/types'
 
 const app = new Elysia().state('userId', '').macro(({ onBeforeHandle }) => ({
   requiredAuth(bool: boolean) {
@@ -9,7 +9,7 @@ const app = new Elysia().state('userId', '').macro(({ onBeforeHandle }) => ({
         return
 
       try {
-        const decoded = verifyToken(cookie[COOKIE.accessToken]?.value || '')
+        const decoded = verifyToken(cookie[Cookie.AccessToken]?.value || '')
         store.userId = decoded.userId
       }
       catch (err) {

@@ -1,6 +1,6 @@
-export const COOKIE = {
-  accessToken: 'scrumlens_access_token',
-  refreshToken: 'scrumlens_refresh_token',
+export const Cookie = {
+  AccessToken: 'scrumlens_access_token',
+  RefreshToken: 'scrumlens_refresh_token',
 } as const
 
 export const WebSocketChannel = {

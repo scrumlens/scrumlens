@@ -8,7 +8,7 @@ import {
   generateGuestEmail,
   verifyToken,
 } from '@/utils'
-import { COOKIE } from '@/types'
+import { Cookie } from '@/types'
 
 const app = new Elysia({ prefix: '/auth' })
 
@@ -58,12 +58,12 @@ app
 
         const { accessToken, refreshToken } = generateAccessTokens(user.id)
 
-        cookie[COOKIE.accessToken].set({
+        cookie[Cookie.AccessToken].set({
           value: accessToken,
           httpOnly: true,
         })
 
-        cookie[COOKIE.refreshToken].set({
+        cookie[Cookie.RefreshToken].set({
           value: refreshToken,
           httpOnly: true,
         })
@@ -115,12 +115,12 @@ app
 
       const { accessToken, refreshToken } = generateAccessTokens(user.id)
 
-      cookie[COOKIE.accessToken].set({
+      cookie[Cookie.AccessToken].set({
         value: accessToken,
         httpOnly: true,
       })
 
-      cookie[COOKIE.refreshToken].set({
+      cookie[Cookie.RefreshToken].set({
         value: refreshToken,
         httpOnly: true,
       })
@@ -138,11 +138,11 @@ app
   .post(
     '/logout',
     async ({ cookie }) => {
-      cookie[COOKIE.accessToken].set({
+      cookie[Cookie.AccessToken].set({
         value: '',
         httpOnly: true,
       })
-      cookie[COOKIE.refreshToken].set({
+      cookie[Cookie.RefreshToken].set({
         value: '',
         httpOnly: true,
       })
@@ -160,27 +160,27 @@ app
     '/refresh',
     async ({ cookie, set }) => {
       try {
-        const decoded = verifyToken(cookie[COOKIE.refreshToken]?.value || '')
+        const decoded = verifyToken(cookie[Cookie.RefreshToken]?.value || '')
         const { accessToken, refreshToken } = generateAccessTokens(
           decoded.userId,
         )
 
-        cookie[COOKIE.accessToken].set({
+        cookie[Cookie.AccessToken].set({
           value: accessToken,
           httpOnly: true,
         })
 
-        cookie[COOKIE.refreshToken].set({
+        cookie[Cookie.RefreshToken].set({
           value: refreshToken,
           httpOnly: true,
         })
       }
       catch (err) {
-        cookie[COOKIE.accessToken].set({
+        cookie[Cookie.AccessToken].set({
           value: '',
           httpOnly: true,
         })
-        cookie[COOKIE.refreshToken].set({
+        cookie[Cookie.RefreshToken].set({
           value: '',
           httpOnly: true,
         })
