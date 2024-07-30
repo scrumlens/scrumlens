@@ -90,9 +90,6 @@ app
           return { message: 'User not found' }
         }
 
-        user.boards.push(board._id)
-        user.save()
-
         board.participants.push({
           userId: user._id,
           role: 'member',
