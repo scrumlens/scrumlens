@@ -23,7 +23,7 @@ async function updateBoard(id: string, update: BoardUpdate) {
   }
 }
 
-const updateBoardDebounced = useDebounceFn(updateBoard, 500)
+const updateBoardDebounced = useDebounceFn(updateBoard, 100)
 
 function addColumnItem(columnId: string, itemId: string, newIndex: number) {
   const column = boardRaw.value?.columns.find(c => c._id === columnId)
