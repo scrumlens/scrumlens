@@ -89,7 +89,7 @@ function onChange(event: any) {
           v-if="!isShowForm"
           size="sm"
           variant="ghost"
-          class="text-muted-foreground"
+          class="text-muted-foreground w-full justify-start"
           @click="isShowForm = !isShowForm"
         >
           <Icon name="lucide:plus" />
