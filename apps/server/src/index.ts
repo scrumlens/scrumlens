@@ -7,6 +7,7 @@ import { version } from '../package.json'
 import auth from './routes/auth'
 import users from './routes/users'
 import boards from './routes/boards'
+import notes from './routes/notes'
 
 mongoose.connect(Bun.env.MONGO_URL)
 
@@ -32,6 +33,7 @@ app
   .use(auth)
   .use(users)
   .use(boards)
+  .use(notes)
   .listen(Bun.env.API_PORT, () => {
     // eslint-disable-next-line no-console
     console.log(
