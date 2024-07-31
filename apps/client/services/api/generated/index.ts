@@ -145,11 +145,30 @@ export interface BoardsResponse {
 }
 
 export interface BoardsQuery {
-  limit?: string | number;
-  page?: string | number;
+  limit?: string | (string | number);
+  page?: string | (string | number);
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
+}
+
+export interface NoteAdd {
+  content: string;
+  boardId: string;
+  columnIndex: string;
+}
+
+export interface NoteUpdate {
+  content?: string;
+  voteUp?: boolean;
+  voteDown?: boolean;
+  reactions?:
+    | "thinking-face"
+    | "loudly-crying-face"
+    | "face-with-tears-of-joy"
+    | "fire"
+    | "party-popper"
+    | "pile-of-poo";
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -618,8 +637,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | number;
-        page?: string | number;
+        limit?: string | (string | number);
+        page?: string | (string | number);
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";
@@ -631,6 +650,57 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
+        ...params,
+      }),
+  };
+  notes = {
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name PostNotes
+     * @request POST:/notes/
+     */
+    postNotes: (data: NoteAdd, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/notes/`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name PatchNotesById
+     * @request PATCH:/notes/{id}
+     */
+    patchNotesById: (
+      id: string,
+      data: NoteUpdate,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/notes/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Notes
+     * @name DeleteNotesById
+     * @request DELETE:/notes/{id}
+     */
+    deleteNotesById: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/notes/${id}`,
+        method: "DELETE",
         ...params,
       }),
   };

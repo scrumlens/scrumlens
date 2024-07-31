@@ -1,6 +1,10 @@
 import { useDebounceFn } from '@vueuse/core'
 import { api } from '~/services/api'
-import type { BoardResponse, BoardUpdate } from '~/services/api/generated'
+import type {
+  BoardResponse,
+  BoardUpdate,
+  NoteUpdate,
+} from '~/services/api/generated'
 
 const boardRaw = ref<BoardResponse>()
 
@@ -64,14 +68,44 @@ function removeColumnItem(columnId: string, itemId: string) {
   column.noteIds = noteIds
 }
 
+async function upVote(noteId: string) {
+  try {
+    await api.notes.patchNotesById(noteId, { voteUp: true })
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+async function downVote(noteId: string) {
+  try {
+    await api.notes.patchNotesById(noteId, { voteDown: true })
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+async function addReaction(noteId: string, emoji: NoteUpdate['reactions']) {
+  try {
+    await api.notes.patchNotesById(noteId, { reactions: emoji })
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
 export function useBoard() {
   return {
     addColumnItem,
+    addReaction,
     boardRaw,
+    downVote,
     getBoardById,
     moveColumnItem,
     removeColumnItem,
     updateBoard,
     updateBoardDebounced,
+    upVote,
   }
 }
