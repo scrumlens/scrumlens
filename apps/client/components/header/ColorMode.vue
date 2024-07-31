@@ -20,7 +20,7 @@ function getIcon(command: string) {
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button
-        size="icon-xs"
+        size="icon-sm"
         variant="ghost"
       >
         <Icon
