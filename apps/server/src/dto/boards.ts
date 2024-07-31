@@ -1,6 +1,6 @@
 import Elysia, { t } from 'elysia'
 import { commonQuery } from './query'
-import { noteItem } from './note'
+import { noteItem } from './notes'
 import { commentItem } from './comments'
 
 export const boardItem = t.Object({
