@@ -95,8 +95,17 @@ async function addReaction(noteId: string, emoji: NoteUpdate['reactions']) {
   }
 }
 
+async function addNote(content: string, columnIndex: number) {
+  return api.notes.postNotes({
+    boardId: boardRaw.value!._id,
+    columnIndex: String(columnIndex),
+    content,
+  })
+}
+
 export function useBoard() {
   return {
+    addNote,
     addColumnItem,
     addReaction,
     boardRaw,

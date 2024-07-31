@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
-import { useBoard } from './composables'
+import { useBoard } from '@/components/board/composables'
 
 interface Props {
   id: string
+  index: number
 }
 
 const props = defineProps<Props>()
@@ -15,6 +16,8 @@ const {
   boardRaw,
   updateBoardDebounced,
 } = useBoard()
+
+const isShowForm = ref(false)
 
 const column = computed(() => boardRaw.value?.columns.find(i => i._id === props.id))
 
@@ -81,10 +84,25 @@ function onChange(event: any) {
           />
         </template>
       </Draggable>
-      <div class="flex items-center p-2 text-sm text-muted-foreground">
-        <Icon name="lucide:plus" />
-        New
+      <div class="flex items-center mt-2 text-sm">
+        <Button
+          v-if="!isShowForm"
+          size="sm"
+          variant="ghost"
+          class="text-muted-foreground"
+          @click="isShowForm = !isShowForm"
+        >
+          <Icon name="lucide:plus" />
+          <UiText class="text-muted-foreground">
+            New
+          </UiText>
+        </Button>
       </div>
+      <BoardColumnAddNote
+        v-if="isShowForm"
+        :index="index"
+        @close="isShowForm = false"
+      />
     </div>
   </div>
 </template>
