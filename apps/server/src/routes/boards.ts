@@ -29,11 +29,18 @@ app
     '/',
     async ({ body, store, set }) => {
       const user = await User.findById(store.userId)
+      const boards = await Board.find({ userId: store.userId }).lean()
 
       if (!user) {
         set.status = 400
         throw new Error('User not found')
       }
+
+      if ((user.isGuest || !user.isActive) && boards.length >= 1) {
+        set.status = 403
+        throw new Error('You are not allowed to create more boards')
+      }
+
       const board = await Board.create({
         ...body,
         userId: user._id,
@@ -82,8 +89,11 @@ app
         .sort({ [sort]: order })
         .lean()
 
+      const userBoards = await Board.find({ userId: store.userId }).lean()
+
       return {
         count: boards.length,
+        own: userBoards.length,
         items: JSON.parse(JSON.stringify(boards)),
       } as any
     },

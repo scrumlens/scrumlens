@@ -50,7 +50,6 @@ app
 
       user.password = nanoid(12)
       user.email = generateGuestEmail()
-      user.isActive = true
       user.isGuest = true
 
       await user.save()
@@ -100,11 +99,6 @@ app
       if (!isValidPassword) {
         set.status = 400
         throw new Error('Invalid login or password')
-      }
-
-      if (!user.isActive) {
-        set.status = 400
-        throw new Error('Account is not active')
       }
 
       const { accessToken, refreshToken } = generateAccessTokens(user.id)

@@ -104,6 +104,7 @@ export const boardsDTO = new Elysia().model({
   boardResponse: boardItemExtended,
   boardsResponse: t.Object({
     count: t.Number(),
+    own: t.Number(),
     items: t.Array(boardItem),
   }),
   boardsQuery: commonQuery,
