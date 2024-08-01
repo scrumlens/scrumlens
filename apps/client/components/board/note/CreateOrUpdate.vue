@@ -6,7 +6,11 @@ import { onClickOutside, useFocus } from '@vueuse/core'
 import { useBoard } from '@/components/board/composables'
 
 interface Props {
-  index: number
+  noteId?: string
+  index?: number
+  edit?: boolean
+  text?: string
+  focusDelay?: number
 }
 
 const props = defineProps<Props>()
@@ -19,7 +23,7 @@ const formRef = ref()
 const isPending = ref(false)
 
 const { focused } = useFocus(textareaRef)
-const { addNote } = useBoard()
+const { addNote, updateNote } = useBoard()
 
 const formSchema = toTypedSchema(
   z.object({
@@ -31,16 +35,31 @@ interface Emits {
   (e: 'close'): void
 }
 
-const { handleSubmit, resetForm } = useForm({
+const { handleSubmit, resetForm, setValues } = useForm({
   validationSchema: formSchema,
 })
+
+if (props.text && props.edit) {
+  setValues({ text: props.text })
+}
 
 const onSubmit = handleSubmit(async (values) => {
   try {
     isPending.value = true
-    await addNote(values.text, props.index)
-    resetForm()
-    nextTick(() => focused.value = true)
+
+    if (!props.edit && props.index) {
+      await addNote(values.text, props.index)
+      resetForm()
+      nextTick(() => focused.value = true)
+    }
+    else {
+      if (!props.noteId)
+        return
+      await updateNote(props.noteId, {
+        content: values.text,
+      })
+      emit('close')
+    }
   }
   catch (err) {
     console.error(err)
@@ -49,8 +68,18 @@ const onSubmit = handleSubmit(async (values) => {
     isPending.value = false
   }
 })
+// Компонент может быть создан при открытии из popper (dropdown menu).
+// Поскольку radix использует focus guard c установкой aria-hidden="true",
+// который снимается после окончания анимации, то в этом случае необходимо
+// задать фокус на элементе через задержку, чтобы избежать ошибки в браузере.
+// TODO найти решение не такое костыльное
+if (props.focusDelay) {
+  setTimeout(() => focused.value = true, props.focusDelay)
+}
+else {
+  nextTick(() => focused.value = true)
+}
 
-nextTick(() => focused.value = true)
 onClickOutside(formRef, () => emit('close'))
 </script>
 
@@ -86,7 +115,7 @@ onClickOutside(formRef, () => emit('close'))
           class="w-full"
           :disabled="isPending"
         >
-          Submit
+          {{ edit ? 'Update' : 'Add Note' }}
         </Button>
         <Button
           type="submit"

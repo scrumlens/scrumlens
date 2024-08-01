@@ -77,9 +77,6 @@ function onChange(event: any) {
         <template #item="{ element }">
           <BoardNote
             :id="element._id"
-            :vote-up="element?.voteUp"
-            :vote-down="element?.voteDown"
-            :reactions="element?.reactions"
             :data="element"
           />
         </template>
@@ -98,7 +95,7 @@ function onChange(event: any) {
           </UiText>
         </Button>
       </div>
-      <BoardColumnAddNote
+      <BoardNoteCreateOrUpdate
         v-if="isShowForm"
         :index="index"
         @close="isShowForm = false"
