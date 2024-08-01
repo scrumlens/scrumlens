@@ -6,7 +6,7 @@ import { useBoard } from '@/components/board/composables'
 const note = inject(NOTE_KEY)
 
 const { userRaw } = useUser()
-const { addReaction } = useBoard()
+const { updateNote } = useBoard()
 
 const emojis: Emoji[] = [
   { name: 'thinking-face', value: '🤔' },
@@ -25,7 +25,10 @@ function onReaction(emoji: Emoji['name']) {
   if (!note?.data.value._id)
     return
 
-  addReaction(note?.data.value._id, emoji)
+  updateNote(note?.data.value._id, {
+    reactions: emoji,
+  })
+
   isOpen.value = false
 }
 

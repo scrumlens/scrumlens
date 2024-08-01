@@ -76,33 +76,6 @@ function removeColumnItem(columnId: string, itemId: string) {
   column.noteIds = noteIds
 }
 
-async function upVote(noteId: string) {
-  try {
-    await api.notes.patchNotesById(noteId, { voteUp: true })
-  }
-  catch (err) {
-    console.error(err)
-  }
-}
-
-async function downVote(noteId: string) {
-  try {
-    await api.notes.patchNotesById(noteId, { voteDown: true })
-  }
-  catch (err) {
-    console.error(err)
-  }
-}
-
-async function addReaction(noteId: string, emoji: NoteUpdate['reactions']) {
-  try {
-    await api.notes.patchNotesById(noteId, { reactions: emoji })
-  }
-  catch (err) {
-    console.error(err)
-  }
-}
-
 async function addNote(content: string, columnIndex: number) {
   return api.notes.postNotes({
     boardId: boardRaw.value!._id,
@@ -124,9 +97,7 @@ export function useBoard() {
   return {
     addColumnItem,
     addNote,
-    addReaction,
     boardRaw,
-    downVote,
     getBoardById,
     isAdmin,
     moveColumnItem,
@@ -134,6 +105,5 @@ export function useBoard() {
     updateBoard,
     updateBoardDebounced,
     updateNote,
-    upVote,
   }
 }

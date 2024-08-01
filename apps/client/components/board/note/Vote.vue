@@ -4,7 +4,7 @@ import { useBoard } from '@/components/board/composables'
 
 const note = inject(NOTE_KEY)
 
-const { upVote, downVote } = useBoard()
+const { updateNote } = useBoard()
 const { userRaw } = useUser()
 </script>
 
@@ -24,7 +24,7 @@ const { userRaw } = useUser()
       size="xs"
       variant="ghost"
       class="flex gap-1"
-      @click="upVote(note?.data.value._id!)"
+      @click="updateNote(note?.data.value._id!, { voteUp: true })"
     >
       <Icon
         name="lucide:thumbs-up"
@@ -37,7 +37,7 @@ const { userRaw } = useUser()
     <Button
       size="xs"
       variant="ghost"
-      @click="downVote(note?.data.value._id!)"
+      @click="updateNote(note?.data.value._id!, { voteDown: true })"
     >
       <div class="flex items-center gap-1">
         <Icon
