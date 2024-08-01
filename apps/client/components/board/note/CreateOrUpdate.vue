@@ -2,7 +2,7 @@
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-import { onClickOutside, useFocus } from '@vueuse/core'
+import { onClickOutside, useFocus, useMagicKeys } from '@vueuse/core'
 import { useBoard } from '@/components/board/composables'
 
 interface Props {
@@ -25,6 +25,8 @@ const isPending = ref(false)
 const { focused } = useFocus(textareaRef)
 const { addNote, updateNote } = useBoard()
 
+const { meta_enter, ctrl_enter, escape } = useMagicKeys()
+
 const formSchema = toTypedSchema(
   z.object({
     text: z.string(),
@@ -42,6 +44,12 @@ const { handleSubmit, resetForm, setValues } = useForm({
 if (props.text && props.edit) {
   setValues({ text: props.text })
 }
+
+const shortcutText = computed(() => {
+  const keys = navigator.userAgent.includes('Mac') ? '⌘+Enter' : 'Ctrl+Enter'
+
+  return props.edit ? `${keys} for update` : `${keys} for add note`
+})
 
 const onSubmit = handleSubmit(async (values) => {
   try {
@@ -81,6 +89,18 @@ else {
 }
 
 onClickOutside(formRef, () => emit('close'))
+
+watchEffect(() => {
+  if (meta_enter.value || ctrl_enter.value) {
+    onSubmit()
+  }
+})
+
+watchEffect(() => {
+  if (escape.value) {
+    emit('close')
+  }
+})
 </script>
 
 <template>
@@ -108,6 +128,12 @@ onClickOutside(formRef, () => emit('close'))
       </FormItem>
     </FormField>
     <FormItem>
+      <UiText
+        size="sm"
+        class="text-muted-foreground"
+      >
+        {{ shortcutText }}
+      </UiText>
       <div class="flex gap-2">
         <Button
           type="submit"
@@ -117,6 +143,7 @@ onClickOutside(formRef, () => emit('close'))
         >
           {{ edit ? 'Update' : 'Add Note' }}
         </Button>
+
         <Button
           type="submit"
           size="sm"
