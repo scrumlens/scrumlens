@@ -94,6 +94,10 @@ app
         }
       }
 
+      if (body.content) {
+        note.content = body.content
+      }
+
       if (body.reactions) {
         const indexOfReaction = note.reactions.findIndex(
           r => r.userId.equals(userId) && r.emoji === body.reactions,
