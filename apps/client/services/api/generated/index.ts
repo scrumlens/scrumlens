@@ -145,8 +145,8 @@ export interface BoardsResponse {
 }
 
 export interface BoardsQuery {
-  limit?: string | (string | number);
-  page?: string | (string | number);
+  limit?: string | number;
+  page?: string | number;
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
@@ -637,8 +637,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | (string | number);
-        page?: string | (string | number);
+        limit?: string | number;
+        page?: string | number;
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";

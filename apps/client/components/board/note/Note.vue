@@ -9,7 +9,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const { boardRaw } = useBoard()
+const { boardRaw, deleteNote } = useBoard()
 
 const isEdit = ref(false)
 
@@ -23,7 +23,10 @@ provide(NOTE_KEY, {
     data-board-note
     class="p-2 bg-white dark:bg-slate-900 rounded-md border dark:border-slate-700 relative"
   >
-    <BoardNoteActions @edit="isEdit = true" />
+    <BoardNoteActions
+      @edit="isEdit = true"
+      @delete="deleteNote(props.data._id)"
+    />
     <div class="text-sm">
       <div class="font-bold">
         {{ boardRaw?.participants.find(i => i.userId === data.userId)?.name }}

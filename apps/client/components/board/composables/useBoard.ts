@@ -93,6 +93,15 @@ async function updateNote(noteId: string, update: NoteUpdate) {
   }
 }
 
+async function deleteNote(noteId: string) {
+  try {
+    api.notes.deleteNotesById(noteId)
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
 export function useBoard() {
   return {
     addColumnItem,
@@ -105,5 +114,6 @@ export function useBoard() {
     updateBoard,
     updateBoardDebounced,
     updateNote,
+    deleteNote,
   }
 }
