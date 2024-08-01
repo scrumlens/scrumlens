@@ -2,7 +2,7 @@ import { type ConcurrentlyCommandInput, concurrently } from 'concurrently'
 
 const commands: ConcurrentlyCommandInput[] = [
   {
-    command: 'cd apps/server && bun dev',
+    command: 'cd apps/server && bun --bun run dev',
     name: 'server',
   },
   {
