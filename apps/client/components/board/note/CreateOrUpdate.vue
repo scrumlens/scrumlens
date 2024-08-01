@@ -48,7 +48,7 @@ const onSubmit = handleSubmit(async (values) => {
     isPending.value = true
 
     if (!props.edit && props.index) {
-      await addNote(values.text, props.index)
+      await addNote(values.text.trim(), props.index)
       resetForm()
       nextTick(() => focused.value = true)
     }
@@ -56,7 +56,7 @@ const onSubmit = handleSubmit(async (values) => {
       if (!props.noteId)
         return
       await updateNote(props.noteId, {
-        content: values.text,
+        content: values.text.trim(),
       })
       emit('close')
     }
