@@ -3,9 +3,7 @@ import { useDashboard } from '@/components/dashboard/composables'
 
 const { getBoards, boardsRaw } = useDashboard()
 
-onMounted(() => {
-  getBoards()
-})
+await getBoards()
 </script>
 
 <template>

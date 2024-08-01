@@ -5,7 +5,7 @@ const route = useRoute()
 const { getBoardById } = useBoard()
 
 useWebSocket(`boards/${route.params.id}`)
-getBoardById(route.params.id as string)
+await getBoardById(route.params.id as string)
 </script>
 
 <template>
