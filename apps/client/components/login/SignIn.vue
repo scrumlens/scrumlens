@@ -6,6 +6,7 @@ import { NuxtLink } from '#components'
 
 const { login } = useAuth()
 const router = useRouter()
+const route = useRoute()
 
 const formSchema = toTypedSchema(
   z.object({
@@ -22,7 +23,12 @@ const onSubmit = handleSubmit(async (values) => {
   const isSuccess = await login(values)
 
   if (isSuccess) {
-    router.push('/')
+    if (route.query.redirect) {
+      router.push(route.query.redirect as string)
+    }
+    else {
+      router.push('/user/dashboard')
+    }
   }
 })
 </script>
@@ -83,11 +89,32 @@ const onSubmit = handleSubmit(async (values) => {
         Don't have an account?
         <Button
           :as="NuxtLink"
-          to="/login?type=signup"
+          :to="{
+            name: 'login',
+            query: {
+              type: 'signup',
+              redirect: route.query.redirect,
+            },
+          }"
           size="link"
           variant="link"
         >
           Sign Up
+        </Button>
+        or
+        <Button
+          :as="NuxtLink"
+          :to="{
+            name: 'login',
+            query: {
+              type: 'signup-as-guest',
+              redirect: route.query.redirect,
+            },
+          }"
+          size="link"
+          variant="link"
+        >
+          Join as Guest
         </Button>
       </UiText>
     </div>

@@ -21,7 +21,7 @@ export default defineNuxtRouteMiddleware((to) => {
 
     if (!isAuth.value && to.name !== 'login') {
       abortNavigation()
-      return navigateTo('/login')
+      return navigateTo(`/login?redirect=${to.fullPath}`)
     }
   }
 })
