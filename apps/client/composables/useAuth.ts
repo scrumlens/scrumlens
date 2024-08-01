@@ -52,10 +52,35 @@ async function logout() {
   }
 }
 
+async function signupGuest(name: string) {
+  const { start, finish } = useLoadingIndicator()
+
+  try {
+    start()
+    await api.auth.postAuthSignupGuest({ name })
+    authStore.value = true
+    return true
+  }
+  catch (err) {
+    console.error(err)
+    toast({
+      title: 'Something went wrong.',
+      description: 'Please try again later.',
+      variant: 'destructive',
+    })
+    return false
+  }
+  finally {
+    finish()
+  }
+}
+
 export function useAuth() {
   return {
+    authStore,
     isAuth,
     login,
     logout,
+    signupGuest,
   }
 }

@@ -23,7 +23,7 @@ if (isAuth.value) {
     <div class="flex-grow flex-shrink-0 flex items-center justify-center dark:bg-slate-950">
       <div class="flex flex-col items-center">
         <LogoSvg
-          class="h-9 dark:invert"
+          class="h-9"
           :font-controlled="false"
         />
         <UiHeading
@@ -43,6 +43,7 @@ if (isAuth.value) {
     <div class="flex-grow flex-shrink-0 flex items-center justify-center bg-primary-foreground dark:bg-primary-foreground">
       <div class="w-[350px]">
         <LoginSignUp v-if="$route.query.type === 'signup'" />
+        <LoginSignUpGuest v-else-if="$route.query.type === 'signup-as-guest'" />
         <LoginSignIn v-else />
       </div>
     </div>
