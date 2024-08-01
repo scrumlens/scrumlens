@@ -1,8 +1,20 @@
 import { useDebounceFn } from '@vueuse/core'
 import { api } from '~/services/api'
-import type { BoardResponse, BoardUpdate } from '~/services/api/generated'
+import type {
+  BoardResponse,
+  BoardUpdate,
+  NoteUpdate,
+} from '~/services/api/generated'
 
 const boardRaw = ref<BoardResponse>()
+
+const { userRaw } = useUser()
+
+const isAdmin = computed(
+  () =>
+    boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
+      ?.role === 'admin',
+)
 
 async function getBoardById(id: string) {
   try {
@@ -64,14 +76,44 @@ function removeColumnItem(columnId: string, itemId: string) {
   column.noteIds = noteIds
 }
 
+async function addNote(content: string, columnIndex: number) {
+  return api.notes.postNotes({
+    boardId: boardRaw.value!._id,
+    columnIndex: String(columnIndex),
+    content,
+  })
+}
+
+async function updateNote(noteId: string, update: NoteUpdate) {
+  try {
+    await api.notes.patchNotesById(noteId, update)
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
+async function deleteNote(noteId: string) {
+  try {
+    api.notes.deleteNotesById(noteId)
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
+
 export function useBoard() {
   return {
     addColumnItem,
+    addNote,
     boardRaw,
     getBoardById,
+    isAdmin,
     moveColumnItem,
     removeColumnItem,
     updateBoard,
     updateBoardDebounced,
+    updateNote,
+    deleteNote,
   }
 }

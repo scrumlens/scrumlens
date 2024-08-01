@@ -11,9 +11,10 @@ const { boardRaw } = useBoard()
   >
     <div class="flex gap-3">
       <BoardColumn
-        v-for="i in boardRaw?.columns"
+        v-for="(i, index) in boardRaw?.columns"
         :id="i._id"
         :key="i._id"
+        :index="index"
       />
     </div>
   </div>

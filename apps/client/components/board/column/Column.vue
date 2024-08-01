@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
-import { useBoard } from './composables'
+import { useBoard } from '@/components/board/composables'
 
 interface Props {
   id: string
+  index: number
 }
 
 const props = defineProps<Props>()
@@ -15,6 +16,8 @@ const {
   boardRaw,
   updateBoardDebounced,
 } = useBoard()
+
+const isShowForm = ref(false)
 
 const column = computed(() => boardRaw.value?.columns.find(i => i._id === props.id))
 
@@ -45,7 +48,7 @@ function onChange(event: any) {
     data-board-column
     class="min-w-96 max-w-96 my-3 flex flex-col gap-2"
   >
-    <div class="bg-primary-foreground rounded-md p-2">
+    <div class="bg-primary-foreground dark:bg-slate-900/50 rounded-md p-2">
       <div class="mb-2 space-y-2 text-sm">
         <div class="flex items-center justify-between">
           <div
@@ -72,13 +75,31 @@ function onChange(event: any) {
         @change="onChange"
       >
         <template #item="{ element }">
-          <BoardNote :id="element._id" />
+          <BoardNote
+            :id="element._id"
+            :data="element"
+          />
         </template>
       </Draggable>
-      <div class="flex items-center p-2 text-sm text-muted-foreground">
-        <Icon name="lucide:plus" />
-        New
+      <div class="flex items-center mt-2 text-sm">
+        <Button
+          v-if="!isShowForm"
+          size="sm"
+          variant="ghost"
+          class="text-muted-foreground w-full justify-start"
+          @click="isShowForm = !isShowForm"
+        >
+          <Icon name="lucide:plus" />
+          <UiText class="text-muted-foreground">
+            New
+          </UiText>
+        </Button>
       </div>
+      <BoardNoteCreateOrUpdate
+        v-if="isShowForm"
+        :index="index"
+        @close="isShowForm = false"
+      />
     </div>
   </div>
 </template>
