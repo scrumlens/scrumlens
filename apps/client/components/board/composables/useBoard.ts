@@ -1,20 +1,47 @@
 import { useDebounceFn } from '@vueuse/core'
-import { api } from '~/services/api'
+import { api, getErrorData } from '~/services/api'
 import type {
+  BoardAdd,
   BoardResponse,
   BoardUpdate,
+  BoardsResponse,
   NoteUpdate,
 } from '~/services/api/generated'
+import { useToast } from '@/components/ui/shadcn/toast/use-toast'
+import { TEMPLATES } from '~/db/templates'
+import type { BoardTemplate } from '~/types'
 
+const boardsRaw = ref<BoardsResponse>()
 const boardRaw = ref<BoardResponse>()
 
 const { userRaw } = useUser()
+const { toast } = useToast()
+
+const editId = ref()
+
+const editBoardRaw = computed(() =>
+  boardsRaw.value?.items.find(b => b._id === editId.value),
+)
 
 const isAdmin = computed(
   () =>
     boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
       ?.role === 'admin',
 )
+
+const isCanCreateNewBoard = computed(() => userRaw.value?.isActive)
+
+const isOpenEditDialog = ref(false)
+
+async function getBoards() {
+  try {
+    const { data } = await api.boards.getBoards()
+    boardsRaw.value = data
+  }
+  catch (err) {
+    console.error(err)
+  }
+}
 
 async function getBoardById(id: string) {
   try {
@@ -26,12 +53,51 @@ async function getBoardById(id: string) {
   }
 }
 
+async function addBoard(board: BoardAdd & { template: BoardTemplate }) {
+  const { title, accessPolicy, template } = board
+
+  if (!isCanCreateNewBoard.value)
+    return
+
+  try {
+    await api.boards.postBoards({
+      title,
+      accessPolicy,
+      columns: TEMPLATES[template],
+    })
+  }
+  catch (err) {
+    const data = await getErrorData(err)
+    console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
+  }
+}
+
 async function updateBoard(id: string, update: BoardUpdate) {
   try {
     await api.boards.patchBoardsById(id, update)
   }
   catch (err) {
     console.error(err)
+  }
+}
+
+async function deleteBoard(id: string) {
+  try {
+    await api.boards.deleteBoardsById(id)
+  }
+  catch (err) {
+    const data = await getErrorData(err)
+    console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
   }
 }
 
@@ -89,7 +155,13 @@ async function updateNote(noteId: string, update: NoteUpdate) {
     await api.notes.patchNotesById(noteId, update)
   }
   catch (err) {
+    const data = await getErrorData(err)
     console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
   }
 }
 
@@ -98,22 +170,36 @@ async function deleteNote(noteId: string) {
     api.notes.deleteNotesById(noteId)
   }
   catch (err) {
+    const data = await getErrorData(err)
     console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
   }
 }
 
 export function useBoard() {
   return {
+    addBoard,
     addColumnItem,
     addNote,
     boardRaw,
+    boardsRaw,
+    deleteBoard,
+    deleteNote,
+    editBoardRaw,
+    editId,
     getBoardById,
+    getBoards,
     isAdmin,
+    isCanCreateNewBoard,
+    isOpenEditDialog,
     moveColumnItem,
     removeColumnItem,
     updateBoard,
     updateBoardDebounced,
     updateNote,
-    deleteNote,
   }
 }

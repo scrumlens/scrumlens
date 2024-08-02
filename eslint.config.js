@@ -8,6 +8,7 @@ export default antfu({
         singleline: 1,
       },
     ],
+    'vue/no-v-text-v-html-on-component': ['error', { allow: ['ui-text'] }],
     'eslint-comments/no-unlimited-disable': 'off',
   },
   formatters: {

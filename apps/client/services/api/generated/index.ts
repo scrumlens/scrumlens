@@ -121,6 +121,7 @@ export interface BoardResponse {
 
 export interface BoardsResponse {
   count: number;
+  own: number;
   items: {
     _id: string;
     title: string;
@@ -145,8 +146,8 @@ export interface BoardsResponse {
 }
 
 export interface BoardsQuery {
-  limit?: string | number;
-  page?: string | number;
+  limit?: string | (string | number);
+  page?: string | (string | number);
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
@@ -637,8 +638,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | number;
-        page?: string | number;
+        limit?: string | (string | number);
+        page?: string | (string | number);
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";
