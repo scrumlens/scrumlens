@@ -19,6 +19,7 @@
     "@vueuse/core": "^10.11.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
     "ky": "^1.5.0",
     "lucide-vue-next": "^0.417.0",
     "nuxt": "^3.12.4",

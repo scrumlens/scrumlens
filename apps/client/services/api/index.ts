@@ -1,4 +1,4 @@
-import ky from 'ky'
+import ky, { HTTPError } from 'ky'
 import { Api } from './generated'
 
 const customFetch = ky.create({
@@ -27,6 +27,15 @@ const customFetch = ky.create({
     ],
   },
 })
+
+export async function getErrorData(
+  err: any,
+): Promise<{ name: string, message: string }> {
+  if (err instanceof HTTPError)
+    return await err.response.json()
+
+  return { name: 'Error', message: 'Please try again later' }
+}
 
 export const api = new Api({
   baseUrl: '/api',

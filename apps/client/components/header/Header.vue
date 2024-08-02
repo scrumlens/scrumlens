@@ -23,6 +23,7 @@ const { boardRaw } = useBoard()
         <span>
           {{ boardRaw?.title }}
         </span>
+        <Icon :name="boardRaw.isLocked ? 'lucide:lock' : 'lucide:lock-open'" />
       </div>
     </div>
     <div class="flex items-center gap-6">
