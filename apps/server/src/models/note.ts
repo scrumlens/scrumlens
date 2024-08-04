@@ -27,7 +27,7 @@ const reactionSchema = new Schema(
   },
 )
 
-const noteSchema = new Schema(
+export const noteSchema = new Schema(
   {
     content: {
       type: String,
