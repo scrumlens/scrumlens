@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { version } from '../../../../package.json'
+import { repository, version } from '../../../../package.json'
 import { useBoard } from './composables'
 
 const { boardRaw } = useBoard()
@@ -23,7 +23,12 @@ const { boardRaw } = useBoard()
         size="sm"
         variant="muted"
       >
-        v{{ version }}
+        v{{ version }} • <a
+          :href="repository"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline"
+        >GitHub</a>
       </UiText>
     </div>
   </div>
