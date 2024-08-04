@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { version } from '../../../package.json'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
 definePageMeta({
@@ -35,8 +36,8 @@ if (isAuth.value) {
         <UiText>
           Analyze work patterns, identify trends, and grow together
         </UiText>
-        <UiText class="text-muted-foreground text-xs">
-          © {{ year }}
+        <UiText class="text-muted-foreground text-xs text-center">
+          © {{ year }} • Anton Reshetov <br> v{{ version }}
         </UiText>
       </div>
     </div>
