@@ -32,7 +32,8 @@ export interface VerifyToken {
 }
 
 export interface UserUpdate {
-  name: string;
+  name?: string;
+  password?: string;
 }
 
 export interface UsersMeResponse {
@@ -521,6 +522,7 @@ export class Api<
     /**
      * No description
      *
+     * @tags Auth
      * @name PostAuthVerifyResend
      * @request POST:/auth/verify-resend
      */
