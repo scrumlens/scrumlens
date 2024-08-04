@@ -11,6 +11,8 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
+const isPending = ref(false)
+
 const { addBoard, getBoards } = useBoard()
 
 const formSchema = toTypedSchema(
@@ -49,6 +51,7 @@ const templateOptions: { label: string, value: BoardTemplate }[] = [
 ]
 
 const onSubmit = handleSubmit(async (values) => {
+  isPending.value = true
   await addBoard({
     title: values.title,
     template: values.template as BoardTemplate,
@@ -56,6 +59,7 @@ const onSubmit = handleSubmit(async (values) => {
   })
 
   await getBoards()
+  isPending.value = false
   emit('close')
 })
 </script>
@@ -128,6 +132,7 @@ const onSubmit = handleSubmit(async (values) => {
         type="submit"
         size="sm"
         class="w-full"
+        :disabled="isPending"
       >
         Create
       </Button>
