@@ -52,7 +52,7 @@ export function generateVerifyToken(userId: string) {
       userId,
     },
     Bun.env.SECRET_KEY,
-    { expiresIn: '15m' },
+    { expiresIn: '5d' },
   )
 }
 

@@ -12,10 +12,13 @@
     "elysia": "^1.1.4",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",
-    "nanoid": "^5.0.7"
+    "nanoid": "^5.0.7",
+    "nodemailer": "^6.9.14",
+    "resend": "^3.5.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/nodemailer": "^6.4.15",
     "bun-types": "latest"
   }
 }

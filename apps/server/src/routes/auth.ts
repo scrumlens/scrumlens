@@ -9,10 +9,13 @@ import {
   verifyToken,
 } from '@/utils'
 import { Cookie } from '@/types'
+import { sendVerifyEmail } from '@/services/email'
+import middleware from '@/middleware'
 
 const app = new Elysia({ prefix: '/auth' })
 
 app
+  .use(middleware)
   .use(authDTO)
   /**
    * Регистрация
@@ -26,7 +29,7 @@ app
         const user = new User(body)
         await user.save()
 
-        // TODO отправка письма с ссылкой для активации аккаунта
+        await sendVerifyEmail(user.email, user.id)
       }
       catch (err) {
         console.error(err)
@@ -213,6 +216,22 @@ app
       detail: {
         tags: ['Auth'],
       },
+    },
+  )
+  .post(
+    '/verify-resend',
+    async ({ store, set }) => {
+      const user = await User.findById(store.userId)
+
+      if (!user) {
+        set.status = 400
+        throw new Error('User not found')
+      }
+
+      await sendVerifyEmail(user.email, user.id)
+    },
+    {
+      requiredAuth: true,
     },
   )
 

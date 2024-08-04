@@ -11,3 +11,9 @@ export const WebSocketEvent = {
   BoardUpdate: 'board:update',
   BoardSync: 'board:sync',
 } as const
+
+export interface SendEmailOptions {
+  to: string
+  subject: string
+  html: string
+}
