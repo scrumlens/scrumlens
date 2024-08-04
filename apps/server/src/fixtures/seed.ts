@@ -227,7 +227,7 @@ async function seed() {
   // MARK: Sad
   const note6 = new Note({
     content: 'Struggled with some performance issues in the real-time updates.',
-    userId: users[0]._id,
+    userId: users[1]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [users[1]._id],
@@ -239,7 +239,7 @@ async function seed() {
 
   const note7 = new Note({
     content: 'Had to delay the export feature due to unexpected complexities.',
-    userId: users[1]._id,
+    userId: users[2]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [users[0]._id],
@@ -269,7 +269,7 @@ async function seed() {
 
   const note9 = new Note({
     content: 'User testing revealed some confusion with the new navigation.',
-    userId: users[3]._id,
+    userId: users[0]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [],
@@ -281,7 +281,7 @@ async function seed() {
 
   const note10 = new Note({
     content: 'Difficulty in managing the growing complexity of the codebase.',
-    userId: users[4]._id,
+    userId: users[2]._id,
     boardId: board._id,
     voteUp: [users[0]._id, users[1]._id, users[2]._id],
     voteDown: [],
@@ -306,7 +306,7 @@ async function seed() {
 
   const note11 = new Note({
     content: 'User retention rates lower than expected after the last update.',
-    userId: users[0]._id,
+    userId: users[2]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [],
@@ -335,7 +335,7 @@ async function seed() {
 
   const note13 = new Note({
     content: 'Struggled to meet accessibility standards in some areas.',
-    userId: users[2]._id,
+    userId: users[1]._id,
     boardId: board._id,
     voteUp: [users[0]._id, users[1]._id, users[2]._id],
     voteDown: [],
@@ -358,7 +358,7 @@ async function seed() {
   const note14 = new Note({
     content:
       'Frequent context switching disrupted focus on core development tasks.',
-    userId: users[0]._id,
+    userId: users[4]._id,
     boardId: board._id,
     voteUp: [users[1]._id, users[2]._id],
     voteDown: [],
@@ -380,7 +380,7 @@ async function seed() {
   const note15 = new Note({
     content:
       'Limited documentation made onboarding new team members difficult.',
-    userId: users[1]._id,
+    userId: users[0]._id,
     boardId: board._id,
     voteUp: [users[0]._id, users[2]._id],
     voteDown: [],
@@ -418,7 +418,7 @@ async function seed() {
 
   const note17 = new Note({
     content: 'Last-minute feature requests impacted our planned sprint goals.',
-    userId: users[3]._id,
+    userId: users[2]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [],
@@ -464,7 +464,7 @@ async function seed() {
 
   const note19 = new Note({
     content: 'Recurring technical debt slowing down new feature development.',
-    userId: users[0]._id,
+    userId: users[1]._id,
     boardId: board._id,
     voteUp: [],
     voteDown: [],
