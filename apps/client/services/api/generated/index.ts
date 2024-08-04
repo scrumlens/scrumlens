@@ -146,8 +146,8 @@ export interface BoardsResponse {
 }
 
 export interface BoardsQuery {
-  limit?: string | (string | number);
-  page?: string | (string | number);
+  limit?: string | number;
+  page?: string | number;
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
@@ -288,9 +288,9 @@ export class HttpClient<SecurityDataType = unknown> {
       input !== null && typeof input !== "string"
         ? JSON.stringify(input)
         : input,
-    [ContentType.FormData]: (input: FormData) =>
-      (Array.from(input.keys()) || []).reduce((formData, key) => {
-        const property = input.get(key);
+    [ContentType.FormData]: (input: any) =>
+      Object.keys(input || {}).reduce((formData, key) => {
+        const property = input[key];
         formData.append(
           key,
           property instanceof Blob
@@ -517,6 +517,19 @@ export class Api<
         type: ContentType.Json,
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @name PostAuthVerifyResend
+     * @request POST:/auth/verify-resend
+     */
+    postAuthVerifyResend: (params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/auth/verify-resend`,
+        method: "POST",
+        ...params,
+      }),
   };
   users = {
     /**
@@ -638,8 +651,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | (string | number);
-        page?: string | (string | number);
+        limit?: string | number;
+        page?: string | number;
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";
