@@ -232,6 +232,9 @@ app
     },
     {
       requiredAuth: true,
+      detail: {
+        tags: ['Auth'],
+      },
     },
   )
 
