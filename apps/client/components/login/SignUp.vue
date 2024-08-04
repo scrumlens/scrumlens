@@ -3,10 +3,16 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { NuxtLink } from '#components'
+import { api } from '~/services/api'
+import { useToast } from '@/components/ui/shadcn/toast/use-toast'
+
+const { toast } = useToast()
+const router = useRouter()
 
 const formSchema = toTypedSchema(
   z
     .object({
+      name: z.string().min(1),
       email: z.string().email(),
       password: z.string().min(5),
       passwordConfirm: z.string(),
@@ -21,8 +27,27 @@ const { handleSubmit } = useForm({
   validationSchema: formSchema,
 })
 
-const onSubmit = handleSubmit(async () => {
-  // TODO добавить позже
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    await api.auth.postAuthSignup({
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    })
+    toast({
+      title: 'You have successfully signed up!',
+      description: 'Now you can sign in.',
+    })
+    router.push({ name: 'login' })
+  }
+  catch (err) {
+    console.error(err)
+    toast({
+      title: 'Something went wrong.',
+      description: 'Please try again later.',
+      variant: 'destructive',
+    })
+  }
 })
 </script>
 
@@ -34,6 +59,23 @@ const onSubmit = handleSubmit(async () => {
     class="space-y-4 text-foreground"
     @submit="onSubmit"
   >
+    <FormField
+      v-slot="{ componentField }"
+      name="name"
+      :validate-on-model-update="false"
+      :validate-on-blur="false"
+    >
+      <FormItem>
+        <FormLabel>Name</FormLabel>
+        <FormControl>
+          <Input
+            type="text"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
     <FormField
       v-slot="{ componentField }"
       name="email"
