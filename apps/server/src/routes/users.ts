@@ -34,7 +34,21 @@ app
   .patch(
     '/me',
     async ({ store, body }) => {
-      await User.findByIdAndUpdate(store.userId, body)
+      const user = await User.findById(store.userId)
+
+      if (!user) {
+        throw new Error('User not found')
+      }
+
+      if (body.name) {
+        user.name = body.name
+      }
+
+      if (body.password) {
+        user.password = body.password
+      }
+
+      await user.save()
 
       return { message: 'User updated' }
     },
