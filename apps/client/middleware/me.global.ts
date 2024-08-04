@@ -1,4 +1,7 @@
-export default defineNuxtRouteMiddleware(async () => {
+export default defineNuxtRouteMiddleware(async (to) => {
+  if (to.name === 'auth-verify')
+    return
+
   const { isAuth } = useAuth()
   const { userRaw, getUser } = useUser()
 

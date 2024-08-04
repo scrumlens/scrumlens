@@ -1,6 +1,9 @@
 import { Cookie } from '../../../shared/types'
 
 export default defineNuxtRouteMiddleware((to) => {
+  if (to.name === 'auth-verify')
+    return
+
   if (import.meta.server) {
     const token = useCookie(Cookie.AccessToken)
 
@@ -17,7 +20,7 @@ export default defineNuxtRouteMiddleware((to) => {
     const { isAuth } = useAuth()
 
     if (isAuth.value && to.name === 'login')
-      return navigateTo('/')
+      return navigateTo('/user/dashboard')
 
     if (!isAuth.value && to.name !== 'login') {
       abortNavigation()

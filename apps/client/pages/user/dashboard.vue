@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useBoard } from '@/components/board/composables'
 
-const { getBoards, boardsRaw, isCanCreateNewBoard, isOpenEditDialog } = useBoard()
+const { userRaw } = useUser()
+const { getBoards, boardsRaw, isOpenEditDialog } = useBoard()
 
 await getBoards()
 
@@ -14,17 +15,15 @@ const boardsStatic = computed(() => {
 
 <template>
   <div data-user-dashboard>
+    <UserVerifyAlert />
     <UiHeading class="mb-7">
       Dashboard
     </UiHeading>
     <div class="mb-7">
       <UiText v-html="boardsStatic" />
-      <UiText v-if="!isCanCreateNewBoard">
-        You can't create new boards because you have not activated your account
-      </UiText>
     </div>
     <div class="grid grid-cols-4 gap-4">
-      <DashboardCardAdd />
+      <DashboardCardAdd v-if="!userRaw?.isGuest" />
       <NuxtLink
         v-for="i in boardsRaw?.items"
         :key="i._id"
