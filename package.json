@@ -1,7 +1,7 @@
 {
   "name": "scrumlens",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "description": "Agile Retrospective Tool",
   "author": {
@@ -14,16 +14,15 @@
     "dev": "bun main.ts",
     "seed:db": "bun apps/server/src/fixtures/seed.ts",
     "generate:api": "bun apps/client/scripts/api-generate.ts",
+    "release": "bumpp -c 'build: release v' -r --no-push",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
-  "workspaces": [
-    "apps/*"
-  ],
   "devDependencies": {
     "@antfu/eslint-config": "^2.19.1",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
+    "bumpp": "^9.4.2",
     "concurrently": "^8.2.2",
     "eslint": "^9.3.0",
     "eslint-plugin-format": "^0.1.2",
@@ -40,5 +39,8 @@
       "prettier --write",
       "eslint --fix"
     ]
-  }
+  },
+  "workspaces": [
+    "apps/*"
+  ]
 }
