@@ -14,7 +14,8 @@
     "dev": "bun main.ts",
     "seed:db": "bun apps/server/src/fixtures/seed.ts",
     "generate:api": "bun apps/client/scripts/api-generate.ts",
-    "release": "bumpp -c 'build: release v' -r --no-push",
+    "release": "bumpp -c 'build: release v'",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
