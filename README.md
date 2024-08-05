@@ -7,7 +7,9 @@
 <p align="center">
   <strong>Agile Retrospective Tool</strong>
   <br>
-  Analyze work patterns, identify trends, and grow together
+  Retrospectives that actually move the needle.
+  <br>
+  Open-source, real-time, and designed to make your team's voice heard loud and clear
 </p>
 
 <p align="center">
@@ -16,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://scrumlens.com/app">Website</a> |
+  <a href="https://scrumlens.com">Website</a> |
   <a href="https://github.com/scrumlens/scrumlens/blob/main/CHANGELOG.md">Change Log</a>
 </p>
 
@@ -25,6 +27,43 @@
 > We strongly recommend using our app for familiarization purposes only at this time. This will allow you to get acquainted with the main features and capabilities of our project, without risking the occurrence of unexpected situations.
 
 TODO: write a detailed README
+
+## Development
+
+### Prerequisites
+
+
+The project uses Bun for building and running. Please make sure you have [Bun](https://bun.sh/) installed.
+
+```
+# Install dependencies
+bun install
+
+# Run the app
+bun run dev
+```
+
+- Client available at http://localhost:3000
+- Server available at http://localhost:3030
+- API docs available at http://localhost:3030/swagger
+
+### Structure
+
+The project is monorepo with folders:
+
+- `/apps/client` - Nuxt app
+- `/apps/server` - Elysia app
+
+## Roadmap
+
+- [ ] Private boards & invitation system
+- [ ] Participants ban system
+- [ ] Comments system
+- [ ] Locking board
+- [ ] Polling
+- [ ] Timers
+- [ ] Gifs in notes
+- [ ] Export board data to PDF, CSV, etc.
 
 ## Follow
  - News and updates on [X](https://twitter.com/anton_reshetov).
