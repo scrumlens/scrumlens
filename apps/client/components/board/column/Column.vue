@@ -16,7 +16,9 @@ const {
   removeColumnItem,
   boardRaw,
   updateBoardDebounced,
+  isAdmin,
 } = useBoard()
+const { userRaw } = useUser()
 
 const isShowForm = ref(false)
 
@@ -73,11 +75,14 @@ function onChange(event: any) {
         group="common"
         class="flex flex-col gap-2 min-h-10"
         item-key="_id"
+        filter=".no-drag"
         @change="onChange"
       >
         <template #item="{ element }">
           <BoardNote
             :id="element._id"
+            :class="{ 'no-drag': element.userId !== userRaw?._id && !isAdmin }"
+            class="cursor-grab [&.no-drag]:cursor-default"
             :data="element"
           />
         </template>
