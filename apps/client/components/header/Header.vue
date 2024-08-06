@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Lock, LockOpen } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
@@ -23,7 +24,14 @@ const { boardRaw } = useBoard()
         <span>
           {{ boardRaw?.title }}
         </span>
-        <Icon :name="boardRaw.isLocked ? 'lucide:lock' : 'lucide:lock-open'" />
+        <Lock
+          v-if="boardRaw.isLocked"
+          class="w-3.5 h-3.5"
+        />
+        <LockOpen
+          v-else
+          class="w-3.5 h-3.5"
+        />
       </div>
     </div>
     <div class="flex items-center gap-6">

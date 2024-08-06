@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
+import { Plus } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 
 interface Props {
@@ -89,7 +90,7 @@ function onChange(event: any) {
           class="text-muted-foreground w-full justify-start"
           @click="isShowForm = !isShowForm"
         >
-          <Icon name="lucide:plus" />
+          <Plus class="w-4 h-4" />
           <UiText class="text-muted-foreground">
             New
           </UiText>

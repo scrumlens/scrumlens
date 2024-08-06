@@ -2,6 +2,7 @@
 import type { Emoji } from './types'
 import { NOTE_KEY } from './types'
 import { useBoard } from '@/components/board/composables'
+import { SmilePlus } from 'lucide-vue-next'
 
 const note = inject(NOTE_KEY)
 
@@ -49,7 +50,7 @@ function isEmojiBelongsToUser(emoji: string) {
             size="icon-sm"
             variant="ghost"
           >
-            <Icon name="lucide:smile-plus" />
+            <SmilePlus class="w-3.5 h-3.5" />
           </Button>
         </div>
       </PopoverTrigger>

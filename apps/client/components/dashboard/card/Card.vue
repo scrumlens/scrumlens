@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
+import { CalendarDays, Columns2, Globe, GlobeLock, Lock, LockOpen, StickyNote, UsersRound } from 'lucide-vue-next'
 import type { BoardsResponse } from '~/services/api/generated'
 
 interface Props {
@@ -32,24 +33,29 @@ const isUserOwner = computed(() => userRaw.value?._id === props.data.userId)
     </UiHeading>
 
     <div class="flex items-center gap-2 mt-3">
-      <Icon
-        class="text-muted-foreground"
-        :name="data.isLocked ? 'lucide:lock' : 'lucide:lock-open'"
+      <Lock
+        v-if="data.isLocked"
+        class="w-3.5 h-3.5 text-muted-foreground"
+      />
+      <LockOpen
+        v-else
+        class="w-3.5 h-3.5 text-muted-foreground"
       />
       <UiText size="sm">
         {{ data.isLocked ? 'Locked' : 'Unlocked' }}
       </UiText>
-      <Icon
-        class="text-muted-foreground"
-        :name="data.accessPolicy === 'public' ? 'lucide:globe' : 'lucide:globe-lock'"
+      <Globe
+        v-if="data.accessPolicy === 'public'"
+        class="w-3.5 h-3.5 text-muted-foreground"
+      />
+      <GlobeLock
+        v-else
+        class="w-3.5 h-3.5 text-muted-foreground"
       />
       <UiText size="sm">
         {{ data.accessPolicy === 'public' ? 'Public' : 'Private' }}
       </UiText>
-      <Icon
-        name="lucide:calendar-days"
-        class="text-muted-foreground"
-      />
+      <CalendarDays class="w-3.5 h-3.5 text-muted-foreground" />
       <UiText
         size="sm"
       >
@@ -58,24 +64,15 @@ const isUserOwner = computed(() => userRaw.value?._id === props.data.userId)
     </div>
     <div class="grid grid-cols-3 gap-3 bg-primary-foreground p-3 mt-3 text-xl">
       <div class="flex items-center gap-2">
-        <Icon
-          name="lucide:columns-2"
-          class="text-muted-foreground"
-        />
+        <Columns2 class="w-5 h-5 text-muted-foreground" />
         {{ data.columns.length }}
       </div>
       <div class="flex items-center gap-2">
-        <Icon
-          name="lucide:users-round"
-          class="text-muted-foreground"
-        />
+        <UsersRound class="w-5 h-5 text-muted-foreground" />
         {{ data.participants.length }}
       </div>
       <div class="flex items-center gap-2">
-        <Icon
-          name="lucide:sticky-note"
-          class="text-muted-foreground"
-        />
+        <StickyNote class="w-5 h-5 text-muted-foreground" />
         {{ data.notes.length }}
       </div>
     </div>

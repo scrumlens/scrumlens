@@ -6,6 +6,7 @@ import Draggable from 'vuedraggable'
 import { useBoard } from '@/components/board/composables'
 import type { BoardResponse } from '~/services/api/generated'
 import { Colors } from '~/types'
+import { AlignJustify } from 'lucide-vue-next'
 
 interface Emits {
   (e: 'close'): void
@@ -151,10 +152,7 @@ const colorOptions = [
         <template #item="{ element }">
           <div class="border rounded p-2 text-sm space-y-2 _flex items-center gap-1 w-full bg-primary-foreground">
             <div class="flex items-center gap-1">
-              <Icon
-                name="lucide:align-justify"
-                class="rotate-90 handle hover:cursor-grab"
-              />
+              <AlignJustify class="w-3.5 h-3.5 rotate-90 handle hover:cursor-grab" />
               <Input
                 v-model="element.title"
               />

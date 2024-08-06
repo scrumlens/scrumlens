@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useBoard } from '@/components/board/composables'
+import { Plus } from 'lucide-vue-next'
 
 const { isCanCreateNewBoard } = useBoard()
 
@@ -16,7 +17,7 @@ const isOpenCreateDialog = ref(false)
     @click="isOpenCreateDialog = true"
   >
     <div class="flex items-center gap-2 text-muted-foreground">
-      <Icon name="lucide:plus" />
+      <Plus class="w-3.5 h-3.5" />
       <UiText class="text-muted-foreground">
         New
       </UiText>
