@@ -19,10 +19,6 @@ const { toast } = useToast()
 
 const editId = ref()
 
-const editBoardRaw = computed(() =>
-  boardsRaw.value?.items.find(b => b._id === editId.value),
-)
-
 const isAdmin = computed(
   () =>
     boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
@@ -189,7 +185,6 @@ export function useBoard() {
     boardsRaw,
     deleteBoard,
     deleteNote,
-    editBoardRaw,
     editId,
     getBoardById,
     getBoards,
