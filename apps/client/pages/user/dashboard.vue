@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { useBoard } from '@/components/board/composables'
+import type { BoardResponse } from '~/services/api/generated'
 
 const { userRaw } = useUser()
-const { getBoards, boardsRaw, isOpenEditDialog } = useBoard()
+const { getBoards, boardsRaw, isOpenEditDialog, editId } = useBoard()
 
 await getBoards()
+
+const editBoard = computed(() => boardsRaw.value?.items.find(i => i._id === editId.value) as unknown as BoardResponse)
 
 const boardsStatic = computed(() => {
   const own = getNoun(boardsRaw.value?.own, 'board', 'boards', 'boards')
@@ -35,9 +38,13 @@ const boardsStatic = computed(() => {
     <Dialog v-model:open="isOpenEditDialog">
       <DialogContent class="max-w-[700px]">
         <DialogHeader>
-          <DialogTitle>Edit Retrospective Board</DialogTitle>
+          <DialogTitle>Edit Board</DialogTitle>
         </DialogHeader>
-        <BoardFormEdit @close="isOpenEditDialog = false" />
+        <BoardFormEdit
+          v-if="editBoard"
+          :data="editBoard"
+          @close="isOpenEditDialog = false"
+        />
       </DialogContent>
     </Dialog>
   </div>

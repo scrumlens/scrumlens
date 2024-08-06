@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { Lock, LockOpen } from 'lucide-vue-next'
+import { Lock, LockOpen, Pencil } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
-const { boardRaw } = useBoard()
+const { boardRaw, isAdmin } = useBoard()
+
+const isOpenEditDialog = ref(false)
 </script>
 
 <template>
@@ -26,12 +28,20 @@ const { boardRaw } = useBoard()
         </span>
         <Lock
           v-if="boardRaw.isLocked"
-          class="w-3.5 h-3.5"
+          class="w-3.5 h-3.5 text-muted-foreground"
         />
         <LockOpen
           v-else
-          class="w-3.5 h-3.5"
+          class="w-3.5 h-3.5 text-muted-foreground"
         />
+        <Button
+          v-if="isAdmin"
+          size="xs"
+          variant="ghost"
+          @click="isOpenEditDialog = true"
+        >
+          <Pencil class="w-3.5 h-3.5" />
+        </Button>
       </div>
     </div>
     <div class="flex items-center gap-6">
@@ -39,4 +49,19 @@ const { boardRaw } = useBoard()
       <HeaderUser />
     </div>
   </div>
+  <Dialog
+    v-if="isAdmin"
+    v-model:open="isOpenEditDialog"
+  >
+    <DialogContent class="max-w-[700px]">
+      <DialogHeader>
+        <DialogTitle>Edit Board</DialogTitle>
+      </DialogHeader>
+      <BoardFormEdit
+        v-if="boardRaw"
+        :data="boardRaw"
+        @close="isOpenEditDialog = false"
+      />
+    </DialogContent>
+  </Dialog>
 </template>

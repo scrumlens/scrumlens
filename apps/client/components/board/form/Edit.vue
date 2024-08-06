@@ -3,20 +3,26 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import Draggable from 'vuedraggable'
+import { AlignJustify } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 import type { BoardResponse } from '~/services/api/generated'
 import { Colors } from '~/types'
-import { AlignJustify } from 'lucide-vue-next'
+
+interface Props {
+  data: BoardResponse
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits<Emits>()
 
 interface Emits {
   (e: 'close'): void
 }
 
-const emit = defineEmits<Emits>()
+const { updateBoard, getBoards } = useBoard()
 
-const { editBoardRaw, updateBoard, editId, getBoards } = useBoard()
-
-const boardLocal = ref(JSON.parse(JSON.stringify(editBoardRaw.value)) as BoardResponse)
+const boardLocal = ref(JSON.parse(JSON.stringify(props.data)) as BoardResponse)
 
 const isPending = ref(false)
 
@@ -33,14 +39,14 @@ const { handleSubmit, setValues } = useForm({
 })
 
 setValues({
-  title: editBoardRaw.value?.title,
-  private: editBoardRaw.value?.accessPolicy === 'private',
-  isLocked: editBoardRaw.value?.isLocked,
+  title: props.data.title,
+  private: props.data.accessPolicy === 'private',
+  isLocked: props.data.isLocked,
 })
 
 const onSubmit = handleSubmit(async (values) => {
   isPending.value = true
-  await updateBoard(editId.value, {
+  await updateBoard(props.data._id, {
     ...values,
     title: values.title.trim(),
     columns: boardLocal.value.columns,
