@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { EllipsisVertical, Pencil, Trash2 } from 'lucide-vue-next'
 import { NOTE_KEY } from './types'
 import { useBoard } from '@/components/board/composables'
 
@@ -29,7 +30,7 @@ const isUserOwner = computed(() => userRaw.value?._id === note?.data.value.userI
         class="absolute top-2 right-2"
         @click.prevent
       >
-        <Icon name="lucide:ellipsis-vertical" />
+        <EllipsisVertical class="w-3.5 h-3.5" />
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent
@@ -38,13 +39,13 @@ const isUserOwner = computed(() => userRaw.value?._id === note?.data.value.userI
     >
       <DropdownMenuItem @click="emit('edit')">
         <div class="flex items-center gap-2">
-          <Icon name="lucide:pencil" />
+          <Pencil class="w-3.5 h-3.5" />
           <span>Edit</span>
         </div>
       </DropdownMenuItem>
       <DropdownMenuItem @click="isShowConfirm = true">
         <div class="flex items-center gap-2">
-          <Icon name="lucide:trash-2" />
+          <Trash2 class="w-3.5 h-3.5" />
           <span>Delete</span>
         </div>
       </DropdownMenuItem>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Monitor, Moon, Sun } from 'lucide-vue-next'
+
 const colorMode = useColorMode()
 
 function onSelect(command: string) {
@@ -6,9 +8,9 @@ function onSelect(command: string) {
 }
 
 const options = [
-  { label: 'Light', value: 'light', icon: 'uil:sun' },
-  { label: 'Dark', value: 'dark', icon: 'uil:moon' },
-  { label: 'System', value: 'system', icon: 'uil:monitor' },
+  { label: 'Light', value: 'light', icon: Sun },
+  { label: 'Dark', value: 'dark', icon: Moon },
+  { label: 'System', value: 'system', icon: Monitor },
 ]
 
 function getIcon(command: string) {
@@ -23,9 +25,8 @@ function getIcon(command: string) {
         size="icon-sm"
         variant="ghost"
       >
-        <Icon
-          :name="getIcon(colorMode.value)"
-          mode="svg"
+        <component
+          :is="getIcon(colorMode.value)"
           class="w-5 h-5"
         />
       </Button>
@@ -37,11 +38,11 @@ function getIcon(command: string) {
         @click="onSelect(i.value)"
       >
         <div class="flex items-center gap-2">
-          <Icon
-            :name="i.icon"
-            mode="svg"
-            class="w-5 h-5"
+          <component
+            :is="i.icon"
+            class="w-4 h-4"
           />
+
           <span>{{ i.label }}</span>
         </div>
       </DropdownMenuItem>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { EllipsisVertical, Globe, GlobeLock, Lock, LockOpen, Pencil, Trash2 } from 'lucide-vue-next'
 import type { BoardsResponse } from '~/services/api/generated'
 import { useBoard } from '@/components/board/composables'
 
@@ -46,33 +47,47 @@ function onEditBoard(id: string) {
           variant="ghost"
           @click.prevent
         >
-          <Icon name="lucide:ellipsis-vertical" />
+          <EllipsisVertical class="w-3.5 h-3.5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-40">
         <DropdownMenuItem @click="onEditBoard(data._id)">
           <div class="flex items-center gap-2">
-            <Icon name="lucide:pencil" />
+            <Pencil class="w-3.5 h-3.5" />
             <span>Edit</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem @click="toggleLock">
           <div class="flex items-center gap-2">
-            <Icon :name="data.isLocked ? 'lucide:lock' : 'lucide:lock-open'" />
+            <Lock
+              v-if="data.isLocked"
+              class="w-3.5 h-3.5"
+            />
+            <LockOpen
+              v-else
+              class="w-3.5 h-3.5"
+            />
             <span>{{ data.isLocked ? 'Unlock' : 'Lock' }}</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem @click="togglePublic">
           <div class="flex items-center gap-2">
-            <Icon :name="data.accessPolicy === 'public' ? 'lucide:globe' : 'lucide:globe-lock'" />
+            <Globe
+              v-if="data.accessPolicy === 'public'"
+              class="w-3.5 h-3.5"
+            />
+            <GlobeLock
+              v-else
+              class="w-3.5 h-3.5"
+            />
             <span>{{ data.accessPolicy === 'public' ? 'Make private' : 'Make public' }}</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem @click="isShowConfirm = true">
           <div class="flex items-center gap-2">
-            <Icon name="lucide:trash-2" />
+            <Trash2 class="w-3.5 h-3.5" />
             <span>Delete</span>
           </div>
         </DropdownMenuItem>
