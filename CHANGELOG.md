@@ -1,3 +1,15 @@
+# [0.2.0](https://github.com/scrumlens/scrumlens/compare/v0.1.0...v0.2.0) (2024-08-06)
+
+
+### Features
+
+* add edit button in board view ([#15](https://github.com/scrumlens/scrumlens/issues/15)) ([e17b0b4](https://github.com/scrumlens/scrumlens/commit/e17b0b409b4b2499ad2ee75677c1d385643f25d2))
+* **client:** only owner of note or admin can drag note ([a8442de](https://github.com/scrumlens/scrumlens/commit/a8442de5933a8099b4407f45eb0b0059793f7dc4))
+* use svg icons ([#14](https://github.com/scrumlens/scrumlens/issues/14)) ([25782ce](https://github.com/scrumlens/scrumlens/commit/25782ceb72e385c05a11fa9eaff846adb400bc14))
+* **server:** update fixtures data ([#13](https://github.com/scrumlens/scrumlens/issues/13)) ([4aff148](https://github.com/scrumlens/scrumlens/commit/4aff1485fd5cbd6a152d5d057c2af0eff3d70710))
+
+
+
 # [0.1.0](https://github.com/scrumlens/scrumlens/compare/60893fbb129273e47ad509ee34bf9b574d765dd7...v0.1.0) (2024-08-04)
 
 
