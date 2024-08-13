@@ -3,7 +3,7 @@ import { Lock, LockOpen, Pencil } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
-const { boardRaw, isAdmin } = useBoard()
+const { boardRaw, isAdmin, connectedUsers } = useBoard()
 
 const isOpenEditDialog = ref(false)
 </script>
@@ -45,6 +45,12 @@ const isOpenEditDialog = ref(false)
       </div>
     </div>
     <div class="flex items-center gap-6">
+      <HeaderConnectedUsers />
+      <Separator
+        v-if="connectedUsers && connectedUsers.length > 0"
+        orientation="vertical"
+        class="h-5"
+      />
       <HeaderColorMode />
       <HeaderUser />
     </div>

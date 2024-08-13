@@ -4,8 +4,12 @@ import { useBoard, useWebSocket } from '@/components/board/composables'
 const route = useRoute()
 const { getBoardById } = useBoard()
 
-useWebSocket(`boards/${route.params.id}`)
+const ws = useWebSocket(`boards/${route.params.id}`)
 await getBoardById(route.params.id as string)
+
+onBeforeRouteLeave(async () => {
+  ws.close()
+})
 </script>
 
 <template>

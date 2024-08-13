@@ -3,15 +3,9 @@ import type { UsersMeResponse } from '~/services/api/generated'
 
 const userRaw = shallowRef<UsersMeResponse>()
 
-const userAcronym = computed(() => {
-  if (!userRaw.value)
-    return
-
-  const [firstName, lastName] = userRaw.value?.name.split(' ')
-  const first = firstName.charAt(0).toUpperCase()
-  const last = lastName?.charAt(0).toUpperCase() || ''
-  return first + last
-})
+const userAcronym = computed(
+  () => userRaw.value && toAcronym(userRaw.value?.name),
+)
 
 async function getUser() {
   try {
