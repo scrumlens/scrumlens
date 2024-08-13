@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import type { WebSocketEventData } from '../../../../../shared/types'
 import { useBoard } from './useBoard'
-import type { BoardResponse } from '~/services/api/generated'
 
 const isDev = import.meta.env.MODE === 'development'
 
@@ -12,7 +11,8 @@ const RECONNECT_DELAY = 3000
 const wsUrl = ref('')
 const reconnectAttempts = ref(0)
 
-const { boardRaw } = useBoard()
+const { boardRaw, connectedUserIds } = useBoard()
+const { userRaw } = useUser()
 
 function reconnect() {
   reconnectAttempts.value++
@@ -33,20 +33,36 @@ function connect() {
   ws = new WebSocket(wsUrl.value)
 
   ws.onmessage = (event) => {
-    const message = JSON.parse(event.data) as WebSocketEventData<BoardResponse>
+    const message = JSON.parse(event.data) as WebSocketEventData
+
     if (message.type === 'board:update') {
       boardRaw.value = message.data
+    }
+
+    if (message.type === 'user:sync') {
+      connectedUserIds.value = message.data
     }
   }
 
   ws.onopen = () => {
     console.log('[WebSocket]: opened')
     reconnectAttempts.value = 0
+
+    if (!userRaw.value)
+      return
+
+    const message: WebSocketEventData = {
+      type: 'user:connect',
+      data: userRaw.value._id,
+    }
+
+    ws.send(JSON.stringify(message))
   }
 
-  ws.onclose = () => {
-    console.log('[Websocket]: closed')
-    reconnect()
+  ws.onclose = (event) => {
+    console.log(event)
+    if (event.code === 1006)
+      reconnect()
   }
 }
 

@@ -19,6 +19,20 @@ const { toast } = useToast()
 
 const editId = ref()
 
+const connectedUserIds = ref<string[]>([])
+
+const connectedUsers = computed(() => {
+  return boardRaw.value?.participants
+    .filter(p => p.userId !== userRaw.value?._id)
+    .filter(p => connectedUserIds.value.includes(p.userId))
+    .sort(
+      (a, b) =>
+        connectedUserIds.value.indexOf(a.userId)
+        - connectedUserIds.value.indexOf(b.userId),
+    )
+    .map(p => ({ id: p.userId, name: p.name, acronym: toAcronym(p.name) }))
+})
+
 const isAdmin = computed(
   () =>
     boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
@@ -183,6 +197,8 @@ export function useBoard() {
     addNote,
     boardRaw,
     boardsRaw,
+    connectedUserIds,
+    connectedUsers,
     deleteBoard,
     deleteNote,
     editId,
