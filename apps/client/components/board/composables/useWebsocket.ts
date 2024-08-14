@@ -5,8 +5,10 @@ import { useBoard } from './useBoard'
 const isDev = import.meta.env.MODE === 'development'
 
 let ws: WebSocket
+let heartbeatInterval: any
 const MAX_RECONNECT_ATTEMPTS = 5
 const RECONNECT_DELAY = 3000
+const HEARTBEAT_INTERVAL = 15000
 
 const wsUrl = ref('')
 const reconnectAttempts = ref(0)
@@ -57,9 +59,18 @@ function connect() {
     }
 
     ws.send(JSON.stringify(message))
+
+    heartbeatInterval = setInterval(() => {
+      const message: WebSocketEventData = {
+        type: 'user:sync',
+        data: [],
+      }
+      ws.send(JSON.stringify(message))
+    }, HEARTBEAT_INTERVAL)
   }
 
   ws.onclose = (event) => {
+    clearInterval(heartbeatInterval)
     console.log(event)
     if (event.code === 1006)
       reconnect()
