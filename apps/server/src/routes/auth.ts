@@ -1,5 +1,6 @@
 import Elysia from 'elysia'
 import { nanoid } from 'nanoid'
+import { Cookie } from '../../../../shared/types'
 import { authDTO } from '@/dto/auth'
 import { User } from '@/models/user'
 import {
@@ -8,7 +9,6 @@ import {
   generateGuestEmail,
   verifyToken,
 } from '@/utils'
-import { Cookie } from '@/types'
 import { sendVerifyEmail } from '@/services/email'
 import middleware from '@/middleware'
 

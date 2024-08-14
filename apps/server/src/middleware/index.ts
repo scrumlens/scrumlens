@@ -1,6 +1,6 @@
 import Elysia from 'elysia'
+import { Cookie } from '../../../../shared/types'
 import { verifyToken } from '@/utils'
-import { Cookie } from '@/types'
 
 const app = new Elysia().state('userId', '').macro(({ onBeforeHandle }) => ({
   requiredAuth(bool: boolean) {
