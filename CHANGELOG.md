@@ -1,3 +1,17 @@
+## [0.3.1](https://github.com/scrumlens/scrumlens/compare/v0.3.0...v0.3.1) (2024-08-14)
+
+
+### Bug Fixes
+
+* **server:** use socket request by user sync ([e8e9ef0](https://github.com/scrumlens/scrumlens/commit/e8e9ef0d87909d7195ddb0e5cff633ddf18ae933))
+
+
+### Features
+
+* **client:** add socket heartbeat to user sync ([6274962](https://github.com/scrumlens/scrumlens/commit/62749625cbe35d162afb43cb3f2932442acb84d4))
+
+
+
 # [0.3.0](https://github.com/scrumlens/scrumlens/compare/v0.2.0...v0.3.0) (2024-08-14)
 
 
