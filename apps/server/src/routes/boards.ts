@@ -1,7 +1,6 @@
 import Elysia from 'elysia'
 import type { WebSocketEventData } from '../../../../shared/types'
 import { WebSocketEvent } from '../../../../shared/types'
-import rootApp from '@/index'
 import { boardsDTO } from '@/dto/boards'
 import { Board } from '@/models/board'
 import { Note } from '@/models/note'
@@ -17,6 +16,15 @@ const connections = new Set<{
   boardId: string
   wsId: string
 }>()
+
+function userSyncData(boardId: string) {
+  return {
+    type: 'user:sync',
+    data: Array.from(connections)
+      .filter(i => i.boardId === boardId)
+      .map(i => i.userId),
+  } as WebSocketEventData
+}
 
 app
   .use(middleware)
@@ -35,15 +43,16 @@ app
           wsId: ws.id,
         })
 
-        const payload = {
-          type: WebSocketEvent.UserSync,
-          data: Array.from(connections)
-            .filter(i => i.boardId === ws.data.params.id)
-            .map(i => i.userId),
-        }
+        const payload = userSyncData(ws.data.params.id)
 
         ws.send(JSON.stringify(payload))
         ws.publish(ws.data.params.id, JSON.stringify(payload))
+      }
+
+      if (m.type === 'user:sync') {
+        const payload = userSyncData(ws.data.params.id)
+
+        ws.send(JSON.stringify(payload))
       }
     },
     close(ws) {
@@ -52,16 +61,6 @@ app
           connections.delete(i)
         }
       })
-
-      const payload = {
-        type: WebSocketEvent.UserSync,
-        data: Array.from(connections)
-          .filter(i => i.boardId === ws.data.params.id)
-          .map(i => i.userId),
-      }
-
-      ws.publish(ws.data.params.id, JSON.stringify(payload))
-      rootApp.server?.publish(ws.data.params.id, JSON.stringify(payload))
     },
   })
   /**

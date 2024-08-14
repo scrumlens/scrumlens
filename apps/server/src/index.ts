@@ -44,5 +44,3 @@ app
       styleText('cyan', `http://localhost:${Bun.env.API_PORT}/swagger\n`),
     )
   })
-
-export default app
