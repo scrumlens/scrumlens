@@ -1,11 +1,10 @@
 import Elysia from 'elysia'
 import { Types } from 'mongoose'
+import { WebSocketEvent } from '../../../../shared/types'
 import middleware from '@/middleware'
 import { notesDTO } from '@/dto/notes'
 import { Note } from '@/models/note'
 import { Board } from '@/models/board'
-import { WebSocketChannel, WebSocketEvent } from '@/types'
-import { formatWebSocketMessage } from '@/utils'
 import { getExtendedBoardData } from '@/helpers/boards'
 
 const app = new Elysia({ prefix: '/notes' })
@@ -49,10 +48,12 @@ app
 
       const data = await getExtendedBoardData(board)
 
-      server?.publish(
-        WebSocketChannel.Board,
-        formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-      )
+      const payload = {
+        type: WebSocketEvent.BoardUpdate,
+        data,
+      }
+
+      server?.publish(note.boardId.toString(), JSON.stringify(payload))
 
       return { message: 'Note created' }
     },
@@ -123,10 +124,12 @@ app
 
       const data = await getExtendedBoardData(board)
 
-      server?.publish(
-        WebSocketChannel.Board,
-        formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-      )
+      const payload = {
+        type: WebSocketEvent.BoardUpdate,
+        data,
+      }
+
+      server?.publish(note.boardId.toString(), JSON.stringify(payload))
 
       return { message: 'Note updated' }
     },
@@ -176,10 +179,12 @@ app
 
       const data = await getExtendedBoardData(board)
 
-      server?.publish(
-        WebSocketChannel.Board,
-        formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-      )
+      const payload = {
+        type: WebSocketEvent.BoardUpdate,
+        data,
+      }
+
+      server?.publish(note.boardId.toString(), JSON.stringify(payload))
 
       return { message: 'Note deleted' }
     },

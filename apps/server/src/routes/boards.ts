@@ -1,25 +1,67 @@
-import Elysia, { t } from 'elysia'
+import Elysia from 'elysia'
+import type { WebSocketEventData } from '../../../../shared/types'
+import { WebSocketEvent } from '../../../../shared/types'
+import rootApp from '@/index'
 import { boardsDTO } from '@/dto/boards'
 import { Board } from '@/models/board'
 import { Note } from '@/models/note'
 import { Comment } from '@/models/comment'
 import { User } from '@/models/user'
 import middleware from '@/middleware'
-import { WebSocketChannel, WebSocketEvent } from '@/types'
-import { formatWebSocketMessage } from '@/utils'
 import { getExtendedBoardData } from '@/helpers/boards'
 
 const app = new Elysia({ prefix: '/boards' })
+
+const connections = new Set<{
+  userId: string
+  boardId: string
+  wsId: string
+}>()
 
 app
   .use(middleware)
   .use(boardsDTO)
   .ws('/:id', {
     open(ws) {
-      ws.subscribe(WebSocketChannel.Board)
+      ws.subscribe(ws.data.params.id)
     },
     message(ws, message) {
-      ws.send(message)
+      const m = message as WebSocketEventData
+
+      if (m.type === 'user:connect') {
+        connections.add({
+          userId: m.data,
+          boardId: ws.data.params.id,
+          wsId: ws.id,
+        })
+
+        const payload = {
+          type: WebSocketEvent.UserSync,
+          data: Array.from(connections)
+            .filter(i => i.boardId === ws.data.params.id)
+            .map(i => i.userId),
+        }
+
+        ws.send(JSON.stringify(payload))
+        ws.publish(ws.data.params.id, JSON.stringify(payload))
+      }
+    },
+    close(ws) {
+      connections.forEach((i) => {
+        if (i.wsId === ws.id) {
+          connections.delete(i)
+        }
+      })
+
+      const payload = {
+        type: WebSocketEvent.UserSync,
+        data: Array.from(connections)
+          .filter(i => i.boardId === ws.data.params.id)
+          .map(i => i.userId),
+      }
+
+      ws.publish(ws.data.params.id, JSON.stringify(payload))
+      rootApp.server?.publish(ws.data.params.id, JSON.stringify(payload))
     },
   })
   /**
@@ -144,10 +186,12 @@ app
 
         const data = await getExtendedBoardData(board)
 
-        server?.publish(
-          WebSocketChannel.Board,
-          formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-        )
+        const payload = {
+          type: WebSocketEvent.BoardUpdate,
+          data,
+        }
+
+        server?.publish(params.id, JSON.stringify(payload))
       }
 
       const data = await getExtendedBoardData(board)
@@ -178,10 +222,12 @@ app
       const updatedBoard = await Board.findById(params.id)
       const data = await getExtendedBoardData(updatedBoard!)
 
-      server?.publish(
-        WebSocketChannel.Board,
-        formatWebSocketMessage(WebSocketEvent.BoardUpdate, data),
-      )
+      const payload = {
+        type: WebSocketEvent.BoardUpdate,
+        data,
+      }
+
+      server?.publish(params.id, JSON.stringify(payload))
     },
     {
       body: 'boardUpdate',
@@ -196,7 +242,7 @@ app
    */
   .delete(
     '/:id',
-    async ({ params, store, set }) => {
+    async ({ params, store, set, server }) => {
       const user = await User.findById(store.userId)
 
       if (!user) {
@@ -219,6 +265,13 @@ app
       await board.deleteOne()
       await Note.deleteMany({ boardId: params.id })
       await Comment.deleteMany({ boardId: params.id })
+
+      const payload = {
+        type: WebSocketEvent.BoardDelete,
+        data: params.id,
+      }
+
+      server?.publish(params.id, JSON.stringify(payload))
     },
     {
       requiredAuth: true,
