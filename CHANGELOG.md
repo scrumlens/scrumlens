@@ -1,3 +1,17 @@
+# [0.3.0](https://github.com/scrumlens/scrumlens/compare/v0.2.0...v0.3.0) (2024-08-14)
+
+
+### Bug Fixes
+
+* **server:** websocket broadcast ([6556a4d](https://github.com/scrumlens/scrumlens/commit/6556a4de619d956b5d8bd150f8e85ad7c108e376))
+
+
+### Features
+
+* **client:** show connected participants ([#16](https://github.com/scrumlens/scrumlens/issues/16)) ([5b4058e](https://github.com/scrumlens/scrumlens/commit/5b4058e223ff9cb32914e4ea49c51c402f507df4))
+
+
+
 # [0.2.0](https://github.com/scrumlens/scrumlens/compare/v0.1.0...v0.2.0) (2024-08-06)
 
 
