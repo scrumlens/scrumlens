@@ -1,14 +1,27 @@
 <script setup lang="ts">
+import JSConfetti from 'js-confetti'
 import { repository, version } from '../../../../package.json'
 import { useBoard } from './composables'
 
-const { boardRaw } = useBoard()
+const { boardRaw, isLockedForMember } = useBoard()
+
+const confetti = new JSConfetti()
+
+watch(() => boardRaw.value?.isLocked, (v) => {
+  if (v) {
+    setTimeout(() => {
+      confetti.addConfetti()
+    }, 300)
+  }
+})
 </script>
 
 <template>
   <div
     data-board
-    class="h-full overflow-x-auto flex flex-col"
+    :disabled="boardRaw?.isLocked"
+    :class="{ 'is-locked': isLockedForMember }"
+    class="h-full overflow-x-auto flex flex-col [&.is-locked]:opacity-50 [&.is-locked]:pointer-events-none"
   >
     <div class="flex gap-3 flex-grow">
       <BoardColumn

@@ -81,7 +81,7 @@ function onChange(event: any) {
         <template #item="{ element }">
           <BoardNote
             :id="element._id"
-            :class="{ 'no-drag': element.userId !== userRaw?._id && !isAdmin }"
+            :class="{ 'no-drag': element.userId !== userRaw?._id && !isAdmin || boardRaw?.isLocked }"
             class="cursor-grab [&.no-drag]:cursor-default"
             :data="element"
           />
