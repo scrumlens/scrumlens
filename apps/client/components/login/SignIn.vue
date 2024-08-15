@@ -3,6 +3,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { NuxtLink } from '#components'
+import { RoutePath } from '@/types'
 
 const { login } = useAuth()
 const router = useRouter()
@@ -27,7 +28,7 @@ const onSubmit = handleSubmit(async (values) => {
       router.push(route.query.redirect as string)
     }
     else {
-      router.push('/user/dashboard')
+      router.push(RoutePath.Dashboard)
     }
   }
 })

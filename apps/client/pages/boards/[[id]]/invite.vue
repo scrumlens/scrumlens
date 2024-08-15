@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { api, getErrorData } from '~/services/api'
 import { useToast } from '@/components/ui/shadcn/toast/use-toast'
+import { RoutePath } from '@/types'
 
 definePageMeta({
   layout: 'blank',
@@ -61,7 +62,7 @@ catch (err) {
         <UiText>
           Verification link is expired or invalid.<br>You can try to resend verification link.
         </UiText>
-        <NuxtLink to="/profile">
+        <NuxtLink :to="RoutePath.Profile">
           <Button>
             Go to Profile
           </Button>

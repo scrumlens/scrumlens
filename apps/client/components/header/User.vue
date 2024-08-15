@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { RoutePath } from '@/types'
+
 const { userAcronym } = useUser()
 const { logout } = useAuth()
 </script>
@@ -15,12 +17,12 @@ const { logout } = useAuth()
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-32">
         <DropdownMenuItem as-child>
-          <NuxtLink to="/dashboard">
+          <NuxtLink :to="RoutePath.Dashboard">
             Dashboard
           </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem as-child>
-          <NuxtLink to="/profile">
+          <NuxtLink :to="RoutePath.Profile">
             Profile
           </NuxtLink>
         </DropdownMenuItem>

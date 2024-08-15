@@ -13,3 +13,8 @@ export const Colors = {
   Blue: '#93c5fd',
   Purple: '#d8b4fe',
 } as const
+
+export const RoutePath = {
+  Dashboard: '/dashboard',
+  Profile: '/profile',
+} as const

@@ -2,6 +2,7 @@
 import type { WebSocketEventData } from '../../../../../shared/types'
 import { useBoard } from './useBoard'
 import { useToast } from '@/components/ui/shadcn/toast/use-toast'
+import { RoutePath } from '@/types'
 
 const isDev = import.meta.env.MODE === 'development'
 
@@ -49,7 +50,7 @@ function connect() {
 
     if (message.type === 'board:delete') {
       const router = useRouter()
-      router.push('/dashboard')
+      router.push(RoutePath.Dashboard)
 
       toast({
         title: 'Board deleted',

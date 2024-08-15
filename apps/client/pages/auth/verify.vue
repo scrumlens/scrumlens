@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { api } from '~/services/api'
+import { RoutePath } from '@/types'
 
 definePageMeta({
   layout: 'blank',
@@ -48,7 +49,7 @@ catch (err) {
         <UiText>
           Verification link is expired or invalid.<br>You can try to resend verification link.
         </UiText>
-        <NuxtLink to="/user/profile">
+        <NuxtLink :to="RoutePath.Profile">
           <Button>
             Go to Profile
           </Button>

@@ -1,4 +1,5 @@
 import { Cookie } from '../../../shared/types'
+import { RoutePath } from '@/types'
 
 export default defineNuxtRouteMiddleware((to) => {
   const publicRouteNames = ['auth-verify', 'boards-id-invite']
@@ -22,7 +23,7 @@ export default defineNuxtRouteMiddleware((to) => {
     const { isAuth } = useAuth()
 
     if (isAuth.value && to.name === 'login')
-      return navigateTo('/user/dashboard')
+      return navigateTo(RoutePath.Dashboard)
 
     if (!isAuth.value && to.name !== 'login') {
       abortNavigation()
