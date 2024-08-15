@@ -25,8 +25,5 @@ export default defineNuxtConfig({
       websocketUrl: 'http://localhost:3030',
     },
   },
-  routeRules: {
-    '/': { redirect: '/dashboard' },
-  },
   ssr: false,
 })
