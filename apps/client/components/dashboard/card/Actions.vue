@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { EllipsisVertical, Globe, GlobeLock, Lock, LockOpen, Pencil, Trash2 } from 'lucide-vue-next'
+import {
+  Copy,
+  EllipsisVertical,
+  Globe,
+  GlobeLock,
+  Lock,
+  LockOpen,
+  Pencil,
+  Trash2,
+} from 'lucide-vue-next'
 import type { BoardsResponse } from '~/services/api/generated'
 import { useBoard } from '@/components/board/composables'
 
@@ -25,6 +34,11 @@ async function toggleLock() {
     isLocked: !props.data.isLocked,
   })
   await getBoards()
+}
+
+async function copyLink() {
+  const url = `${window.location.origin}/boards/${props.data._id}`
+  await navigator.clipboard.writeText(url)
 }
 
 async function onDeleteBoard(id: string) {
@@ -82,6 +96,13 @@ function onEditBoard(id: string) {
               class="w-3.5 h-3.5"
             />
             <span>{{ data.accessPolicy === 'public' ? 'Make private' : 'Make public' }}</span>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem @click="copyLink">
+          <div class="flex items-center gap-2">
+            <Copy class="w-3.5 h-3.5" />
+            <span>Copy link</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
