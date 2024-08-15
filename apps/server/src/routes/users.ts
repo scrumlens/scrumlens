@@ -33,7 +33,7 @@ app
    */
   .patch(
     '/me',
-    async ({ store, body }) => {
+    async ({ store, body, set }) => {
       const user = await User.findById(store.userId)
 
       if (!user) {
@@ -46,6 +46,18 @@ app
 
       if (body.password) {
         user.password = body.password
+      }
+
+      if (body.email) {
+        const isExist = await User.findOne({ email: body.email })
+
+        if (isExist) {
+          set.status = 400
+          throw new Error('Email already exists')
+        }
+
+        user.email = body.email
+        user.isGuest = false
       }
 
       await user.save()
