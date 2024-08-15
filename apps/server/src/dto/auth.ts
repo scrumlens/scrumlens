@@ -8,7 +8,7 @@ export const authDTO = new Elysia().model({
   }),
   signup: t.Object({
     name: t.String({
-      minLength: 3,
+      minLength: 2,
     }),
     email: t.String(),
     password: t.String({
