@@ -1,8 +1,19 @@
 <script setup lang="ts">
+import JSConfetti from 'js-confetti'
 import { repository, version } from '../../../../package.json'
 import { useBoard } from './composables'
 
 const { boardRaw, isLockedForMember } = useBoard()
+
+const confetti = new JSConfetti()
+
+watch(() => boardRaw.value?.isLocked, (v) => {
+  if (v) {
+    setTimeout(() => {
+      confetti.addConfetti()
+    }, 300)
+  }
+})
 </script>
 
 <template>
