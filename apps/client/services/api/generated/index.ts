@@ -33,6 +33,7 @@ export interface VerifyToken {
 
 export interface UserUpdate {
   name?: string;
+  email?: string;
   password?: string;
 }
 
@@ -147,8 +148,8 @@ export interface BoardsResponse {
 }
 
 export interface BoardsQuery {
-  limit?: string | number;
-  page?: string | number;
+  limit?: string | (string | number);
+  page?: string | (string | number);
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
@@ -653,8 +654,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | number;
-        page?: string | number;
+        limit?: string | (string | number);
+        page?: string | (string | number);
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";

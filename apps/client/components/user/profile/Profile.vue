@@ -3,7 +3,7 @@ import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { useToast } from '@/components/ui/shadcn/toast/use-toast'
-import { api } from '~/services/api'
+import { api, getErrorData } from '~/services/api'
 
 const { toast } = useToast()
 const { userRaw, getUser } = useUser()
@@ -14,6 +14,7 @@ const formSchema = toTypedSchema(
   z
     .object({
       name: z.string().min(1),
+      email: z.string().email().optional(),
       password: z.string().min(5).optional(),
       passwordConfirm: z.string().optional(),
     })
@@ -37,14 +38,16 @@ const onSubmit = handleSubmit(async (values) => {
     await api.users.patchUsersMe({
       name: values.name.trim(),
       password: values.password?.trim(),
+      email: values.email?.trim(),
     })
     await getUser()
   }
   catch (err) {
     console.error(err)
+    const { message } = await getErrorData(err)
     toast({
       title: 'Something went wrong.',
-      description: 'Please try again later.',
+      description: message,
       variant: 'destructive',
     })
   }
@@ -74,6 +77,25 @@ const onSubmit = handleSubmit(async (values) => {
           />
         </FormControl>
         <FormMessage />
+      </FormItem>
+    </FormField>
+    <FormField
+      v-if="userRaw?.isGuest"
+      v-slot="{ componentField }"
+      name="email"
+    >
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        <FormControl>
+          <Input
+            type="email"
+            v-bind="componentField"
+          />
+        </FormControl>
+        <FormMessage />
+        <FormDescription>
+          Make sure your email is correct. This field can only be edited once.
+        </FormDescription>
       </FormItem>
     </FormField>
     <FormField

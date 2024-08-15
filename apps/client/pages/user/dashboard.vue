@@ -19,6 +19,7 @@ const boardsStatic = computed(() => {
 <template>
   <div data-user-dashboard>
     <UserVerifyAlert />
+    <UserGuestAlert v-if="userRaw?.isGuest" />
     <UiHeading class="mb-7">
       Dashboard
     </UiHeading>
