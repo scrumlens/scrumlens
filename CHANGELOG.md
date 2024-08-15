@@ -1,3 +1,21 @@
+# [0.5.0](https://github.com/scrumlens/scrumlens/compare/v0.4.0...v0.5.0) (2024-08-15)
+
+
+### Bug Fixes
+
+* **client:** redirect to dashboard ([1277acb](https://github.com/scrumlens/scrumlens/commit/1277acb4db0d74d2f2d95da1c674607f0719010f))
+
+
+### Features
+
+* **client:** add board lock ([#17](https://github.com/scrumlens/scrumlens/issues/17)) ([aa8c923](https://github.com/scrumlens/scrumlens/commit/aa8c923855d3a65ec06fa52be1d593d47c391d5d))
+* **client:** add copy board link in dashboard ([321706f](https://github.com/scrumlens/scrumlens/commit/321706fd56644021693cc953247068c3734af2a6))
+* **client:** add invite to private board ([3aa79ec](https://github.com/scrumlens/scrumlens/commit/3aa79ec9f7f0b957c201c2b7fe6bd78699674093))
+* **client:** redirect to dashboard if viewed board is deleted ([3f973c4](https://github.com/scrumlens/scrumlens/commit/3f973c4f1504299f257fd83461e40c11d0c12aad))
+* **server:** add invite to private board & verify invite ([c34b4be](https://github.com/scrumlens/scrumlens/commit/c34b4bea546bd54cec9c6d56ba0e1e448f33f198))
+
+
+
 # [0.4.0](https://github.com/scrumlens/scrumlens/compare/v0.3.1...v0.4.0) (2024-08-15)
 
 
