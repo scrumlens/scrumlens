@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import type { WebSocketEventData } from '../../../../../shared/types'
 import { useBoard } from './useBoard'
+import { useToast } from '@/components/ui/shadcn/toast/use-toast'
 
 const isDev = import.meta.env.MODE === 'development'
 
@@ -15,6 +16,7 @@ const reconnectAttempts = ref(0)
 
 const { boardRaw, connectedUserIds } = useBoard()
 const { userRaw } = useUser()
+const { toast } = useToast()
 
 function reconnect() {
   reconnectAttempts.value++
@@ -43,6 +45,16 @@ function connect() {
 
     if (message.type === 'user:sync') {
       connectedUserIds.value = message.data
+    }
+
+    if (message.type === 'board:delete') {
+      const router = useRouter()
+      router.push('/dashboard')
+
+      toast({
+        title: 'Board deleted',
+        description: 'Owner has deleted the board',
+      })
     }
   }
 
