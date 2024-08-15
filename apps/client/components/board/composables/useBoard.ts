@@ -21,6 +21,19 @@ const editId = ref()
 
 const connectedUserIds = ref<string[]>([])
 
+const isOpenEditDialog = ref(false)
+
+const isAdmin = computed(
+  () =>
+    boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
+      ?.role === 'admin',
+)
+
+const isCanCreateNewBoard = computed(() => userRaw.value?.isActive)
+const isLockedForMember = computed(
+  () => boardRaw.value?.isLocked && !isAdmin.value,
+)
+
 const connectedUsers = computed(() => {
   return boardRaw.value?.participants
     .filter(p => p.userId !== userRaw.value?._id)
@@ -32,16 +45,6 @@ const connectedUsers = computed(() => {
     )
     .map(p => ({ id: p.userId, name: p.name, acronym: toAcronym(p.name) }))
 })
-
-const isAdmin = computed(
-  () =>
-    boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id)
-      ?.role === 'admin',
-)
-
-const isCanCreateNewBoard = computed(() => userRaw.value?.isActive)
-
-const isOpenEditDialog = ref(false)
 
 async function getBoards() {
   try {
@@ -115,7 +118,11 @@ const updateBoardDebounced = useDebounceFn(updateBoard, 100)
 
 function addColumnItem(columnId: string, itemId: string, newIndex: number) {
   const column = boardRaw.value?.columns.find(c => c._id === columnId)
+
   if (!column)
+    return
+
+  if (isLockedForMember.value)
     return
 
   const noteIds = column.noteIds.slice()
@@ -153,6 +160,9 @@ function removeColumnItem(columnId: string, itemId: string) {
 }
 
 async function addNote(content: string, columnIndex: number) {
+  if (isLockedForMember.value)
+    return
+
   return api.notes.postNotes({
     boardId: boardRaw.value!._id,
     columnIndex: String(columnIndex),
@@ -161,6 +171,9 @@ async function addNote(content: string, columnIndex: number) {
 }
 
 async function updateNote(noteId: string, update: NoteUpdate) {
+  if (isLockedForMember.value)
+    return
+
   try {
     await api.notes.patchNotesById(noteId, update)
   }
@@ -176,6 +189,9 @@ async function updateNote(noteId: string, update: NoteUpdate) {
 }
 
 async function deleteNote(noteId: string) {
+  if (isLockedForMember.value)
+    return
+
   try {
     api.notes.deleteNotesById(noteId)
   }
@@ -207,6 +223,7 @@ export function useBoard() {
     isAdmin,
     isCanCreateNewBoard,
     isOpenEditDialog,
+    isLockedForMember,
     moveColumnItem,
     removeColumnItem,
     updateBoard,

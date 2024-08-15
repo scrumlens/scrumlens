@@ -10,7 +10,7 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 
-const { isAdmin } = useBoard()
+const { isAdmin, boardRaw } = useBoard()
 const { userRaw } = useUser()
 
 const note = inject(NOTE_KEY)
@@ -24,7 +24,7 @@ const isUserOwner = computed(() => userRaw.value?._id === note?.data.value.userI
   <DropdownMenu>
     <DropdownMenuTrigger as-child>
       <Button
-        v-if="isUserOwner || isAdmin"
+        v-if="(isUserOwner && !boardRaw?.isLocked) || isAdmin"
         size="icon-xs"
         variant="ghost"
         class="absolute top-2 right-2"
