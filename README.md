@@ -58,10 +58,10 @@ The project is monorepo with folders:
 
 ## Roadmap
 
-- [ ] Private boards & invitation system
+- [x] Private boards & invitation system
 - [ ] Participants ban system
 - [ ] Comments system
-- [ ] Locking board
+- [x] Locking board
 - [ ] Polling
 - [ ] Timers
 - [ ] Gifs in notes
