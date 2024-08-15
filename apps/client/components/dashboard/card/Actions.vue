@@ -7,6 +7,7 @@ import {
   Lock,
   LockOpen,
   Pencil,
+  Share2,
   Trash2,
 } from 'lucide-vue-next'
 import type { BoardsResponse } from '~/services/api/generated'
@@ -21,6 +22,7 @@ const props = defineProps<Props>()
 const { getBoards, updateBoard, deleteBoard, editId, isOpenEditDialog } = useBoard()
 
 const isShowConfirm = ref(false)
+const isShowInviteDialog = ref(false)
 
 async function togglePublic() {
   await updateBoard(props.data._id, {
@@ -98,6 +100,16 @@ function onEditBoard(id: string) {
             <span>{{ data.accessPolicy === 'public' ? 'Make private' : 'Make public' }}</span>
           </div>
         </DropdownMenuItem>
+        <DropdownMenuSeparator v-if="data.accessPolicy === 'private'" />
+        <DropdownMenuItem
+          v-if="data.accessPolicy === 'private'"
+          @click="isShowInviteDialog = true"
+        >
+          <div class="flex items-center gap-2">
+            <Share2 class="w-3.5 h-3.5" />
+            <span>Invite</span>
+          </div>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem @click="copyLink">
           <div class="flex items-center gap-2">
@@ -130,5 +142,19 @@ function onEditBoard(id: string) {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+    <Dialog v-model:open="isShowInviteDialog">
+      <DialogContent class="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Invite</DialogTitle>
+          <DialogDescription>
+            Invite users to this board
+          </DialogDescription>
+          <DashboardFormInvite
+            :board-id="data._id"
+            @close="isShowInviteDialog = false"
+          />
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>

@@ -29,6 +29,10 @@ const isAdmin = computed(
       ?.role === 'admin',
 )
 
+const isMember = computed(() =>
+  boardRaw.value?.participants.find(p => p.userId === userRaw.value?._id),
+)
+
 const isCanCreateNewBoard = computed(() => userRaw.value?.isActive)
 const isLockedForMember = computed(
   () => boardRaw.value?.isLocked && !isAdmin.value,
@@ -222,8 +226,9 @@ export function useBoard() {
     getBoards,
     isAdmin,
     isCanCreateNewBoard,
-    isOpenEditDialog,
     isLockedForMember,
+    isMember,
+    isOpenEditDialog,
     moveColumnItem,
     removeColumnItem,
     updateBoard,

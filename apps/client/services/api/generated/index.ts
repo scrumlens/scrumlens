@@ -147,9 +147,17 @@ export interface BoardsResponse {
   }[];
 }
 
+export interface BoardSendInvite {
+  email: string;
+}
+
+export interface BoardInviteVerify {
+  token: string;
+}
+
 export interface BoardsQuery {
-  limit?: string | (string | number);
-  page?: string | (string | number);
+  limit?: string | number;
+  page?: string | number;
   search?: string;
   sort?: string;
   order?: "ASC" | "DESC";
@@ -654,8 +662,8 @@ export class Api<
      */
     getBoards: (
       query?: {
-        limit?: string | (string | number);
-        page?: string | (string | number);
+        limit?: string | number;
+        page?: string | number;
         search?: string;
         sort?: string;
         order?: "ASC" | "DESC";
@@ -667,6 +675,45 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name PostBoardsByIdInvite
+     * @request POST:/boards/{id}/invite
+     */
+    postBoardsByIdInvite: (
+      id: string,
+      data: BoardSendInvite,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/boards/${id}/invite`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Boards
+     * @name PostBoardsInviteVerify
+     * @request POST:/boards/invite-verify
+     */
+    postBoardsInviteVerify: (
+      data: BoardInviteVerify,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/boards/invite-verify`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
         ...params,
       }),
   };

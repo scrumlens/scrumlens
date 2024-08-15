@@ -1,7 +1,9 @@
 import { Cookie } from '../../../shared/types'
 
 export default defineNuxtRouteMiddleware((to) => {
-  if (to.name === 'auth-verify')
+  const publicRouteNames = ['auth-verify', 'boards-id-invite']
+
+  if (publicRouteNames.includes(to.name as string))
     return
 
   if (import.meta.server) {

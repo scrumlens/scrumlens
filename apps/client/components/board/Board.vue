@@ -3,8 +3,8 @@ import JSConfetti from 'js-confetti'
 import { repository, version } from '../../../../package.json'
 import { useBoard } from './composables'
 
-const { boardRaw, isLockedForMember } = useBoard()
-
+const { boardRaw, isLockedForMember, isMember, getBoardById } = useBoard()
+const route = useRoute()
 const confetti = new JSConfetti()
 
 watch(() => boardRaw.value?.isLocked, (v) => {
@@ -14,10 +14,20 @@ watch(() => boardRaw.value?.isLocked, (v) => {
     }, 300)
   }
 })
+
+watch(() => boardRaw.value?.accessPolicy, (v) => {
+  if (v === 'private' && !isMember.value) {
+    boardRaw.value = undefined
+  }
+  if (v === 'public' && !isMember.value) {
+    getBoardById(route.params.id as string)
+  }
+})
 </script>
 
 <template>
   <div
+    v-if="boardRaw"
     data-board
     :disabled="boardRaw?.isLocked"
     :class="{ 'is-locked': isLockedForMember }"
@@ -44,5 +54,12 @@ watch(() => boardRaw.value?.isLocked, (v) => {
         >GitHub</a>
       </UiText>
     </div>
+  </div>
+  <div
+    v-else
+    class="flex flex-col items-center justify-center h-full"
+  >
+    <UiHeading>This is private board</UiHeading>
+    <UiText>Please contact the administrator of the board to get an invite link.</UiText>
   </div>
 </template>
