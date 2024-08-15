@@ -32,8 +32,10 @@ TODO: write a detailed README
 
 ### Prerequisites
 
+- Bun: Build tool and runtime
+- MongoDB: Database
 
-The project uses Bun for building and running. Please make sure you have [Bun](https://bun.sh/) installed.
+Ensure both [Bun](https://bun.sh/) and [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) are installed before proceeding.
 
 ```
 # Install dependencies
