@@ -1,3 +1,20 @@
+# [0.4.0](https://github.com/scrumlens/scrumlens/compare/v0.3.1...v0.4.0) (2024-08-15)
+
+
+### Bug Fixes
+
+* **client:** header scroll ([f833332](https://github.com/scrumlens/scrumlens/commit/f833332fa9f3d80e26d8c9142137d07e10767513))
+* **client:** hide connected participants when leaving board ([aa91c96](https://github.com/scrumlens/scrumlens/commit/aa91c9622c24ae4f8e34459d3c8eb9f2a7ae7a3d))
+
+
+### Features
+
+* **client:** add toast in resend verify link  & countdown ([57b265b](https://github.com/scrumlens/scrumlens/commit/57b265b48aff6de162c0fabecc242dd55c9c982d))
+* **client:** allow to turn guest account into personal ([8d16ad9](https://github.com/scrumlens/scrumlens/commit/8d16ad9b2cfff3f0ed5eb54b2b8a4f0ef7cfc40a))
+* **server:** add update email ([6b2ee77](https://github.com/scrumlens/scrumlens/commit/6b2ee772573f8bc50f9345bcf40efc6e3da5cc37))
+
+
+
 ## [0.3.1](https://github.com/scrumlens/scrumlens/compare/v0.3.0...v0.3.1) (2024-08-14)
 
 
