@@ -55,6 +55,16 @@ export function generateVerifyToken(userId: string) {
     { expiresIn: '5d' },
   )
 }
+export function generateInviteToken(userId: string, boardId: string) {
+  return jwt.sign(
+    {
+      userId,
+      boardId,
+    },
+    Bun.env.SECRET_KEY,
+    { expiresIn: '1d' },
+  )
+}
 
 export function verifyToken(token: string) {
   return jwt.verify(token, Bun.env.SECRET_KEY) as JwtPayload

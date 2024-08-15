@@ -8,6 +8,8 @@ import { Comment } from '@/models/comment'
 import { User } from '@/models/user'
 import middleware from '@/middleware'
 import { getExtendedBoardData } from '@/helpers/boards'
+import { verifyToken } from '@/utils'
+import { sendInviteEmail } from '@/services/email'
 
 const app = new Elysia({ prefix: '/boards' })
 
@@ -101,6 +103,94 @@ app
     {
       body: 'boardAdd',
       requiredAuth: true,
+      detail: {
+        tags: ['Boards'],
+      },
+    },
+  )
+  /**
+   * Отправка инвайт ссылки для доски пользователю
+   */
+  .post(
+    '/:id/invite',
+    async ({ params, body, set }) => {
+      const emailList = body.email.split(',').map(i => i.trim())
+
+      const board = await Board.findById(params.id)
+
+      if (!board) {
+        set.status = 400
+        throw new Error('Board not found')
+      }
+
+      const users = await User.find({ email: { $in: emailList } })
+
+      if (users.length === 0) {
+        set.status = 400
+        throw new Error('User not found')
+      }
+
+      const usersNotInBoard = users.filter(
+        i => !board.participants.some(j => j.userId?.equals(i._id)),
+      )
+
+      await Promise.all(
+        usersNotInBoard.map((user) => {
+          return sendInviteEmail({
+            email: user.email,
+            userId: user.id,
+            boardId: params.id,
+            boardName: board.title,
+          })
+        }),
+      )
+    },
+    {
+      requiredAuth: true,
+      body: 'boardSendInvite',
+      detail: {
+        tags: ['Boards'],
+      },
+    },
+  )
+  .post(
+    '/invite-verify',
+    async ({ body, set }) => {
+      try {
+        const decoded = verifyToken(body.token)
+
+        const user = await User.findById(decoded.userId)
+        const board = await Board.findById(decoded.boardId)
+
+        if (!user) {
+          set.status = 400
+          throw new Error('User not found')
+        }
+
+        if (!board) {
+          set.status = 400
+          throw new Error('Board not found')
+        }
+
+        const isUserParticipant = board.participants.some(i =>
+          i.userId?.equals(decoded.userId),
+        )
+
+        if (!isUserParticipant) {
+          board.participants.push({
+            userId: user._id,
+            role: 'member',
+          })
+          await board.save()
+        }
+      }
+      catch {
+        set.status = 400
+        throw new Error('Invalid token')
+      }
+    },
+    {
+      body: 'boardInviteVerify',
       detail: {
         tags: ['Boards'],
       },

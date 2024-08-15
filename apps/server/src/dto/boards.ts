@@ -107,5 +107,11 @@ export const boardsDTO = new Elysia().model({
     own: t.Number(),
     items: t.Array(boardItem),
   }),
+  boardSendInvite: t.Object({
+    email: t.String(),
+  }),
+  boardInviteVerify: t.Object({
+    token: t.String(),
+  }),
   boardsQuery: commonQuery,
 })
