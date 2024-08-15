@@ -15,12 +15,12 @@ const { logout } = useAuth()
       </DropdownMenuTrigger>
       <DropdownMenuContent class="w-32">
         <DropdownMenuItem as-child>
-          <NuxtLink to="/user/dashboard">
+          <NuxtLink to="/dashboard">
             Dashboard
           </NuxtLink>
         </DropdownMenuItem>
         <DropdownMenuItem as-child>
-          <NuxtLink to="/user/profile">
+          <NuxtLink to="/profile">
             Profile
           </NuxtLink>
         </DropdownMenuItem>
