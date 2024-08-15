@@ -10,7 +10,7 @@
     <Header />
     <div
       data-main
-      class="grow px-5 pt-16"
+      class="grow px-5 pt-16 pb-4"
     >
       <slot />
     </div>
