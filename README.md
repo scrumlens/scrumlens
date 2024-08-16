@@ -64,7 +64,7 @@ The project is monorepo with folders:
 - [x] Locking board
 - [ ] Polling
 - [ ] Timers
-- [ ] Gifs in notes
+- [x] Gifs in notes
 - [ ] Export board data to PDF, CSV, etc.
 
 ## Follow
