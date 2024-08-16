@@ -1,3 +1,13 @@
+# [0.6.0](https://github.com/scrumlens/scrumlens/compare/v0.5.0...v0.6.0) (2024-08-16)
+
+
+### Features
+
+* **client, server:** decrease min length to 2 in user name ([292744f](https://github.com/scrumlens/scrumlens/commit/292744fa30824a726f055003070770be663c7700))
+* **client, sever:** add gif ([#18](https://github.com/scrumlens/scrumlens/issues/18)) ([ef70027](https://github.com/scrumlens/scrumlens/commit/ef70027ef5d760d74c714c068f3b76f5fb12f751))
+
+
+
 # [0.5.0](https://github.com/scrumlens/scrumlens/compare/v0.4.0...v0.5.0) (2024-08-15)
 
 
