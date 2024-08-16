@@ -3,6 +3,7 @@ import Elysia, { t } from 'elysia'
 export const noteItem = t.Object({
   _id: t.String(),
   content: t.String(),
+  gif: t.Optional(t.String()),
   userId: t.String(),
   voteUp: t.Array(t.String()),
   voteDown: t.Array(t.String()),
@@ -25,6 +26,7 @@ export const noteItem = t.Object({
 export const notesDTO = new Elysia().model({
   noteAdd: t.Object({
     content: t.String(),
+    gif: t.Optional(t.String()),
     boardId: t.String(),
     columnIndex: t.String(),
   }),

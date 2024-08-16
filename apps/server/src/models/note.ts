@@ -33,6 +33,9 @@ export const noteSchema = new Schema(
       type: String,
       required: true,
     },
+    gif: {
+      type: String,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',

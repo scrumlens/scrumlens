@@ -45,6 +45,11 @@ provide(NOTE_KEY, {
         class="whitespace-pre-wrap"
       >
         {{ data.content }}
+        <img
+          v-if="data.gif"
+          class="mt-2 rounded-md"
+          :src="data.gif"
+        >
       </div>
     </div>
     <div
