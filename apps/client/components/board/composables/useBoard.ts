@@ -5,6 +5,7 @@ import type {
   BoardResponse,
   BoardUpdate,
   BoardsResponse,
+  NoteAdd,
   NoteUpdate,
 } from '~/services/api/generated'
 import { useToast } from '@/components/ui/shadcn/toast/use-toast'
@@ -163,13 +164,15 @@ function removeColumnItem(columnId: string, itemId: string) {
   column.noteIds = noteIds
 }
 
-async function addNote(content: string, columnIndex: number) {
+async function addNote(note: Omit<NoteAdd, 'boardId'>) {
+  const { content, gif, columnIndex } = note
   if (isLockedForMember.value)
     return
 
   return api.notes.postNotes({
     boardId: boardRaw.value!._id,
-    columnIndex: String(columnIndex),
+    gif,
+    columnIndex,
     content,
   })
 }

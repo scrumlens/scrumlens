@@ -11,14 +11,17 @@
     "@elysiajs/swagger": "^1.1.0",
     "elysia": "^1.1.4",
     "jsonwebtoken": "^9.0.2",
+    "ky": "^1.6.0",
     "mongoose": "^8.5.1",
     "nanoid": "^5.0.7",
     "nodemailer": "^6.9.14",
+    "qs": "^6.13.0",
     "resend": "^3.5.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.15",
+    "@types/qs": "^6.9.15",
     "bun-types": "latest"
   }
 }

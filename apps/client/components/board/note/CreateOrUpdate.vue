@@ -2,7 +2,9 @@
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-import { onClickOutside, useFocus, useMagicKeys } from '@vueuse/core'
+import { useFocus, useMagicKeys } from '@vueuse/core'
+import { Paperclip } from 'lucide-vue-next'
+import { vOnClickOutside } from '@vueuse/components'
 import { useBoard } from '@/components/board/composables'
 
 interface Props {
@@ -18,9 +20,12 @@ const props = defineProps<Props>()
 const emit = defineEmits<Emits>()
 
 const textareaRef = ref()
-const formRef = ref()
+const ignoreElRef = ref()
+
+const gif = ref()
 
 const isPending = ref(false)
+const isOpenGifPopper = ref(false)
 
 const { focused } = useFocus(textareaRef)
 const { addNote, updateNote } = useBoard()
@@ -51,13 +56,23 @@ const shortcutText = computed(() => {
   return props.edit ? `${keys} for update` : `${keys} for add note`
 })
 
+function onAddGif(url: string) {
+  gif.value = url
+  isOpenGifPopper.value = false
+}
+
 const onSubmit = handleSubmit(async (values) => {
   try {
     isPending.value = true
 
     if (!props.edit && props.index !== undefined) {
-      await addNote(values.text.trim(), props.index)
+      await addNote({
+        content: values.text.trim(),
+        gif: gif.value,
+        columnIndex: String(props.index),
+      })
       resetForm()
+      gif.value = ''
       nextTick(() => focused.value = true)
     }
     else {
@@ -88,7 +103,10 @@ else {
   nextTick(() => focused.value = true)
 }
 
-onClickOutside(formRef, () => emit('close'))
+const onClickOutsideHandler = [
+  () => emit('close'),
+  { ignore: [ignoreElRef] },
+]
 
 watchEffect(() => {
   if (meta_enter.value || ctrl_enter.value) {
@@ -104,8 +122,9 @@ watchEffect(() => {
 </script>
 
 <template>
+  <!-- @vue-ignore -->
   <form
-    ref="formRef"
+    v-on-click-outside="onClickOutsideHandler"
     class="space-y-4 text-foreground sticky bottom-0"
     @submit="onSubmit"
   >
@@ -125,15 +144,46 @@ watchEffect(() => {
           />
         </FormControl>
         <FormMessage />
+        <img
+          v-if="gif"
+          class="rounded-md"
+          :src="gif"
+        >
       </FormItem>
     </FormField>
     <FormItem>
-      <UiText
-        size="sm"
-        class="text-muted-foreground"
-      >
-        {{ shortcutText }}
-      </UiText>
+      <div class="flex items-center justify-between">
+        <UiText
+          size="sm"
+          class="text-muted-foreground"
+        >
+          {{ shortcutText }}
+        </UiText>
+        <div class="flex justify-end text-muted-foreground">
+          <Popover v-model:open="isOpenGifPopper">
+            <PopoverTrigger as-child>
+              <div class="flex items-center">
+                <Button
+                  variant="ghost"
+                  size="xs"
+                  @click.prevent
+                >
+                  <Paperclip class="w-4 h-4" />
+                </Button>
+              </div>
+            </PopoverTrigger>
+            <PopoverContent
+              ref="ignoreElRef"
+              class="w-[300px] p-2"
+            >
+              <BoardNoteGifSearch
+                ref="ignoreElRef"
+                @add="onAddGif"
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
       <div class="flex gap-2">
         <Button
           type="submit"
@@ -143,7 +193,6 @@ watchEffect(() => {
         >
           {{ edit ? 'Update' : 'Add Note' }}
         </Button>
-
         <Button
           type="submit"
           size="sm"

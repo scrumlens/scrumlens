@@ -15,7 +15,7 @@ export interface Signin {
 }
 
 export interface Signup {
-  /** @minLength 3 */
+  /** @minLength 2 */
   name: string;
   email: string;
   /** @minLength 6 */
@@ -85,6 +85,7 @@ export interface BoardResponse {
   notes: {
     _id: string;
     content: string;
+    gif?: string;
     userId: string;
     voteUp: string[];
     voteDown: string[];
@@ -165,6 +166,7 @@ export interface BoardsQuery {
 
 export interface NoteAdd {
   content: string;
+  gif?: string;
   boardId: string;
   columnIndex: string;
 }
@@ -180,6 +182,42 @@ export interface NoteUpdate {
     | "fire"
     | "party-popper"
     | "pile-of-poo";
+}
+
+export interface GifRequest {
+  q: string;
+}
+
+export interface GifResponse {
+  results: {
+    id: string;
+    title: string;
+    media_formats: {
+      tinygif: {
+        url: string;
+        duration: number;
+        preview: string;
+        dims: number[];
+        size: number;
+      };
+      gif: {
+        url: string;
+        duration: number;
+        preview: string;
+        dims: number[];
+        size: number;
+      };
+    };
+    created: number;
+    content_description: string;
+    itemurl: string;
+    url: string;
+    tags: string[];
+    flags: string[];
+    hasaudio: boolean;
+    content_description_source: string;
+  }[];
+  next: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -765,6 +803,28 @@ export class Api<
       this.request<void, any>({
         path: `/notes/${id}`,
         method: "DELETE",
+        ...params,
+      }),
+  };
+  media = {
+    /**
+     * No description
+     *
+     * @tags Media
+     * @name GetMediaGif
+     * @request GET:/media/gif
+     */
+    getMediaGif: (
+      query: {
+        q: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<GifResponse, any>({
+        path: `/media/gif`,
+        method: "GET",
+        query: query,
+        format: "json",
         ...params,
       }),
   };
