@@ -6,16 +6,10 @@ const gifsRaw = shallowRef<GifResponse>()
 const isLoading = ref(false)
 
 export function useGif() {
-  const query = ref()
-
-  async function search() {
+  async function search(q: string) {
     try {
       isLoading.value = true
-
-      if (!query.value)
-        return
-
-      const { data } = await api.media.getMediaGif({ q: query.value })
+      const { data } = await api.media.getMediaGif({ q })
       gifsRaw.value = data
     }
     catch (err) {
@@ -26,12 +20,13 @@ export function useGif() {
     }
   }
 
-  const searchDebounced = useDebounceFn(search, 500)
+  if (!gifsRaw.value) {
+    search('cat')
+  }
 
   return {
     gifsRaw: readonly(gifsRaw),
-    query,
-    searchDebounced,
     isLoading,
+    searchDebounced: useDebounceFn(search, 500),
   }
 }
