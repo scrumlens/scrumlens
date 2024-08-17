@@ -22,20 +22,24 @@
   <a href="https://github.com/scrumlens/scrumlens/blob/main/CHANGELOG.md">Change Log</a>
 </p>
 
+<p align="center">
+  ⭐️ Your star shines on us. Star us on GitHub!
+</p>
+
 > [!CAUTION]
 > Project is currently in an active development stage.
 > We strongly recommend using our app for familiarization purposes only at this time. This will allow you to get acquainted with the main features and capabilities of our project, without risking the occurrence of unexpected situations.
 
 TODO: write a detailed README
 
+## Pre-requisites
+
+Before proceeding, ensure that your system meets the following requirements:
+
+- [Bun](https://bun.sh/) - Build tool and runtime
+- [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) - Database
+
 ## Development
-
-### Prerequisites
-
-- Bun: Build tool and runtime
-- MongoDB: Database
-
-Ensure both [Bun](https://bun.sh/) and [MongoDB](https://www.mongodb.com/docs/manual/administration/install-community/) are installed before proceeding.
 
 ```
 # Install dependencies
