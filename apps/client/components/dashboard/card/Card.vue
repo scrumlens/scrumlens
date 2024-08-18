@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { format } from 'date-fns'
-import { CalendarDays, Columns2, Globe, GlobeLock, Lock, LockOpen, StickyNote, UsersRound } from 'lucide-vue-next'
+import {
+  BarChart2,
+  CalendarDays,
+  Columns2,
+  Globe,
+  GlobeLock,
+  Lock,
+  LockOpen,
+  StickyNote,
+  UsersRound,
+} from 'lucide-vue-next'
 import type { BoardsResponse } from '~/services/api/generated'
 
 interface Props {
@@ -62,7 +72,7 @@ const isUserOwner = computed(() => userRaw.value?._id === props.data.userId)
         {{ format(data.createdAt, 'dd.MM.yyyy') }}
       </UiText>
     </div>
-    <div class="grid grid-cols-3 gap-3 bg-primary-foreground p-3 mt-3 text-xl">
+    <div class="grid grid-cols-4 gap-3 bg-primary-foreground p-3 mt-3 text-xl">
       <div class="flex items-center gap-2">
         <Columns2 class="w-5 h-5 text-muted-foreground" />
         {{ data.columns.length }}
@@ -74,6 +84,10 @@ const isUserOwner = computed(() => userRaw.value?._id === props.data.userId)
       <div class="flex items-center gap-2">
         <StickyNote class="w-5 h-5 text-muted-foreground" />
         {{ data.notes.length }}
+      </div>
+      <div class="flex items-center gap-2">
+        <BarChart2 class="w-5 h-5 text-muted-foreground" />
+        {{ data.polls && data.polls.length || 0 }}
       </div>
     </div>
   </div>

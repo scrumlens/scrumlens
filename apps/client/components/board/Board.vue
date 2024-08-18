@@ -33,7 +33,8 @@ watch(() => boardRaw.value?.accessPolicy, (v) => {
     :class="{ 'is-locked': isLockedForMember }"
     class="h-full overflow-x-auto flex flex-col [&.is-locked]:opacity-50 [&.is-locked]:pointer-events-none"
   >
-    <div class="flex gap-3 flex-grow">
+    <div class="flex gap-3 flex-grow my-3">
+      <BoardColumnPoll v-if="boardRaw?.polls?.length" />
       <BoardColumn
         v-for="(i, index) in boardRaw?.columns"
         :id="i._id"

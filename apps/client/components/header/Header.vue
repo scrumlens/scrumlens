@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { Lock, LockOpen, Pencil } from 'lucide-vue-next'
+import { BarChart2, Lock, LockOpen, Pencil } from 'lucide-vue-next'
 import { useBoard } from '@/components/board/composables'
 import LogoSvg from '@/assets/svg/scrumlens-logo.svg'
 
 const { boardRaw, isAdmin, connectedUsers } = useBoard()
 
 const isOpenEditDialog = ref(false)
+const isOpenCreatePollDialog = ref(false)
 </script>
 
 <template>
@@ -42,6 +43,19 @@ const isOpenEditDialog = ref(false)
         >
           <Pencil class="w-3.5 h-3.5" />
         </Button>
+        <template v-if="isAdmin">
+          <Separator
+            class="h-5"
+            orientation="vertical"
+          />
+          <Button
+            size="xs"
+            variant="ghost"
+            @click="isOpenCreatePollDialog = true"
+          >
+            <BarChart2 class="w-3.5 h-3.5" />
+          </Button>
+        </template>
       </div>
     </div>
     <div class="flex items-center gap-6">
@@ -59,7 +73,7 @@ const isOpenEditDialog = ref(false)
     v-if="isAdmin"
     v-model:open="isOpenEditDialog"
   >
-    <DialogContent class="max-w-[700px]">
+    <DialogScrollContent class="max-w-[700px]">
       <DialogHeader>
         <DialogTitle>Edit Board</DialogTitle>
       </DialogHeader>
@@ -68,6 +82,21 @@ const isOpenEditDialog = ref(false)
         :data="boardRaw"
         @close="isOpenEditDialog = false"
       />
-    </DialogContent>
+    </DialogScrollContent>
+  </Dialog>
+  <Dialog
+    v-if="isAdmin"
+    v-model:open="isOpenCreatePollDialog"
+  >
+    <DialogScrollContent class="max-w-[700px]">
+      <DialogHeader>
+        <DialogTitle>Create Poll</DialogTitle>
+      </DialogHeader>
+      <BoardFormCreatePoll
+        v-if="boardRaw"
+        :data="boardRaw"
+        @close="isOpenCreatePollDialog = false"
+      />
+    </DialogScrollContent>
   </Dialog>
 </template>

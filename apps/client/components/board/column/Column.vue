@@ -49,7 +49,7 @@ function onChange(event: any) {
 <template>
   <div
     data-board-column
-    class="min-w-96 max-w-96 my-3 flex flex-col gap-2"
+    class="min-w-96 max-w-96 flex flex-col gap-2"
   >
     <div class="bg-primary-foreground dark:bg-slate-900/50 rounded-md p-2">
       <div class="mb-2 space-y-2 text-sm">

@@ -108,6 +108,15 @@ export interface BoardResponse {
     color: string;
     noteIds: string[];
   }[];
+  polls: {
+    _id: string;
+    title: string;
+    options: {
+      _id: string;
+      title: string;
+      vote: string[];
+    }[];
+  }[];
   accessPolicy: "public" | "private";
   isLocked: boolean;
   createdAt: string;
@@ -141,6 +150,7 @@ export interface BoardsResponse {
       color: string;
       noteIds: string[];
     }[];
+    polls?: string[];
     accessPolicy: "public" | "private";
     isLocked: boolean;
     createdAt: string;
@@ -218,6 +228,19 @@ export interface GifResponse {
     content_description_source: string;
   }[];
   next: string;
+}
+
+export interface PollAdd {
+  title: string;
+  options?: {
+    title: string;
+    vote?: string[];
+  }[];
+  boardId: string;
+}
+
+export interface PollVoteOption {
+  optionId: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -825,6 +848,57 @@ export class Api<
         method: "GET",
         query: query,
         format: "json",
+        ...params,
+      }),
+  };
+  polls = {
+    /**
+     * No description
+     *
+     * @tags Polls
+     * @name PostPolls
+     * @request POST:/polls/
+     */
+    postPolls: (data: PollAdd, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/polls/`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Polls
+     * @name PatchPollsByIdVote
+     * @request PATCH:/polls/{id}/vote
+     */
+    patchPollsByIdVote: (
+      id: string,
+      data: PollVoteOption,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/polls/${id}/vote`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Polls
+     * @name DeletePollsById
+     * @request DELETE:/polls/{id}
+     */
+    deletePollsById: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/polls/${id}`,
+        method: "DELETE",
         ...params,
       }),
   };
