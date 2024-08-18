@@ -1,3 +1,14 @@
+# [0.7.0](https://github.com/scrumlens/scrumlens/compare/v0.6.0...v0.7.0) (2024-08-18)
+
+
+### Features
+
+* **client:** add init gifs ([ca4696c](https://github.com/scrumlens/scrumlens/commit/ca4696ce2e8ce4f7e998931c97aa61192db595ca))
+* **client:** add poll ([df15a61](https://github.com/scrumlens/scrumlens/commit/df15a61766e7b2650d6a1bf30db1f6acce9b1267))
+* **server:** add polls api ([c2da899](https://github.com/scrumlens/scrumlens/commit/c2da899fa946a8404784fb88e23c3be73b46679e))
+
+
+
 # [0.6.0](https://github.com/scrumlens/scrumlens/compare/v0.5.0...v0.6.0) (2024-08-16)
 
 

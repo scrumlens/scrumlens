@@ -66,7 +66,7 @@ The project is monorepo with folders:
 - [ ] Participants ban system
 - [ ] Comments system
 - [x] Locking board
-- [ ] Polling
+- [x] Polling
 - [ ] Timers
 - [x] Gifs in notes
 - [ ] Export board data to PDF, CSV, etc.
