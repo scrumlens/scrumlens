@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./preview.jpg">
+  <img src=".github/preview.jpg">
 </p>
 
 <h1 align="center">Scrumlens</h1>
