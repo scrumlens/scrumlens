@@ -45,8 +45,8 @@ async function onDelete() {
 
 <template>
   <div class="p-2 bg-white dark:bg-slate-900 rounded-md border dark:border-slate-700 min-w-96 max-w-96">
-    <div class="flex items-center justify-between text-sm mb-2">
-      <div class="font-bold">
+    <div class="flex items-baseline justify-between text-sm mb-2">
+      <div class="font-bold max-w-[70%]">
         {{ data.title }}
       </div>
       <div class="flex items-center gap-2">

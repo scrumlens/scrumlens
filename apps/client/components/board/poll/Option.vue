@@ -35,7 +35,7 @@ const isUserVoted = computed(() => userRaw.value && props.data.vote.includes(use
         }"
       />
     </div>
-    <div class="tabular-nums w-10">
+    <div class="tabular-nums w-10 shrink-0">
       {{ percent.toFixed(0) }}%
     </div>
   </div>
