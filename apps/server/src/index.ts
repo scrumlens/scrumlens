@@ -9,6 +9,7 @@ import users from './routes/users'
 import boards from './routes/boards'
 import notes from './routes/notes'
 import media from './routes/media'
+import polls from './routes/polls'
 
 mongoose.connect(Bun.env.MONGO_URL)
 
@@ -36,6 +37,7 @@ app
   .use(boards)
   .use(notes)
   .use(media)
+  .use(polls)
   .listen(Bun.env.API_PORT, () => {
     // eslint-disable-next-line no-console
     console.log(

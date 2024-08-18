@@ -3,6 +3,7 @@ import type { boardSchema } from '@/models/board'
 import { Note } from '@/models/note'
 import { User } from '@/models/user'
 import { Comment } from '@/models/comment'
+import { Poll } from '@/models/poll'
 
 export async function getExtendedBoardData(
   board: InferSchemaType<typeof boardSchema>,
@@ -25,9 +26,16 @@ export async function getExtendedBoardData(
     },
   })
 
+  const polls = await Poll.find({
+    _id: {
+      $in: board.polls.map(i => i._id),
+    },
+  })
+
   const data = JSON.parse(JSON.stringify(board))
 
   data.notes = notes
+  data.polls = polls
 
   data.participants = board.participants.map((i) => {
     const name = participants.find(p => p._id.equals(i.userId))?.name

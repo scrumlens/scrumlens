@@ -26,6 +26,7 @@ export const boardItem = t.Object({
       noteIds: t.Array(t.String()),
     }),
   ),
+  polls: t.Optional(t.Array(t.String())),
   accessPolicy: t.Enum({
     public: 'public',
     private: 'private',
@@ -46,6 +47,19 @@ export const boardItemExtended = t.Object({
       }),
       userId: t.String(),
       name: t.String(),
+    }),
+  ),
+  polls: t.Array(
+    t.Object({
+      _id: t.String(),
+      title: t.String(),
+      options: t.Array(
+        t.Object({
+          _id: t.String(),
+          title: t.String(),
+          vote: t.Array(t.String()),
+        }),
+      ),
     }),
   ),
   comments: t.Array(commentItem),

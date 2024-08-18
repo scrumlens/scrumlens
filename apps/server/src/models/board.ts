@@ -53,6 +53,12 @@ export const boardSchema = new Schema(
     ],
     participants: [participantSchema],
     columns: [columnSchema],
+    polls: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Poll',
+      },
+    ],
     accessPolicy: {
       type: String,
       enum: ['public', 'private'],
