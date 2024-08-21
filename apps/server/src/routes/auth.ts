@@ -29,7 +29,13 @@ app
         const user = new User(body)
         await user.save()
 
-        await sendVerifyEmail(user.email, user.id)
+        await sendVerifyEmail({
+          email: user.email,
+          userId: user.id,
+          data: {
+            username: user.name,
+          },
+        })
       }
       catch (err) {
         console.error(err)
@@ -228,7 +234,13 @@ app
         throw new Error('User not found')
       }
 
-      await sendVerifyEmail(user.email, user.id)
+      await await sendVerifyEmail({
+        email: user.email,
+        userId: user.id,
+        data: {
+          username: user.name,
+        },
+      })
     },
     {
       requiredAuth: true,

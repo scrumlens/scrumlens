@@ -140,7 +140,10 @@ app
             email: user.email,
             userId: user.id,
             boardId: params.id,
-            boardName: board.title,
+            data: {
+              username: user.name,
+              boardName: board.title,
+            },
           })
         }),
       )
