@@ -15,10 +15,15 @@ interface Props {
   focusDelay?: number
 }
 
+interface Emits {
+  (e: 'close'): void
+}
+
 const props = defineProps<Props>()
 
 const emit = defineEmits<Emits>()
 
+const formRef = ref<HTMLFormElement>()
 const textareaRef = ref()
 const ignoreElRef = ref()
 
@@ -37,10 +42,6 @@ const formSchema = toTypedSchema(
     text: z.string(),
   }),
 )
-
-interface Emits {
-  (e: 'close'): void
-}
 
 const { handleSubmit, resetForm, setValues } = useForm({
   validationSchema: formSchema,
@@ -71,8 +72,11 @@ const onSubmit = handleSubmit(async (values) => {
         gif: gif.value,
         columnIndex: String(props.index),
       })
-      resetForm()
+
       gif.value = ''
+
+      resetForm()
+      scrollIntoView()
       nextTick(() => focused.value = true)
     }
     else {
@@ -91,6 +95,36 @@ const onSubmit = handleSubmit(async (values) => {
     isPending.value = false
   }
 })
+
+function isFormInView() {
+  const formRect = formRef.value?.getBoundingClientRect()
+  const windowHeight = window.innerHeight
+
+  if (!formRect)
+    return false
+
+  const isFormInView = formRect.top + formRect.height <= windowHeight
+
+  return isFormInView
+}
+
+function scrollIntoView() {
+  if (isFormInView())
+    return
+
+  nextTick(() => {
+    formRef.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  })
+}
+
+const onClickOutsideHandler = [
+  () => emit('close'),
+  { ignore: [ignoreElRef] },
+]
+
 // Компонент может быть создан при открытии из popper (dropdown menu).
 // Поскольку radix использует focus guard c установкой aria-hidden="true",
 // который снимается после окончания анимации, то в этом случае необходимо
@@ -103,10 +137,9 @@ else {
   nextTick(() => focused.value = true)
 }
 
-const onClickOutsideHandler = [
-  () => emit('close'),
-  { ignore: [ignoreElRef] },
-]
+onMounted(() => {
+  scrollIntoView()
+})
 
 watchEffect(() => {
   if (meta_enter.value || ctrl_enter.value) {
@@ -124,8 +157,9 @@ watchEffect(() => {
 <template>
   <!-- @vue-ignore -->
   <form
+    ref="formRef"
     v-on-click-outside="onClickOutsideHandler"
-    class="space-y-4 text-foreground sticky bottom-0"
+    class="space-y-4 text-foreground sticky bottom-0 scroll-mt-28"
     @submit="onSubmit"
   >
     <FormField
