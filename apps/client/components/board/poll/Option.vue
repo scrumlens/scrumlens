@@ -29,7 +29,7 @@ const isUserVoted = computed(() => userRaw.value && props.data.vote.includes(use
         {{ data.title }}
       </div>
       <div
-        class="absolute inset-0 bg-slate-100 dark:bg-slate-800 z-0"
+        class="absolute inset-0 bg-slate-100 dark:bg-slate-800 z-0 transition-all duration-300"
         :style="{
           width: `${percent}%`,
         }"
