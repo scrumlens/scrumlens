@@ -46,14 +46,21 @@ setValues({
 
 const onSubmit = handleSubmit(async (values) => {
   isPending.value = true
+
+  const route = useRoute()
+
   await updateBoard(props.data._id, {
     ...values,
+    accessPolicy: values.private ? 'private' : 'public',
     title: values.title.trim(),
     columns: boardLocal.value.columns,
   })
+
   isPending.value = false
 
-  await getBoards()
+  if (route.name === 'dashboard')
+    await getBoards()
+
   emit('close')
 })
 
