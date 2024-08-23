@@ -1,3 +1,19 @@
+# [0.8.0](https://github.com/scrumlens/scrumlens/compare/v0.7.0...v0.8.0) (2024-08-23)
+
+
+### Bug Fixes
+
+* **client:** update private in edit board dialog ([659f249](https://github.com/scrumlens/scrumlens/commit/659f24909797b467d4b03e3d006e839f49e21702))
+
+
+### Features
+
+* **client:** add error page ([8b340a6](https://github.com/scrumlens/scrumlens/commit/8b340a6bb1f05d07fc24d030000bf8f7d016df46))
+* **client:** add scroll into create note form ([cfbf6e9](https://github.com/scrumlens/scrumlens/commit/cfbf6e9450d7235cc97306d16cf9bbd2fc483d72))
+* add email templates ([#20](https://github.com/scrumlens/scrumlens/issues/20)) ([a375a40](https://github.com/scrumlens/scrumlens/commit/a375a404a5b2e61142a9a469178deb55e31c9c76))
+
+
+
 # [0.7.0](https://github.com/scrumlens/scrumlens/compare/v0.6.0...v0.7.0) (2024-08-18)
 
 
