@@ -21,8 +21,8 @@ export async function getExtendedBoardData(
   }).select('name')
 
   const comments = await Comment.find({
-    _id: {
-      $in: notes.map(i => i.comments),
+    noteId: {
+      $in: notes.map(i => i._id),
     },
   })
 
@@ -36,6 +36,7 @@ export async function getExtendedBoardData(
 
   data.notes = notes
   data.polls = polls
+  data.comments = comments
 
   data.participants = board.participants.map((i) => {
     const name = participants.find(p => p._id.equals(i.userId))?.name
@@ -45,8 +46,6 @@ export async function getExtendedBoardData(
       name,
     }
   })
-
-  data.comments = comments
 
   return data
 }
