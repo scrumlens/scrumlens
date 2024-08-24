@@ -64,7 +64,7 @@ The project is monorepo with folders:
 
 - [x] Private boards & invitation system
 - [ ] Participants ban system
-- [ ] Comments system
+- [x] Comments system
 - [x] Locking board
 - [x] Polling
 - [ ] Timers
