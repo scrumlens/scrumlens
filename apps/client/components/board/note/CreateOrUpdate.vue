@@ -159,7 +159,7 @@ watchEffect(() => {
   <form
     ref="formRef"
     v-on-click-outside="onClickOutsideHandler"
-    class="space-y-4 text-foreground sticky bottom-0 scroll-mt-28"
+    class="space-y-4 text-foreground scroll-mt-28"
     @submit="onSubmit"
   >
     <FormField
