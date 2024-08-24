@@ -243,6 +243,15 @@ export interface PollVoteOption {
   optionId: string;
 }
 
+export interface CommentAdd {
+  content: string;
+  noteId: string;
+}
+
+export interface CommentUpdate {
+  content: string;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -898,6 +907,57 @@ export class Api<
     deletePollsById: (id: string, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/polls/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+  };
+  comments = {
+    /**
+     * No description
+     *
+     * @tags Comments
+     * @name PostComments
+     * @request POST:/comments/
+     */
+    postComments: (data: CommentAdd, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/comments/`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Comments
+     * @name PatchCommentsById
+     * @request PATCH:/comments/{id}
+     */
+    patchCommentsById: (
+      id: string,
+      data: CommentUpdate,
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/comments/${id}`,
+        method: "PATCH",
+        body: data,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Comments
+     * @name DeleteCommentsById
+     * @request DELETE:/comments/{id}
+     */
+    deleteCommentsById: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/comments/${id}`,
         method: "DELETE",
         ...params,
       }),

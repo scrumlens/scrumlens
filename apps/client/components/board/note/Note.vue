@@ -12,6 +12,7 @@ const props = defineProps<Props>()
 const { boardRaw, deleteNote } = useBoard()
 
 const isEdit = ref(false)
+const isShowComments = ref(false)
 
 provide(NOTE_KEY, {
   data: computed(() => props.data),
@@ -31,6 +32,7 @@ provide(NOTE_KEY, {
       <div class="font-bold">
         {{ boardRaw?.participants.find(i => i.userId === data.userId)?.name }}
       </div>
+
       <BoardNoteCreateOrUpdate
         v-if="isEdit"
         :note-id="data._id"
@@ -54,10 +56,14 @@ provide(NOTE_KEY, {
     </div>
     <div
       data-board-note-actions
-      class="flex _items-center gap-2 text-sm justify-between text-muted-foreground mt-3"
+      class="flex gap-2 text-sm justify-between text-muted-foreground mt-3"
     >
       <BoardNoteEmoji />
-      <BoardNoteVote />
+      <div class="flex items-baseline">
+        <BoardNoteCommentsButton @click="isShowComments = !isShowComments" />
+        <BoardNoteVote />
+      </div>
     </div>
+    <BoardNoteComments v-if="isShowComments" />
   </div>
 </template>
