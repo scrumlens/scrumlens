@@ -5,6 +5,8 @@ import type {
   BoardResponse,
   BoardUpdate,
   BoardsResponse,
+  CommentAdd,
+  CommentUpdate,
   NoteAdd,
   NoteUpdate,
 } from '~/services/api/generated'
@@ -213,16 +215,66 @@ async function deleteNote(noteId: string) {
   }
 }
 
+async function addComment(comment: CommentAdd) {
+  const { content, noteId } = comment
+
+  if (isLockedForMember.value)
+    return
+
+  return api.comments.postComments({
+    content,
+    noteId,
+  })
+}
+
+async function updateComment(commentId: string, update: CommentUpdate) {
+  if (isLockedForMember.value)
+    return
+
+  try {
+    await api.comments.patchCommentsById(commentId, update)
+  }
+  catch (err) {
+    const data = await getErrorData(err)
+    console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
+  }
+}
+
+async function deleteComment(commentId: string) {
+  if (isLockedForMember.value)
+    return
+
+  try {
+    api.comments.deleteCommentsById(commentId)
+  }
+  catch (err) {
+    const data = await getErrorData(err)
+    console.error(err)
+    toast({
+      title: 'Something went wrong',
+      description: data.message,
+      variant: 'destructive',
+    })
+  }
+}
+
 export function useBoard() {
   return {
     addBoard,
     addColumnItem,
+    addComment,
     addNote,
     boardRaw,
     boardsRaw,
     connectedUserIds,
     connectedUsers,
     deleteBoard,
+    deleteComment,
     deleteNote,
     editId,
     getBoardById,
@@ -236,6 +288,7 @@ export function useBoard() {
     removeColumnItem,
     updateBoard,
     updateBoardDebounced,
+    updateComment,
     updateNote,
   }
 }

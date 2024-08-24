@@ -10,17 +10,7 @@ const { userRaw } = useUser()
 </script>
 
 <template>
-  <div class="flex _items-center items-baseline">
-    <Button
-      size="xs"
-      variant="ghost"
-      class="flex gap-1"
-    >
-      <MessageSquare class="w-3.5 h-3.5" />
-      <span class="tabular-nums">
-        {{ note?.data.value.comments.length || 0 }}
-      </span>
-    </Button>
+  <div class="flex items-baseline">
     <Button
       size="xs"
       variant="ghost"
