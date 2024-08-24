@@ -1,3 +1,13 @@
+# [0.9.0](https://github.com/scrumlens/scrumlens/compare/v0.8.0...v0.9.0) (2024-08-24)
+
+
+### Features
+
+* **client:** add comments to note ([#22](https://github.com/scrumlens/scrumlens/issues/22)) ([9a5f2bb](https://github.com/scrumlens/scrumlens/commit/9a5f2bb2080152b70b9a33d8c143694470e22edb))
+* **server:** add comments api ([#21](https://github.com/scrumlens/scrumlens/issues/21)) ([167bedc](https://github.com/scrumlens/scrumlens/commit/167bedcd3a28ade74006e2eb57534f467ab9993e))
+
+
+
 # [0.8.0](https://github.com/scrumlens/scrumlens/compare/v0.7.0...v0.8.0) (2024-08-23)
 
 
