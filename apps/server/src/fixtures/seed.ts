@@ -52,6 +52,13 @@ async function seed() {
   const userAlex = await User.findOne({ email: 'alex@scrumlens.com' })
   const boardAlex = await Board.findOne({ userId: userAlex!._id })
 
+  const participantsWithoutAlex = users
+    .map(i => ({
+      role: 'member',
+      userId: i._id,
+    }))
+    .filter(i => i.userId !== userAlex!._id)
+
   if (!boardAlex) {
     board = new Board({
       title: 'Retro 1',
@@ -82,22 +89,7 @@ async function seed() {
           role: 'admin',
           userId: userAlex!._id,
         },
-        {
-          role: 'member',
-          userId: users[1]._id,
-        },
-        {
-          role: 'member',
-          userId: users[2]._id,
-        },
-        {
-          role: 'member',
-          userId: users[3]._id,
-        },
-        {
-          role: 'member',
-          userId: users[4]._id,
-        },
+        ...participantsWithoutAlex,
       ],
     })
     await board.save()
