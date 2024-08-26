@@ -5,6 +5,7 @@ import middleware from '@/middleware'
 import { notesDTO } from '@/dto/notes'
 import { Note } from '@/models/note'
 import { Board } from '@/models/board'
+import { Comment } from '@/models/comment'
 import { getExtendedBoardData } from '@/helpers/boards'
 
 const app = new Elysia({ prefix: '/notes' })
@@ -175,6 +176,7 @@ app
       })
 
       await note.deleteOne()
+      await Comment.deleteMany({ noteId: note._id })
       await board.save()
 
       const data = await getExtendedBoardData(board)
