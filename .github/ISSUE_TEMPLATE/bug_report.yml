@@ -1,0 +1,48 @@
+name: 🐞 Bug report
+description: Report an issue with Scrumlens
+title: '[Bug]: '
+labels: [pending triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is. If applicable, add screenshots to help explain your problem.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduse
+    attributes:
+      label: To reproduce
+      description: Steps to reproduce the behavior
+      value: |
+        1. Go to ...
+        2. Click on ...
+        3. Scroll down to ..
+        4. See error
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of Scrumlens are you running?
+      placeholder: e.g. 2.0.0, 2.1.0-beta.6
+    validations:
+      required: true
+  - type: checkboxes
+    id: validation
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Follow our [Code of Conduct](https://github.com/scrumlens/scrumlens/blob/main/CODE_OF_CONDUCT.md)
+          required: true
+        - label: Check that there isn't [already an issue](https://github.com/scrumlens/scrumlens/issues) that reports the same bug to avoid creating a duplicate.
+          required: true
+        - label: Check that this is a concrete bug. For Q&A open a [GitHub Discussion](https://github.com/scrumlens/scrumlens/discussions).
+          required: true
