@@ -12,7 +12,7 @@ const isOpenCreatePollDialog = ref(false)
 <template>
   <div
     data-header
-    class="flex items-center justify-between h-14 px-4 border-b shrink-0 fixed top-0 w-full z-10 backdrop-blur bg-white/70 dark:bg-slate-950/70"
+    class="flex items-center justify-between h-14 px-4 border-b shrink-0 fixed top-0 w-full z-50 backdrop-blur bg-white/70 dark:bg-slate-950/70"
   >
     <div class="flex items-center gap-2">
       <LogoSvg
