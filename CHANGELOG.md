@@ -1,3 +1,12 @@
+## [0.9.1](https://github.com/scrumlens/scrumlens/compare/v0.9.0...v0.9.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* **server:** delete comments by deleting note ([2ced69e](https://github.com/scrumlens/scrumlens/commit/2ced69eab77173a0abaefdbd50a6f6733cc8fa09))
+
+
+
 # [0.9.0](https://github.com/scrumlens/scrumlens/compare/v0.8.0...v0.9.0) (2024-08-24)
 
 
