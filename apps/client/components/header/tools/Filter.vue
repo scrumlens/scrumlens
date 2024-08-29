@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ListFilter, X } from 'lucide-vue-next'
+import { ListFilter, Trash2 } from 'lucide-vue-next'
 
 import { useFilter } from '@/components/board/composables'
 
@@ -43,7 +43,7 @@ onBeforeUnmount(() => {
           variant="ghost"
           @click="onReset"
         >
-          <X class="w-3.5 h-3.5" />
+          <Trash2 class="w-3.5 h-3.5" />
         </Button>
       </DropdownMenuLabel>
       <DropdownMenuCheckboxItem
