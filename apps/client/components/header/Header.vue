@@ -27,14 +27,16 @@ const isOpenCreatePollDialog = ref(false)
         <span>
           {{ boardRaw?.title }}
         </span>
-        <Lock
-          v-if="boardRaw.isLocked"
-          class="w-3.5 h-3.5 text-muted-foreground"
-        />
-        <LockOpen
-          v-else
-          class="w-3.5 h-3.5 text-muted-foreground"
-        />
+        <div class="mr-5">
+          <Lock
+            v-if="boardRaw.isLocked"
+            class="w-3.5 h-3.5 text-muted-foreground"
+          />
+          <LockOpen
+            v-else
+            class="w-3.5 h-3.5 text-muted-foreground"
+          />
+        </div>
         <Button
           v-if="isAdmin"
           size="xs"
@@ -56,6 +58,11 @@ const isOpenCreatePollDialog = ref(false)
             <BarChart2 class="w-3.5 h-3.5" />
           </Button>
         </template>
+        <Separator
+          class="h-5"
+          orientation="vertical"
+        />
+        <HeaderToolsSorting />
       </div>
     </div>
     <div class="flex items-center gap-6">

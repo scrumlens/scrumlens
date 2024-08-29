@@ -100,6 +100,7 @@ export interface BoardResponse {
         | "pile-of-poo";
     }[];
     comments: string[];
+    createdAt: string;
   }[];
   columns: {
     _id: string;
