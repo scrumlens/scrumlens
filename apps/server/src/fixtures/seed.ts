@@ -53,11 +53,11 @@ async function seed() {
   const boardAlex = await Board.findOne({ userId: userAlex!._id })
 
   const participantsWithoutAlex = users
+    .filter(i => !i._id.equals(userAlex!._id))
     .map(i => ({
       role: 'member',
       userId: i._id,
     }))
-    .filter(i => i.userId !== userAlex!._id)
 
   if (!boardAlex) {
     board = new Board({
