@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
 import { Plus } from 'lucide-vue-next'
-import { useBoard } from '@/components/board/composables'
+import { useBoard, useSort } from '@/components/board/composables'
+import type { BoardResponse } from '~/services/api/generated'
 
 interface Props {
   id: string
@@ -18,13 +19,43 @@ const {
   updateBoardDebounced,
   isAdmin,
 } = useBoard()
+
 const { userRaw } = useUser()
+
+const { selected: selectedSort } = useSort()
 
 const isShowForm = ref(false)
 
 const column = computed(() => boardRaw.value?.columns.find(i => i._id === props.id))
 
 const notes = computed(() => column.value?.noteIds?.map(i => boardRaw.value?.notes.find(item => item._id === i)))
+
+const sortedNotes = computed(() => {
+  if (!notes.value)
+    return []
+
+  const _notes = JSON.parse(JSON.stringify(notes.value)) as BoardResponse['notes']
+
+  if (selectedSort.value === 'custom')
+    return _notes
+
+  if (selectedSort.value === 'createdAt')
+    return _notes.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+
+  if (selectedSort.value === 'votes') {
+    return _notes.sort((a, b) => [...b.voteUp, ...b.voteDown].length - [...a.voteUp, ...a.voteDown].length)
+  }
+
+  if (selectedSort.value === 'comments') {
+    return _notes.sort((a, b) => b.comments.length - a.comments.length)
+  }
+
+  if (selectedSort.value === 'emojis') {
+    return _notes.sort((a, b) => b.reactions.length - a.reactions.length)
+  }
+
+  return []
+})
 
 // TODO добавить типы для event
 function onChange(event: any) {
@@ -71,11 +102,12 @@ function onChange(event: any) {
         </div>
       </div>
       <Draggable
-        :list="notes"
+        :list="sortedNotes"
         group="common"
         class="flex flex-col gap-2 min-h-10"
         item-key="_id"
         filter=".no-drag"
+        :sort="selectedSort === 'custom'"
         @change="onChange"
       >
         <template #item="{ element }">
