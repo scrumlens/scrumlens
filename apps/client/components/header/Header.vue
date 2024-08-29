@@ -62,6 +62,7 @@ const isOpenCreatePollDialog = ref(false)
           class="h-5"
           orientation="vertical"
         />
+        <HeaderToolsFilter />
         <HeaderToolsSorting />
       </div>
     </div>

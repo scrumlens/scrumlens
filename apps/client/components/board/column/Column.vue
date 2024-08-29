@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
 import { Plus } from 'lucide-vue-next'
-import { useBoard, useSort } from '@/components/board/composables'
+import { useBoard, useFilter, useSort } from '@/components/board/composables'
 import type { BoardResponse } from '~/services/api/generated'
 
 interface Props {
@@ -23,6 +23,7 @@ const {
 const { userRaw } = useUser()
 
 const { selected: selectedSort } = useSort()
+const { selectedUserIds } = useFilter()
 
 const isShowForm = ref(false)
 
@@ -34,7 +35,10 @@ const sortedNotes = computed(() => {
   if (!notes.value)
     return []
 
-  const _notes = JSON.parse(JSON.stringify(notes.value)) as BoardResponse['notes']
+  let _notes = JSON.parse(JSON.stringify(notes.value)) as BoardResponse['notes']
+
+  if (selectedUserIds.value.length)
+    _notes = _notes.filter(i => selectedUserIds.value.find(j => j.userId === i.userId))
 
   if (selectedSort.value === 'custom')
     return _notes
@@ -93,7 +97,7 @@ function onChange(event: any) {
           </div>
           <div class="text-xs tabular-nums text-muted-foreground">
             <span>
-              Items: {{ notes?.length || 0 }}
+              Items: {{ sortedNotes?.length || 0 }}
             </span>
           </div>
         </div>
