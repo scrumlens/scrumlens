@@ -1,3 +1,37 @@
+## [0.10.1](https://github.com/scrumlens/scrumlens/compare/v0.10.0...v0.10.1) (2024-08-29)
+
+
+### Bug Fixes
+
+* **client:** filter max height ([3cfb306](https://github.com/scrumlens/scrumlens/commit/3cfb306382b7e3acdbfaa0675d1f3db1697e2458))
+
+
+
+# [0.10.0](https://github.com/scrumlens/scrumlens/compare/v0.9.2...v0.10.0) (2024-08-29)
+
+
+### Features
+
+* **client:** add note filter ([#24](https://github.com/scrumlens/scrumlens/issues/24)) ([7d9491d](https://github.com/scrumlens/scrumlens/commit/7d9491d090e8cb5a78be36b312b2148e0c86cdc2))
+* **client:** add note sorting ([#23](https://github.com/scrumlens/scrumlens/issues/23)) ([9d4cc83](https://github.com/scrumlens/scrumlens/commit/9d4cc8340dd47537f2bfc89cfd3b605a8fd47e42))
+* **server:** add `createdAt` in note response ([45b1e37](https://github.com/scrumlens/scrumlens/commit/45b1e37661ca446f5912529ee709fd6bf9c35b47))
+
+
+
+## [0.9.2](https://github.com/scrumlens/scrumlens/compare/v0.9.1...v0.9.2) (2024-08-26)
+
+
+### Bug Fixes
+
+* **client:** up z-index for header to polls was bellow ([d10dd2b](https://github.com/scrumlens/scrumlens/commit/d10dd2ba8d944c576a2c9a5b21568bffde2b9784))
+
+
+### Reverts
+
+* **github:** workflow permission ([58736c5](https://github.com/scrumlens/scrumlens/commit/58736c510fac175a6a984c0930cd06f85ead6e82))
+
+
+
 ## [0.9.1](https://github.com/scrumlens/scrumlens/compare/v0.9.0...v0.9.1) (2024-08-26)
 
 
