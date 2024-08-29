@@ -21,6 +21,7 @@ export const noteItem = t.Object({
     }),
   ),
   comments: t.Array(t.String()),
+  createdAt: t.String(),
 })
 
 export const notesDTO = new Elysia().model({
