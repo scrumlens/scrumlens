@@ -18,7 +18,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <DropdownMenu v-model:open="isOpen">
+  <DropdownMenu
+    v-model:open="isOpen"
+    cl
+  >
     <DropdownMenuTrigger as-child>
       <Button
         size="xs"
@@ -46,14 +49,16 @@ onBeforeUnmount(() => {
           <Trash2 class="w-3.5 h-3.5" />
         </Button>
       </DropdownMenuLabel>
-      <DropdownMenuCheckboxItem
-        v-for="i in users"
-        :key="i.userId"
-        v-model:checked="i.checked"
-        @select.prevent
-      >
-        {{ i.name }}
-      </DropdownMenuCheckboxItem>
+      <DropdownMenuGroup class="max-h-[400px] overflow-y-auto">
+        <DropdownMenuCheckboxItem
+          v-for="i in users"
+          :key="i.userId"
+          v-model:checked="i.checked"
+          @select.prevent
+        >
+          {{ i.name }}
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuGroup>
     </DropdownMenuContent>
   </DropdownMenu>
 </template>
