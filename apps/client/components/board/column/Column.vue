@@ -107,6 +107,7 @@ function onChange(event: any) {
       </div>
       <Draggable
         :list="sortedNotes"
+        :animation="150"
         group="common"
         class="flex flex-col gap-2 min-h-10"
         item-key="_id"

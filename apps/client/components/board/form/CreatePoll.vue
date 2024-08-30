@@ -107,6 +107,7 @@ const onSubmit = handleSubmit(async (values) => {
     </FormField>
     <Draggable
       :list="options"
+       :animation="150"
       item-key="id"
       class="flex flex-col gap-2"
       handle=".handle"

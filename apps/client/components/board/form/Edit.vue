@@ -158,6 +158,7 @@ const colorOptions = [
       </FormField>
       <Draggable
         :list="boardLocal.columns"
+        :animation="150"
         item-key="_id"
         class="flex gap-2"
         handle=".handle"
