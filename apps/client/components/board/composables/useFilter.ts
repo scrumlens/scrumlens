@@ -10,6 +10,10 @@ function resetFilter() {
   users.value.forEach(i => (i.checked = false))
 }
 
+function resetOptions() {
+  users.value = []
+}
+
 watch(
   boardRaw,
   () => {
@@ -33,6 +37,7 @@ watch(
 export function useFilter() {
   return {
     resetFilter,
+    resetOptions,
     selectedUserIds,
     users,
   }

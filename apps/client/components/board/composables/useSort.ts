@@ -10,9 +10,14 @@ const options: { label: string, value: Sort }[] = [
 
 const selected = ref<Sort>(options[0].value)
 
+function resetSort() {
+  selected.value = options[0].value
+}
+
 export function useSort() {
   return {
     options,
+    resetSort,
     selected,
   }
 }

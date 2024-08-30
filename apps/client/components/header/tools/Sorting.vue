@@ -2,7 +2,11 @@
 import { ArrowUpDown } from 'lucide-vue-next'
 import { useSort } from '@/components/board/composables'
 
-const { selected, options } = useSort()
+const { selected, options, resetSort } = useSort()
+
+onBeforeUnmount(() => {
+  resetSort()
+})
 </script>
 
 <template>

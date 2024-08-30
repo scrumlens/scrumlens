@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ListFilter, Trash2 } from 'lucide-vue-next'
-
 import { useFilter } from '@/components/board/composables'
 
-const { users, selectedUserIds, resetFilter } = useFilter()
+const { users, selectedUserIds, resetFilter, resetOptions } = useFilter()
 
 const isOpen = ref(false)
 
 function onReset() {
   resetFilter()
+  resetOptions()
   isOpen.value = false
 }
 
